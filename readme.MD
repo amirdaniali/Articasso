@@ -49,12 +49,12 @@ The Project I wanted to make needed to demonstrate the data from at least two en
 I decide on this following architecture.
 
 1. `index.html`:
-   - Purpose: The main HTML file for the application. Contains the structure and links to JavaScript and Tailwind CSS.
+   - Purpose: The main HTML file for the application. Contains the structure and links to JavaScript and  CSS files.
    - Description: Serves as the entry point and root for the application UI.
 
 2. `styles.css`:
-   - Purpose: Tailwind CSS imports and custom styling.
-   - Description: Sets up styling rules, including importing Tailwind and adding any additional customizations needed.
+   - Purpose: CSS imports and custom styling.
+   - Description: Sets up styling rules, adding any additional customizations needed.
 
 3. `app.js`:
    - Purpose: Main JavaScript file handling API calls, state management, and DOM updates.
@@ -74,3 +74,7 @@ I decide on this following architecture.
    - Description:
      - Contains functions to create dynamic HTML elements (like artwork cards, search bars).
      - Helps maintain modularity in code.
+
+
+This is a diagram I made for the way different parts of the project interact:
+![Diagram](./media/Initial%20Architecture.png "Initial Architecture")
