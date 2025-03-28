@@ -8,18 +8,22 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="body-style">
+  <!-- Header Section -->
   <header class="header-style">
-    <h1>Artworks from the Art Institute of Chicago</h1>
+    <h1 id='caption'>Artworks from the Art Institute of Chicago</h1>
   </header>
 
+  <!-- Main Container -->
   <main class="main-container">
     <!-- Search Section -->
     <section id="search" class="search-section">
+      <!-- Search Input -->
       <input
         type="text"
         id="search-bar"
-        placeholder="Search for artworks..."
+        placeholder="Enter Artwork ID to Search"
         class="search-bar">
+      <!-- Search Button -->
       <button id="search-button" class="search-button">
         Search
       </button>
@@ -27,15 +31,22 @@
 
     <!-- Artworks Section -->
     <section id="artworks" class="artworks-grid">
-      <!-- Artwork cards will be dynamically added here -->
+      <!-- JavaScript will dynamically populate this section -->
     </section>
   </main>
 
   <footer class="footer-style">
     <p>Created with pure JavaScript and custom CSS</p>
+    <p>Made by ❤️ and Open-Source<br>
+        <a href="https://github.com/amirdaniali/Code-The-Dream" style="color: pink;">Link to the Github Repo</a>
+    </p>
   </footer>
 
   <!-- JavaScript File -->
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="components.js"></script>
+  <script type="module" src="helpers.js"> 
+    import { find_art, find_art_field, find_art_image } from './helpers.js';
+  </script>
 </body>
 </html>

@@ -11,11 +11,9 @@ First download this repository with
 git clone .....
 ```
 
-Then run
+Then double click index.html to open in the browser
 
-```
-npm run
-```
+
 <!-- You can clone the repository via this link .... -->
 
 <!-- then run.... -->
@@ -78,3 +76,32 @@ I decide on this following architecture.
 
 This is a diagram I made for the way different parts of the project interact:
 ![Diagram](./media/Initial%20Architecture.png "Initial Architecture")
+
+### Seting up the Controller and View
+
+After reading the api I started coding. I was a little rusty in my JavaScript so it took me a little longer than usual to read the documentations. I managed to code the helper functions that interact with the api in the helpers.js file. The helper functions use the JavaScript Fetch syntax and are all async. 
+
+The only major issue I ran into initially was that the Artic Api doesnt actually return any images (except the thumbnail. They return the image id and the image has to be linked to using a html `<img>` tag. For awhile I kept trying to use javascript to fetch the images from the server programmitaclly, but I kept running into CORS errors. After a long search online about workarounds, I decided to make normal html do the work.
+
+Here is the function I wrote using javascript to fetch the resource from the api:
+
+```javascript
+export async function find_art(id = 129884, all_fields = true) {
+    console.log('find art initialized with parameter',id);
+    const address_parameters = all_fields ? '' : '?fields=id,title,artist_titles,artist_ids,date_display,description,exhibition_history,thumbnail,color,category_titles,category_ids,image_id'
+    const addressURL = `https://api.artic.edu/api/v1/artworks/${id}${address_parameters}`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'Code the Dream Prework @amirdaniali@gh'
+        }});
+    
+    const data = await returnResponse.json();
+    console.log('art with id', id,'was found', data);
+
+    return data
+}
+```
+
+In the lines above the function determines if a reduced set of fields are requested or not. Then it fetches the resource and returns the data. I got distracted while coding the fuction to set a custom `AIC-User-Agent` header as requested by [the documentation](https://api.artic.edu/docs/#image-sizes). I got so distracted I didnt include a try/catch statement in the function until much later. 
+
+Afterwards I began coding the `app.js` file where I setup the interactivity of the main page and made sure the search box was connected to the helper functions to retrieve the user information. After that I started coding the `components.js` file to produce the results of the user searches. 
