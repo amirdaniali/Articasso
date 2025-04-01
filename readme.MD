@@ -11,7 +11,7 @@ First download this repository with
 git clone https://github.com/amirdaniali/Code-The-Dream.git
 ```
 
-Then double click index.html to open in the browser
+Then open the project with vscode and open index.html via live server. Server functionality with node will come soon. 
 
 
 <!-- You can clone the repository via this link .... -->
