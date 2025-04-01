@@ -8,7 +8,7 @@ You can find a link to the Assignment [here](https://codethedream.org/open-adv-p
 
 First download this repository with
 ```git
-git clone .....
+git clone https://github.com/amirdaniali/Code-The-Dream.git
 ```
 
 Then double click index.html to open in the browser
@@ -105,3 +105,10 @@ export async function find_art(id = 129884, all_fields = true) {
 In the lines above the function determines if a reduced set of fields are requested or not. Then it fetches the resource and returns the data. I got distracted while coding the fuction to set a custom `AIC-User-Agent` header as requested by [the documentation](https://api.artic.edu/docs/#image-sizes). I got so distracted I didnt include a try/catch statement in the function until much later. 
 
 Afterwards I began coding the `app.js` file where I setup the interactivity of the main page and made sure the search box was connected to the helper functions to retrieve the user information. After that I started coding the `components.js` file to produce the results of the user searches. 
+
+
+### Setting Up The Single Page Application
+
+The application I wanted to build had to have many pages. One for Showing the main page, one for showing the page related to the art-pieces themselves and maybe one especially for each artist. Such functionality would require multiple `page.html` files and a complex way of routing them without needing complex express/node backends. At the end I decided to go with a SPA concept I learned from this [blog](https://dev.to/thedevdrawer/single-page-application-routing-using-hash-or-url-9jh)
+
+All routing logic is implemented in `routes.js` file and allows for multiple pages to be loaded with browser URL functionality supported. 

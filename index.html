@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <link rel="apple-touch-icon" sizes="180x180" href="/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/fav//favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
   <title>Artic Artworks</title>
   <!-- Link to Custom Styles -->
   <link rel="stylesheet" href="styles.css">
@@ -10,43 +15,31 @@
 <body class="body-style">
   <!-- Header Section -->
   <header class="header-style">
-    <h1 id='caption'>Artworks from the Art Institute of Chicago</h1>
+    <h1>Artworks from the Art Institute of Chicago</h1>
+    <nav class="nav-bar">
+      <a class='explicit-outbound' href="/">Home</a>
+      
+      <a class='explicit-outbound' href="/art">Search Art</a>
+      <a class='explicit-outbound' href="/artist">View Artist</a>
+      <a class='explicit-outbound'  href="/category">View Category</a>
+      <a class='explicit-outbound' href="/about">About</a>
+    </nav>
   </header>
 
   <!-- Main Container -->
-  <main class="main-container">
-    <!-- Search Section -->
-    <section id="search" class="search-section">
-      <!-- Search Input -->
-      <input
-        type="text"
-        id="search-bar"
-        placeholder="Enter Artwork ID to Search"
-        class="search-bar">
-      <!-- Search Button -->
-      <button id="search-button" class="search-button">
-        Search
-      </button>
-    </section>
+  <main id="main-container" class="main-container">
 
-    <!-- Artworks Section -->
-    <section id="artworks" class="artworks-grid">
-      <!-- JavaScript will dynamically populate this section -->
-    </section>
   </main>
 
   <footer class="footer-style">
-    <p>Created with pure JavaScript and custom CSS</p>
-    <p>Made by ❤️ and Open-Source<br>
-        <a href="https://github.com/amirdaniali/Code-The-Dream" style="color: pink;">Link to the Github Repo</a>
-    </p>
+    <p>Created with pure JavaScript and custom CSS
+    <p>Made by ❤️ and Open-Source for Code the Dream Course<br></p><b>
+    <a href="https://github.com/amirdaniali/Code-The-Dream" target="_blank" style="text-decoration: none; padding: 5px; background-color: #ddd; color: #0056b3; border-radius: 5px; font-family: Arial, sans-serif;">View Source Code on GitHub</a>
+  </b></p>
   </footer>
 
   <!-- JavaScript File -->
-  <script type="module" src="app.js"></script>
-  <script type="module" src="components.js"></script>
-  <script type="module" src="helpers.js"> 
-    import { find_art, find_art_field, find_art_image } from './helpers.js';
-  </script>
+  <script type="module" src="/routes.js"></script>
+  
 </body>
 </html>
