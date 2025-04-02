@@ -20,15 +20,20 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   // imagewrapper.className = '';
   // imagewrapper.href = `/art/${artwork.id}`;
   image.className = 'card-img';
+  if (!artwork.image) {
+    console.log(`Image for id: ${artwork.id} not available from API. Fetching placeholder image.`);
+  }
   image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
   image.alt = '--Image Not Available--' || 'Artwork';
 
 
   image.addEventListener('error', function handleError() {
+    console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
     const defaultImage = '/media/placeholder.jpg';
   
       image.src = defaultImage;
       image.alt = 'default';
+      
   });
   
 

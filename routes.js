@@ -95,7 +95,7 @@ const locationHandler = async () => {
     switch (currentView[0]) {
         case '':
             console.log('Home Loaded.')
-            populatePage(15);
+            populatePage();
             displayCuratedlist();
             break;
 
@@ -185,6 +185,7 @@ const locationHandler = async () => {
             const artistGrid = document.getElementById('artist-grid');
             const artistSearch = document.getElementById('search-bar');
             const ArtistSearchButton = document.getElementById('search-button');
+            const artistInfo = document.getElementById('artist-info');  
             
             if (currentView[1]) {
                 artistSearch.defaultValue = currentView[1];
@@ -192,7 +193,7 @@ const locationHandler = async () => {
                     await displayArtist(currentView[1]); // Display artist card
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${currentView[1]}`);
-                    artistGrid.appendChild(errorMessage);
+                    artistInfo.appendChild(errorMessage);
                 }
             } else {
                 ArtistSearchButton.placeholder = "Enter Artic Artist ID to view";
@@ -202,11 +203,13 @@ const locationHandler = async () => {
             ArtistSearchButton.addEventListener('click', async () => {
                 // Clear any existing content
                 artistGrid.innerHTML = '';
+                artistInfo.innerHTML = '';
+
             
                 const searchValue = artistSearch.value.trim();
                 if (searchValue === '') {
                 const errorMessage = createErrorMessage('Please enter an ID to search.');
-                artistGrid.appendChild(errorMessage);
+                artistInfo.appendChild(errorMessage);
                 return;
                 }
             
@@ -218,7 +221,7 @@ const locationHandler = async () => {
                     await displayArtist(id); // Display artwork card
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${id}`);
-                    artistGrid.appendChild(errorMessage);
+                    artistInfo.appendChild(errorMessage);
                 }
                 
                 

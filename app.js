@@ -63,11 +63,11 @@ export async function displayArtworkCard(id) {
   }
 }
 
-export async function populatePage(limit=15) {
+export async function populatePage(limit=6) {
   const newArtsSection = document.getElementById('new-arts');
   
   try {
-    const newArtworks = await find_recent_artworks(15);
+    const newArtworks = await find_recent_artworks(limit);
 
     for (let index = 0; index < limit; index++) {
       const element = newArtworks.data[index];
@@ -219,7 +219,6 @@ export async function displayCuratedlist() {
     5357,
     14574,
     18951,
-    84076,
     5349,
     16568,
     6565,

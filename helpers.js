@@ -21,7 +21,7 @@ export async function find_art(id = 129884, all_fields = true) {
 }
 
 export async function find_manifest(id = 129884) {
-    // console.log('find art initialized with parameter',id);
+    // console.log('find manifest initialized with parameter',id);
     const addressURL = `https://api.artic.edu/api/v1/artworks/${id}/manifest.json`
     const returnResponse = await fetch(addressURL, 
         { headers: {
@@ -37,7 +37,7 @@ export async function find_manifest(id = 129884) {
         })
 
         // console.log('art with id', id,'was found', returnResponse);
-
+        // console.log(returnResponse);
         return returnResponse
 }
 
@@ -62,14 +62,13 @@ export async function find_art_image(id = '2d83fb4d-1851-ad82-46c6-1c737976e3fd'
     const addressURL = `https://www.artic.edu/iiif/2/${id}/full/843,/0/default.jpg`
 
     
-    // const data = await returnResponse.json();
     // console.log('image with id', id,'was found', addressURL);
 
     return addressURL
 }
 
 
-export async function find_recent_artworks(limit = 15) {
+export async function find_recent_artworks(limit) {
 
     const addressURL = `https://api.artic.edu/api/v1/artworks?limit=${limit}`
     const returnResponse = await fetch(addressURL, 
@@ -85,7 +84,7 @@ export async function find_recent_artworks(limit = 15) {
             console.error('There has been a problem with your fetch operation:', error);
         })
 
-        // console.log(`Succesfully displayed ${limit} number of artic art pages. Initial Home page arts loaded. `, returnResponse);
+        console.log(`Succesfully displayed ${limit} number of artic art pages. Initial Home page arts loaded. `, returnResponse);
 
         return returnResponse
 }
