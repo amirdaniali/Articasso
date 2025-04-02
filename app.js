@@ -1,14 +1,14 @@
-import { createArtworkCard, createPost, createLoader, createErrorMessage } from './components.js';
-import { find_art, find_recent_artworks, find_art_field, find_art_image } from './helpers.js';
+import { createArtworkCard, createLoader, createErrorMessage, createArtistInfo, createCategoryInfo } from './components.js';
+import { find_art, find_recent_artworks, find_art_field, find_art_image, find_artist, find_category } from './helpers.js';
 
-
+// todo: make populatepage and artworkcard styles separate
+//todo: maybe add history functionality like imdb, add separate page for art, find a way to show artist work
+// nice curated 187528
 
 // Function to display artwork cards
 export async function displayArtworkCard(id) {
   try {
     const artworksSection = document.getElementById('artworks');
-    const searchBar = document.getElementById('search-bar');
-    const searchButton = document.getElementById('search-button');
     // Create a loader while fetching data
     const loader = createLoader();
     artworksSection.appendChild(loader);
@@ -60,47 +60,10 @@ export async function displayArtworkCard(id) {
     const errorMessage = createErrorMessage('Failed to load artwork. Please try again.');
     artworksSection.appendChild(errorMessage);
   }
-
 }
-
-// Function to display a post
-export async function displayPost(id) {
-  try {
-    // Create a loader while fetching data
-        const artworksSection = document.getElementById('artworks');
-    const searchBar = document.getElementById('search-bar');
-    const searchButton = document.getElementById('search-button');
-    const loader = createLoader();
-    artworksSection.appendChild(loader);
-
-    // Fetch post data
-    const post = await find_art(id);
-    const artImage = await find_art_image(post.data.image_id)
-
-    // Remove the loader
-    artworksSection.removeChild(loader);
-
-    // Create a post component and add it to the DOM
-    const postComponent = createPost({
-      title: post.data.title,
-      content: post.data.description,
-      author: post.data.artist_titles
-    });
-    artworksSection.appendChild(postComponent);
-  } catch (error) {
-    // Handle errors and show a message
-    console.error(error);
-    const errorMessage = createErrorMessage('Failed to load post. Please try again.');
-    artworksSection.appendChild(errorMessage);
-  }
-  finally {
-    
-  }
-}
-
 
 export async function populatePage(limit=15) {
-  const newArtsSection = document.getElementById('new-arts')
+  const newArtsSection = document.getElementById('new-arts');
   
   try {
     const newArtworks = await find_recent_artworks(15);
@@ -139,3 +102,82 @@ export async function populatePage(limit=15) {
     }
   
 }
+
+
+export async function displayArtist (id) {
+
+  try {
+    const artistGrid = document.getElementById('artist-grid');    
+    const artistInfo = document.getElementById('artist-info');    
+
+    // Create a loader while fetching data
+    const loader = createLoader();
+    artistInfo.appendChild(loader);
+    const artist = await find_artist(id);
+    console.log('Artist Data: ', artist);
+
+
+    // for (const artwork in artist.data) {
+    //   const card = createArtworkCard({
+    //     title: artwork.title,
+    //     // artists: [id],
+    //     // arists_links: artwork.artist_ids,
+    //     // image: '',
+    //     id: artwork.id,
+    //     date: artwork.date_display,
+    //     description: artwork.short_description,
+    //     history: artwork.exhibition_history,
+    //     color: artwork.color,
+    //     categories: artwork.category_titles,
+    //     category_links: artwork.category_ids,
+    //   });
+    //   artistGrid.appendChild(card);
+    // }
+  
+    artistInfo.removeChild(loader);
+
+
+    const card = createArtistInfo(artist);
+    artistInfo.appendChild(card);}
+
+     
+    // Remove the loader
+    
+
+
+  catch (error) {
+      // Remove the loader
+      // artistInfo.removeChild(loader);
+      console.log('Error:', error);
+      const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${id}`);
+      artistInfo.appendChild(errorMessage);
+}}
+
+
+
+export async function displayCategory (id) {
+
+  try {
+    const categoryGrid = document.getElementById('category-grid');    
+    const categoryInfo = document.getElementById('category-info');    
+
+    // Create a loader while fetching data
+    const loader = createLoader();
+    categoryInfo.appendChild(loader);
+    const category = await find_category(id);
+    console.log('Category Data: ', category);
+      
+    categoryInfo.removeChild(loader);
+
+
+    const card = createCategoryInfo(category);
+    categoryInfo.appendChild(card);}  
+
+  catch (error) {
+    // Remove the loader
+    // artistGrid.removeChild(loader);
+    console.log('Error:', error);
+    const errorMessage = createErrorMessage(`Invalid Category ID. The Artic database has no category with id: ${id}`);
+    categoryInfo.appendChild(errorMessage);
+}}
+    

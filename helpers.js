@@ -62,7 +62,7 @@ export async function find_recent_artworks(limit = 15) {
             console.error('There has been a problem with your fetch operation:', error);
         })
 
-        console.log(limit, 'arts were found', returnResponse);
+        console.log(`Succesfully displayed ${limit} number of artic art pages. Initial Home page arts loaded. `, returnResponse);
 
         return returnResponse
 }
@@ -88,8 +88,8 @@ export async function find_category(limit = 15, category_id = 'PC-1') {
 }
 
 
-export async function find_artist(limit = 15, artist_id = '2') {
-
+export async function find_artist(artist_id) {
+    // console.log('Artist retrival called');
     const addressURL = `https://api.artic.edu/api/v1/agents/${artist_id}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
@@ -104,6 +104,25 @@ export async function find_artist(limit = 15, artist_id = '2') {
             console.error('There has been a problem with your fetch operation:', error);
         })
 
+
+
         return returnResponse
 }
 
+export async function find_artist_arts(artist_id, artist_title) {
+    // console.log('Artist retrival called');
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?q=${artist_title}`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'Code the Dream Prework @amirdaniali@gh'
+        }})    
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+        return returnResponse
+}

@@ -178,7 +178,7 @@ a:active {
     text-align: center;
   }
 
-  .card-header {
+  .card-header  {
     font-size: 20px;
     font-weight: 500;
   }
@@ -269,3 +269,9 @@ a:active {
     color: #666;
   }
   
+
+.artist-title > *{
+  font-size: 22px;
+  font-weight: 800;
+  color:#000
+}

@@ -1,5 +1,5 @@
-import { createArtworkCard, createPost, createLoader, createErrorMessage } from './components.js';
-import {displayArtworkCard, populatePage, displayPost } from './app.js';
+import { createArtworkCard, createLoader, createErrorMessage } from './components.js';
+import {displayArtworkCard, populatePage, displayArtist, displayCategory } from './app.js';
 
 
 const routes = {
@@ -15,7 +15,7 @@ const routes = {
     },
     'about': {
         template: "/routes/about.html",
-        title: "About Us",
+        title: "About",
         description: "This is the about page",
     },
     'art': {
@@ -46,9 +46,9 @@ const route = (event) => {
 
 // create document click that watches the nav links only
 document.addEventListener("click", (e) => {
-    console.log(e);
+    // console.log(e);
     const { target } = e;
-    console.log(e.explicitOriginalTarget.className)
+    // console.log(e.explicitOriginalTarget.className)
     if (e.explicitOriginalTarget.className.includes("explicit-outbound") ){
         e.preventDefault();
         route();
@@ -114,6 +114,7 @@ const locationHandler = async () => {
                     await displayArtworkCard(currentView[1]); // Display artwork card
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${currentView[1]}`);
+                    artworksSection.appendChild(errorMessage);
                 }
             } else {
                 searchBar.placeholder = "Try a 6 digit Art ID to view";
@@ -144,10 +145,11 @@ const locationHandler = async () => {
                     await displayArtworkCard(id); // Display artwork card
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
+                    artworksSection.appendChild(errorMessage);
                 }
                 
                 
-                window.history.replaceState = `/${id}`;
+                window.history.replaceState = `/art/${id}`;
                 // await displayPost(id);       // Display post
                 }
             });
@@ -178,7 +180,73 @@ const locationHandler = async () => {
             
         case 'artist':
 
+                // DOM Elements
+            const artistGrid = document.getElementById('artist-grid');
+            const artistSearch = document.getElementById('search-bar');
+            const ArtistSearchButton = document.getElementById('search-button');
+            
+            if (currentView[1]) {
+                artistSearch.defaultValue = currentView[1];
+                try {
+                    await displayArtist(currentView[1]); // Display artist card
+                } catch (error) {
+                    const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${currentView[1]}`);
+                    artistGrid.appendChild(errorMessage);
+                }
+            } else {
+                ArtistSearchButton.placeholder = "Enter Artic Artist ID to view";
+            }
+            
 
+            ArtistSearchButton.addEventListener('click', async () => {
+                // Clear any existing content
+                artistGrid.innerHTML = '';
+            
+                const searchValue = artistSearch.value.trim();
+                if (searchValue === '') {
+                const errorMessage = createErrorMessage('Please enter an ID to search.');
+                artistGrid.appendChild(errorMessage);
+                return;
+                }
+            
+                // Display either an artwork card or a post based on the entered ID
+                const id = parseInt(searchValue, 10);
+                console.log('artist Id to check= ',id);
+                
+                try {
+                    await displayArtist(id); // Display artwork card
+                } catch (error) {
+                    const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${id}`);
+                    artistGrid.appendChild(errorMessage);
+                }
+                
+                
+                window.history.replaceState = `/artist/${id}`;
+                
+                }
+            );
+            
+            
+            artistSearch.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    // code for enter
+                    console.log('Enter pressed')
+                }
+            
+            });
+            
+            // Execute a function when the user presses a key on the keyboard
+            artistSearch.addEventListener("keypress", function(event) {
+                    // If the user presses the "Enter" key on the keyboard
+                    if (event.key === "Enter") {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    console.log('Pressed Button with Enter');
+                    artistSearch.click();
+                }}); 
+                
+                
 
                 console.log('Artist Loaded.')
                 break;
@@ -186,11 +254,81 @@ const locationHandler = async () => {
                 console.log('About Loaded.')
                 break;
         case 'category':
+
+            // DOM Elements
+            const categoryGrid = document.getElementById('category-grid');
+            const categorySearch = document.getElementById('search-bar');
+            const categorySearchButton = document.getElementById('search-button');
+            
+            if (currentView[1]) {
+                categorySearch.defaultValue = currentView[1];
+                try {
+                    await displayCategory(currentView[1]); // Display category card
+                } catch (error) {
+                    const errorMessage = createErrorMessage(`Invalid Category ID. The Artic Database has no category with id: ${currentView[1]}`);
+                    categoryGrid.appendChild(errorMessage);
+                }
+            } else {
+                categorySearchButton.placeholder = "Enter Artic category ID to view";
+            }
+            
+
+            categorySearchButton.addEventListener('click', async () => {
+                // Clear any existing content
+                categoryGrid.innerHTML = '';
+            
+                const searchValue = categorySearch.value.trim();
+                if (searchValue === '') {
+                const errorMessage = createErrorMessage('Please enter an ID to search.');
+                categoryGrid.appendChild(errorMessage);
+                return;
+                }
+            
+                // Display either an artwork card or a post based on the entered ID
+                const id = searchValue;
+                console.log('Category ID to check= ',id);
+                
+                try {
+                    await displayCategory(id); // Display artwork card
+                } catch (error) {
+                    const errorMessage = createErrorMessage(`Invalid category ID. The Artic Database has no artist with id: ${id}`);
+                    categoryGrid.appendChild(errorMessage);
+                }
+                
+                
+                window.history.replaceState = `/category/${id}`;
+                
+                }
+            );
+            
+            
+            categorySearch.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    // code for enter
+                    console.log('Enter pressed')
+                }
+            
+            });
+            
+            // Execute a function when the user presses a key on the keyboard
+            categorySearch.addEventListener("keypress", function(event) {
+                    // If the user presses the "Enter" key on the keyboard
+                    if (event.key === "Enter") {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    console.log('Pressed Button with Enter');
+                    categorySearch.click();
+                }}); 
+
+
+
+                
                 console.log('Category Loaded.')
                 break;
         default:
                 window.location.pathname = '/';
-                console.log('404')
+                console.log('404 Encountered')
                 break;
     }
 };
