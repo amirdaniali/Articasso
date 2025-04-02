@@ -28,6 +28,8 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
 
 
   image.addEventListener('error', function handleError() {
+    console.log(image.parentElement);
+    // image.parentElement.remove();
     console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
     const defaultImage = '/media/placeholder.jpg';
   
@@ -286,4 +288,67 @@ export function createCategoryInfo(category) {
   card.appendChild(infoWrapper);
 
   return card
+}
+
+
+
+export function createNewArtwork(artwork, artwork_manifest= null) {
+  var status = {};
+  status.Ok = true;
+  const card = document.createElement('div');
+  card.className = 'artwork-card'; // Styling will be in styles.css
+  // todo: handle if the color is too black or dark
+
+  try {
+    card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+  } catch (error) {
+    card.style.background = '#aaa'
+  }
+
+  // card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+  // card.style.background = `pink`;
+
+
+  // Add image
+  // const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  // imagewrapper.className = '';
+  // imagewrapper.href = `/art/${artwork.id}`;
+  image.className = 'card-img';
+  if (!artwork.image) {
+    console.log(`Image for id: ${artwork.id} not available from the server. Fetching placeholder image.`);
+    status.Ok = false; 
+  }
+  image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
+  image.alt = '--Image Not Available--' || 'Artwork';
+
+
+  image.addEventListener('error', function handleError() {
+    console.log(image.parentElement);
+    image.parentElement.remove();
+    console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
+    const defaultImage = '/media/placeholder.jpg';
+  
+      image.src = defaultImage;
+      image.alt = 'default';
+      
+      
+  });
+  
+
+  // imagewrapper.appendChild(image);
+  // card.appendChild(imagewrapper);
+  card.appendChild(image);
+
+
+  // Add title
+  const title = document.createElement('a');
+  title.title = artwork.title;
+  title.className = 'card-title explicit-outbound';
+  title.href = `/art/${artwork.id}`;
+  title.appendChild(document.createTextNode(artwork.title));
+  title.textContent = artwork.title || 'Untitled';
+  card.appendChild(title);
+  
+  return [card, status];
 }

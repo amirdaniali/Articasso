@@ -1,8 +1,9 @@
-import { createArtworkCard, createLoader, createErrorMessage, createArtistInfo, createCategoryInfo } from './components.js';
+import { createArtworkCard, createLoader,createNewArtwork , createErrorMessage, createArtistInfo, createCategoryInfo } from './components.js';
 import { find_art, find_recent_artworks, find_manifest, find_art_field, find_art_image, find_artist, find_category } from './helpers.js';
 
-// todo: make populatepage and artworkcard styles separate
+
 //todo: maybe add history functionality like imdb, add separate page for art, find a way to show artist work
+
 
 // Function to display artwork cards
 export async function displayArtworkCard(id) {
@@ -63,7 +64,7 @@ export async function displayArtworkCard(id) {
   }
 }
 
-export async function populatePage(limit=6) {
+export async function populatePage(limit=30) {
   const newArtsSection = document.getElementById('new-arts');
   
   try {
@@ -81,7 +82,7 @@ export async function populatePage(limit=6) {
         var art_manifest = null;
       }
       newArtsSection.removeChild(loader);
-      const card = createArtworkCard({
+      const [card, status] = createNewArtwork({
         title: element.title,
         artists: element.artist_titles,
         arists_links: element.artist_ids,
@@ -95,7 +96,10 @@ export async function populatePage(limit=6) {
         categories: element.category_titles,
         category_links: element.category_ids,
       }, art_manifest);
-      newArtsSection.appendChild(card);
+      if (status.Ok == true) {
+        newArtsSection.appendChild(card);
+      }
+      
     }}
           
     catch (error) {

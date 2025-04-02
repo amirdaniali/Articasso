@@ -76,9 +76,15 @@ a:active {
   }
   
   /* Artworks Grid Styling */
-  .artworks-grid, .random-arts, .curated-arts {
+  .artworks-grid, .curated-arts {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+   .new-arts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
   }
   

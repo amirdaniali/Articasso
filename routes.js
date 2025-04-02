@@ -4,9 +4,9 @@ import {displayArtworkCard, populatePage, displayArtist, displayCategory, displa
 
 const routes = {
     404: {
-        template: "/routes/404.html",
-        title: "404",
-        description: "Page not found",
+        template: "/routes/index.html",
+        title: "Artic Arts Home",
+        description: "This is the home page",
     },
     "": {
         template: "/routes/index.html",
@@ -70,7 +70,7 @@ const locationHandler = async () => {
     else{ 
         currentView = location.split('/');
         currentView.splice(0, 1);
-        console.log('location=', location, 'currentView=',currentView);
+        // console.log('location=', location, 'currentView=',currentView);
         /// to do add functionality of paths inside here
     }
     
@@ -98,9 +98,6 @@ const locationHandler = async () => {
             populatePage();
             displayCuratedlist();
             break;
-
-
-
 
         case 'art':
           
