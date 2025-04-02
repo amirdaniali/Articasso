@@ -3,6 +3,13 @@ import { find_art, find_recent_artworks, find_manifest, find_art_field, find_art
 
 
 //todo: maybe add history functionality like imdb, add separate page for art, find a way to show artist work
+// todo: add link to imgs 
+// add back forward functionality
+// todo:  make art page more beautiful
+// make zen mode
+
+
+
 
 
 // Function to display artwork cards

@@ -316,7 +316,7 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
   // imagewrapper.href = `/art/${artwork.id}`;
   image.className = 'card-img';
   if (!artwork.image) {
-    console.log(`Image for id: ${artwork.id} not available from the server. Fetching placeholder image.`);
+    // console.log(`Image for id: ${artwork.id} not available from the server. Fetching placeholder image.`);
     status.Ok = false; 
   }
   image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image

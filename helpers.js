@@ -84,7 +84,7 @@ export async function find_recent_artworks(limit) {
             console.error('There has been a problem with your fetch operation:', error);
         })
 
-        console.log(`Succesfully displayed ${limit} of new artic art pages. Initial Home page arts loaded. `, returnResponse);
+        // console.log(`Succesfully displayed ${limit} of new artic art pages. Initial Home page arts loaded. `, returnResponse);
 
         return returnResponse
 }
