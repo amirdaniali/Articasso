@@ -1,5 +1,5 @@
 // Module to create an artwork card
-export function createArtworkCard(artwork) {
+export function createArtworkCard(artwork, artwork_manifest= null) {
   const card = document.createElement('div');
   card.className = 'artwork-card'; // Styling will be in styles.css
   // todo: handle if the color is too black or dark
@@ -21,7 +21,17 @@ export function createArtworkCard(artwork) {
   // imagewrapper.href = `/art/${artwork.id}`;
   image.className = 'card-img';
   image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
-  image.alt = artwork.title || 'Artwork';
+  image.alt = '--Image Not Available--' || 'Artwork';
+
+
+  image.addEventListener('error', function handleError() {
+    const defaultImage = '/media/placeholder.jpg';
+  
+      image.src = defaultImage;
+      image.alt = 'default';
+  });
+  
+
   // imagewrapper.appendChild(image);
   // card.appendChild(imagewrapper);
   card.appendChild(image);
@@ -67,17 +77,26 @@ export function createArtworkCard(artwork) {
   artists_wrapper.appendChild(artists_header);
   const artists = document.createElement('ul');
   artists.className = 'card-ul';
+
+  if (artwork.artists.length) {
+    artwork.artists.forEach( (artist, index) => {
+      const aLink = document.createElement('a');
+      aLink.className = 'card-list-item explicit-outbound';
+      aLink.title = `${artist}`;
+      aLink.href = `/artist/${artwork.arists_links[index]}`;
+      aLink.appendChild(document.createTextNode(`${artist}`));
+      const outer_list = document.createElement('li');
+      outer_list.appendChild(aLink);
+      artists.appendChild(outer_list);
+    });
+  } else {
+    const noArtist = document.createElement('p');
+    noArtist.className ='card-list-item';
+    noArtist.innerText = 'No Known Artist';
+    artists.appendChild(noArtist)
+  }
+
   
-  artwork.artists.forEach( (artist, index) => {
-    const aLink = document.createElement('a');
-    aLink.className = 'card-list-item explicit-outbound';
-    aLink.title = `${artist}`;
-    aLink.href = `/artist/${artwork.arists_links[index]}`;
-    aLink.appendChild(document.createTextNode(`${artist}`));
-    const outer_list = document.createElement('li');
-    outer_list.appendChild(aLink);
-    artists.appendChild(outer_list);
-  });
   artists_wrapper.appendChild(artists);
   card.appendChild(artists_wrapper);
 
@@ -92,7 +111,15 @@ export function createArtworkCard(artwork) {
   desc_header.className = 'card-title';
   desc_header.textContent =`Description`;
   description.className = 'card-description';
-  description.innerHTML = ( artwork.description || 'No description available.');
+  if (artwork_manifest != null) { 
+  if (typeof artwork_manifest.description[0] !== 'undefined') { 
+    description.innerHTML = artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />") || ((( artwork.short_description || artwork.description )) || 'No description available.');
+    // console.log(artwork_manifest.description[0]['value']);
+  }}
+  else {
+    description.innerHTML = ((( artwork.short_description || artwork.description )) || 'No description available.');
+  }
+  
   card.appendChild(desc_header);
   card.appendChild(description);
 

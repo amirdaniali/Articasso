@@ -76,7 +76,7 @@ a:active {
   }
   
   /* Artworks Grid Styling */
-  .artworks-grid, .random-arts {
+  .artworks-grid, .random-arts, .curated-arts {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
@@ -274,4 +274,18 @@ a:active {
   font-size: 22px;
   font-weight: 800;
   color:#000
+}
+
+
+.home-introduction > h2 {
+  color: #004494;
+  width: 100%;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  text-align: center;
+
 }

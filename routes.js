@@ -1,5 +1,5 @@
 import { createArtworkCard, createLoader, createErrorMessage } from './components.js';
-import {displayArtworkCard, populatePage, displayArtist, displayCategory } from './app.js';
+import {displayArtworkCard, populatePage, displayArtist, displayCategory, displayCuratedlist } from './app.js';
 
 
 const routes = {
@@ -96,6 +96,7 @@ const locationHandler = async () => {
         case '':
             console.log('Home Loaded.')
             populatePage(15);
+            displayCuratedlist();
             break;
 
 

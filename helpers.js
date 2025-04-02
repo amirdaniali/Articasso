@@ -1,6 +1,6 @@
 export async function find_art(id = 129884, all_fields = true) {
-    console.log('find art initialized with parameter',id);
-    const address_parameters = all_fields ? '' : '?fields=id,title,artist_titles,artist_ids,date_display,short_description,exhibition_history,thumbnail,color,category_titles,category_ids,image_id'
+    // console.log('find art initialized with parameter',id);
+    const address_parameters = all_fields ? '' : '?fields=id,title,artist_titles,artist_ids,date_display,short_description,description,exhibition_history,thumbnail,color,category_titles,category_ids,image_id'
     const addressURL = `https://api.artic.edu/api/v1/artworks/${id}${address_parameters}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
@@ -15,10 +15,33 @@ export async function find_art(id = 129884, all_fields = true) {
             console.error('There has been a problem with your fetch operation:', error);
         })
 
-        console.log('art with id', id,'was found', returnResponse);
+        // console.log('art with id', id,'was found', returnResponse);
 
         return returnResponse
 }
+
+export async function find_manifest(id = 129884) {
+    // console.log('find art initialized with parameter',id);
+    const addressURL = `https://api.artic.edu/api/v1/artworks/${id}/manifest.json`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'Code the Dream Prework @amirdaniali@gh'
+        }})    
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+
+        // console.log('art with id', id,'was found', returnResponse);
+
+        return returnResponse
+}
+
+
 
 export async function find_art_field(id = 129884, field = none) {
     const address_parameters = field ? `?fields=${field}` : ``;
@@ -28,7 +51,7 @@ export async function find_art_field(id = 129884, field = none) {
     }});
     
     const data = await returnResponse.json();
-    console.log('art with id', id,'was found', data);
+    // console.log('art with id', id,'was found', data);
 
     return data
 }
@@ -62,7 +85,7 @@ export async function find_recent_artworks(limit = 15) {
             console.error('There has been a problem with your fetch operation:', error);
         })
 
-        console.log(`Succesfully displayed ${limit} number of artic art pages. Initial Home page arts loaded. `, returnResponse);
+        // console.log(`Succesfully displayed ${limit} number of artic art pages. Initial Home page arts loaded. `, returnResponse);
 
         return returnResponse
 }
