@@ -1,5 +1,5 @@
-import { createArtworkCard, createLoader, createErrorMessage } from './components.js';
-import {displayArtworkCard, populatePage, displayArtist, displayCategory, displayCuratedlist } from './app.js';
+import { createErrorMessage } from './components.js';
+import {test_ids, displayArtworkPage, populatePage, displayArtist, displayCategory, displayCuratedlist, displayArtworkofDay } from './app.js';
 
 
 const routes = {
@@ -38,7 +38,7 @@ const routes = {
 
 const route = (event) => {
     event = event || window.event; // get window.event if event argument not provided
-    // event.preventDefault();
+    event.preventDefault();
     // window.history.pushState(state, unused, target link);
     window.history.pushState({}, "", event.target.href);
     locationHandler();
@@ -48,17 +48,19 @@ const route = (event) => {
 document.addEventListener("click", (e) => {
     // console.log(e);
     const { target } = e;
-    // console.log(e.explicitOriginalTarget.className)
+    // console.log(e.explicitOriginalTarget.className);
     if (e.explicitOriginalTarget.className.includes("explicit-outbound") ){
         e.preventDefault();
         route();
+        test_ids();
     }
     // console.log('target not a link');
     
 });
 
 
-const locationHandler = async () => {
+export async function locationHandler() {
+
     // get the url path, replace hash with empty string
     const location = window.location.pathname; // get the url path
     
@@ -79,7 +81,19 @@ const locationHandler = async () => {
     // get the html from the template
     const html = await fetch(route.template).then((response) => response.text());
     // set the content of the content div to the html
-    document.getElementById("main-container").innerHTML = html;
+    
+    document.getElementById("page-container").innerHTML = '';
+    document.getElementById("main-container").innerHTML = '';
+    if (currentView[0] == 'art') {
+        document.getElementById("page-container").innerHTML = html;
+
+    }
+    else {
+        document.getElementById("main-container").innerHTML = html;
+
+        
+    }
+    // document.getElementById("main-container").innerHTML = html;
     // set the title of the document to the title of the route
     document.title = route.title;
     // set the description of the document to the description of the route
@@ -96,6 +110,7 @@ const locationHandler = async () => {
         case '':
             console.log('Home Loaded.')
             populatePage();
+            displayArtworkofDay();
             displayCuratedlist();
             break;
 
@@ -109,13 +124,13 @@ const locationHandler = async () => {
             if (currentView[1]) {
                 searchBar.defaultValue = currentView[1];
                 try {
-                    await displayArtworkCard(currentView[1]); // Display artwork card
+                    await displayArtworkPage(currentView[1]); // Display artwork card
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${currentView[1]}`);
                     artworksSection.appendChild(errorMessage);
                 }
             } else {
-                searchBar.placeholder = "Try a 6 digit Art ID to view";
+                searchBar.placeholder = "Art ID";
             }
             
 
@@ -140,7 +155,7 @@ const locationHandler = async () => {
                 // Example: Display both artwork cards and posts for demonstration
                 
                 try {
-                    await displayArtworkCard(id); // Display artwork card
+                    await displayArtworkPage(id); // Display artwork card
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
                     artworksSection.appendChild(errorMessage);
@@ -193,7 +208,7 @@ const locationHandler = async () => {
                     artistInfo.appendChild(errorMessage);
                 }
             } else {
-                ArtistSearchButton.placeholder = "Enter Artic Artist ID to view";
+                ArtistSearchButton.placeholder = "Artist ID";
             }
             
 
@@ -270,7 +285,7 @@ const locationHandler = async () => {
                     categoryGrid.appendChild(errorMessage);
                 }
             } else {
-                categorySearchButton.placeholder = "Enter Artic category ID to view";
+                categorySearchButton.placeholder = "Category ID";
             }
             
 

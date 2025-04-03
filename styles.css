@@ -27,9 +27,10 @@ a:active {
 .nav-bar {
   width: 100%;
   background-color: #ddd;
-    display: grid;
-    grid-template-columns:auto auto auto auto auto;
-    padding: 5px 0;
+  display: grid;
+  grid-template-columns:auto auto auto auto auto;
+  padding: 5px 0;
+  font-size: 16px;
 }
 
 .nav-bar > a , .nav-bar > a:visited{
@@ -40,13 +41,25 @@ a:active {
   .main-container {
     box-sizing: border-box;
     max-width: 1200px;
-    margin: 20px auto;
+    margin: 0px auto;
     padding: 0 15px;
   }
+
+
   
   /* Search Section Styling */
   .search-section {
-    margin-bottom: 20px;
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns:auto auto;
+    gap: 5px;
+    /* justify-content: center; */
+    justify-items: center;
+    justify-self: center;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    text-align: center;
   }
   
   .search-bar {
@@ -55,7 +68,7 @@ a:active {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     font-size: 16px;
   }
   
@@ -69,6 +82,7 @@ a:active {
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    margin: 0px;
   }
   
   .search-button:hover {
@@ -128,7 +142,7 @@ a:active {
     padding:  1px 0;
     margin: 0;
     display: block;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
   }
     
@@ -191,9 +205,18 @@ a:active {
 
   .card-ul {
     list-style-type: none;
-    align-items:center;
-    margin: 0;
-    padding: 0;
+    box-sizing:border-box;
+    justify-content: center;
+    justify-items: center;
+    justify-self: center;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    display: grid;
+    grid-auto-flow: dense;
   }
   
 
@@ -210,7 +233,7 @@ a:active {
   }
 
   .card-list-item {
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
     font-size: 18px;
   }
 
@@ -285,6 +308,7 @@ a:active {
 
 .home-introduction > h2 {
   color: #004494;
+  font-size: 32px;
   width: 100%;
   justify-content: center;
   justify-items: center;
@@ -295,3 +319,118 @@ a:active {
   text-align: center;
 
 }
+
+.artwork-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  /* gap: 20px; */
+  border-radius: 20px;
+}
+
+.page-container {
+  box-sizing: border-box;
+  max-width: 1300px;
+  margin: 0px auto;
+  padding: 0;
+  
+}
+
+.display-info {
+  margin: 0px 20px 20px 20px;
+  box-sizing:border-box;
+  
+
+}
+
+.display-img{
+  /* max-height:80vh; */
+  max-width: 100%; 
+  padding: 0px;
+  margin: 0px;
+}
+
+.card-img:hover {
+  transform: scale(1.2);
+  transition: .25s;
+}
+
+/* .display-img:hover {
+  transform: scale(1.1);
+  transition: .25s;
+} */
+
+
+.display-title {
+  font-size: 22px;
+  margin: 20px 0 10px;
+  /* justify-content: center; */
+  /* justify-items: center; */
+  /* justify-self: center; */
+  /* align-items: center; */
+  /* align-self: center; */
+  /* align-content: center; */
+  text-align: center;
+
+  color:#000;
+  display: block;
+  font-weight: 800;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+.display-id, .display-date {
+  color: #000;
+  font-size: 16px;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  align-items: center;
+  align-self: center;
+}
+
+
+
+.display-header  {
+  font-size: 20px;
+  font-weight: 500;
+  /* padding: 10px 0px 10px 0px; */
+}
+
+.display-ul {
+  list-style-type: none;
+  align-items:center;
+  margin: 0;
+  padding: 0;
+}
+
+
+.display-artists-wrapper, .display-categories-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns:auto auto ;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  box-sizing:border-box;
+}
+
+.display-list-item {
+  padding-bottom: 10px;
+  color:#111 !important;
+  font-size: 18px;
+  /* text-shadow: 1px 1px white; */
+}
+
+.display-list-item:hover {
+  padding-bottom: 10px;
+  color:#444 !important;
+  font-size: 18px;
+  /* text-shadow: 1px 1px white; */
+}
+
+.display-list-item > a, .display-list-item > a:visited {
+  
+  padding: 5px;
+  
+}
+
