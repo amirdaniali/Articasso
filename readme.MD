@@ -1,6 +1,6 @@
 #  Advanced Pre-Work Assignment
 
-![First Page](./media/First-page-Screenshot.png "First Page of the webapp")
+![First Page](./media/HomePage.jpg "First Page of the webapp")
 
 My name is Amir Daniali and this is my Advanced Pre-Work Assignment submission for Summer 2025 Code the Dream course.
 
