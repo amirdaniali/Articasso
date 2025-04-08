@@ -150,6 +150,90 @@ All routing logic is implemented in `routes.js` file and allows for multiple pag
 
 Whenever a new link to a page is clicked, the `routes.js` file checks to see if the element has the class-name: `explicit-outband`. If so it ignores the default behavior of the browser and loads the contexts of the local page into the `main-container` section tag in the main `index.html` file. If it cannot find the classname it treats it as a normal `<a>` tag and allows the link to redirect to another url. 
 
+```javascript
+const route = (event) => {
+    event = event || window.event; // get window.event if event argument not provided
+    event.preventDefault();
+    window.history.pushState({}, "", event.target.href);
+    locationHandler();
+};
+
+// create document click that watches the nav links only
+document.addEventListener("click", (e) => {
+    if (e.explicitOriginalTarget.className.includes("explicit-outbound") ){
+        e.preventDefault();
+        route();
+    }
+    // console.log('target not a link');
+    
+});
+
+locationHandler();
+window.onpopstate = locationHandler;
+window.route = route;
+
+export async function locationHandler() {
+
+    // get the url path, replace hash with empty string
+    const location = window.location.pathname; // get the url path
+    
+    // if the path length is 0, set it to primary page route
+    let currentView = ['/','']
+    if (location.length == 0) {
+        location = "/";
+    }
+    else{ 
+        currentView = location.split('/');
+        currentView.splice(0, 1);
+        // console.log('location=', location, 'currentView=',currentView);
+       
+    }
+    
+    // get the route object from the routes object
+    const route = routes[currentView[0]] || routes["404"];
+    // get the html from the template
+    const html = await fetch(route.template).then((response) => response.text());
+    // set the content of the content div to the html
+    
+   // prepare the wrapper section and remove the current view
+    document.getElementById("page-container").innerHTML = '';
+    document.getElementById("main-container").innerHTML = '';
+    if (currentView[0] == 'art') {
+        document.getElementById("page-container").innerHTML = html; // Only for the art page for special styling
+
+    }
+    else {
+        document.getElementById("main-container").innerHTML = html; // All other routes use the main container.
+
+        
+    }
+    // document.getElementById("main-container").innerHTML = html;
+    // set the title of the document to the title of the route
+    document.title = route.title;
+    // set the description of the document to the description of the route
+    document
+        .querySelector('meta[name="description"]')
+        .setAttribute("content", route.description);
+    // console.log('routing ended up at', location);
+    
+      // Furthur down:
+    
+    switch (currentView[0]) {
+        case '':
+            console.log('Home Loaded.')
+            populatePage();
+            displayArtworkofDay();
+            displayCuratedlist();
+            break;
+         case 'art':
+            displayArt();
+            break;
+         case 'artist':
+            displayArtist();
+}}
+
+```
+
 After loading the custom resources for any page `routes.js` calls multiple functions in `app.js` to load the interactivity of the proper page the user has requested. `app.js` then can call `helpers.js` to request the resources from the ARTIC API and then call `components.js` to display the resources to the user. 
 
 ## Conclusion

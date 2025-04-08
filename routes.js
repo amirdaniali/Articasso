@@ -46,13 +46,9 @@ const route = (event) => {
 
 // create document click that watches the nav links only
 document.addEventListener("click", (e) => {
-    // console.log(e);
-    const { target } = e;
-    // console.log(e.explicitOriginalTarget.className);
     if (e.explicitOriginalTarget.className.includes("explicit-outbound") ){
         e.preventDefault();
         route();
-        // test_ids();
     }
     // console.log('target not a link');
     
@@ -73,7 +69,6 @@ export async function locationHandler() {
         currentView = location.split('/');
         currentView.splice(0, 1);
         // console.log('location=', location, 'currentView=',currentView);
-        /// to do add functionality of paths inside here
     }
     
     // get the route object from the routes object
@@ -82,14 +77,16 @@ export async function locationHandler() {
     const html = await fetch(route.template).then((response) => response.text());
     // set the content of the content div to the html
     
+
+    // prepare the wrapper section and remove the current view
     document.getElementById("page-container").innerHTML = '';
     document.getElementById("main-container").innerHTML = '';
     if (currentView[0] == 'art') {
-        document.getElementById("page-container").innerHTML = html;
+        document.getElementById("page-container").innerHTML = html; // Only for the art page for special styling
 
     }
     else {
-        document.getElementById("main-container").innerHTML = html;
+        document.getElementById("main-container").innerHTML = html; // All other routes use the main container.
 
         
     }
