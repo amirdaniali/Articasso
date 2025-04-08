@@ -13,25 +13,25 @@ First download this repository with
 git clone https://github.com/amirdaniali/Code-The-Dream.git
 ```
 
-### Hosting Using NPM
+### Serving Using NPM
 
 Then you need to be able to serve the files locally. One way is by using `node.js` and `http-server`:
 
-#### Linux, Mac
+#### On Linux, Mac
 ```Bash
  npm install -g http-server
  cd path/to/the/project
  http-server
  ```
 
-#### Windows
+#### On Windows
 
 Or if you are on windows: 
 
-```Powershell
-npm install -g http-server
- cd path/to/the/project
- ./node_modules/.bin/http-server
+```bash
+   npm install -g http-server
+   cd path/to/the/project
+   ./node_modules/.bin/http-server
 ```
 
  You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
