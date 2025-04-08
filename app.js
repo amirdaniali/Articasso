@@ -2,10 +2,6 @@ import { createArtworkCard, createLoader,createNewArtwork , createErrorMessage, 
 import { find_art, find_recent_artworks, find_manifest, find_art_field, find_art_image, find_artist, find_category } from './helpers.js';
 
 
-// find a way to show artist work
-// add back forward functionality
-
-
 // Function to display artwork cards
 export async function displayArtworkCard(id) {
   try {
@@ -220,7 +216,6 @@ export async function displayCuratedlist() {
     117266,
     89503,
     47149,
-    102611,
     147003,
     90048,
     5357,

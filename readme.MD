@@ -252,3 +252,12 @@ I thank Code the Dream team to inspire me to create this project celebrating the
 
 
 Reminder: You can view the website and the project on my personal website [here](https://artic-arts.amirdaniali.com).
+
+## Todo: 
+
+If I return to this project in the future here is the list of things I'd love to add to the functionality of the website.
+
+- Find a way to show artist work. Unfortunately I couldnt find anyway so far to show which arts were made by which artists to populate their pages. I have already made the component that those possible results will be placed at. I hope I can find a way to show the arts made by each artist in their own page somehow. 
+- Add back forward functionality to the pages so by changing pages back to where you have been you see the arts you saw before. 
+- Write about how I added the art of the day functionality 
+- Write about how components are structured
