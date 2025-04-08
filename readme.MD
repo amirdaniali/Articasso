@@ -24,9 +24,7 @@ Then you need to be able to serve the files locally. One way is by using `node.j
  http-server
  ```
 
-#### On Windows
-
-Or if you are on windows: 
+#### if http-server not Installed with -g  
 
 ```bash
    npm install -g http-server
@@ -226,10 +224,18 @@ export async function locationHandler() {
             displayCuratedlist();
             break;
          case 'art':
-            displayArt();
+            // displayArt();
             break;
          case 'artist':
-            displayArtist();
+            // displayArtist();
+            break;
+         case 'about':
+            // displayAbout();
+            break;
+        case 'category':
+            // displayCategory();
+            break;
+         
 }}
 
 ```
