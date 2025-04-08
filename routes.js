@@ -39,7 +39,7 @@ const routes = {
 const route = (event) => {
     event = event || window.event; // get window.event if event argument not provided
     event.preventDefault();
-    // window.history.pushState(state, unused, target link);
+
     window.history.pushState({}, "", event.target.href);
     locationHandler();
 };
@@ -50,7 +50,7 @@ document.addEventListener("click", (e) => {
         e.preventDefault();
         route();
     }
-    // console.log('target not a link');
+
     
 });
 
@@ -60,15 +60,18 @@ export async function locationHandler() {
     // get the url path, replace hash with empty string
     const location = window.location.pathname; // get the url path
     
+    
+    // curent view will have this format ['art', {art_id}] where the first index is which page has to be rendered and index 1 is filled if the user demanded an specific id. 
+    let currentView = ['/',''] 
+    
     // if the path length is 0, set it to primary page route
-    let currentView = ['/','']
     if (location.length == 0) {
         location = "/";
     }
+
     else{ 
         currentView = location.split('/');
         currentView.splice(0, 1);
-        // console.log('location=', location, 'currentView=',currentView);
     }
     
     // get the route object from the routes object
@@ -90,17 +93,14 @@ export async function locationHandler() {
 
         
     }
-    // document.getElementById("main-container").innerHTML = html;
+
     // set the title of the document to the title of the route
     document.title = route.title;
     // set the description of the document to the description of the route
     document
         .querySelector('meta[name="description"]')
         .setAttribute("content", route.description);
-    // console.log('routing ended up at', location);
-    
-
-
+  
 
     
     switch (currentView[0]) {
@@ -149,7 +149,6 @@ export async function locationHandler() {
                 const errorMessage = createErrorMessage('Invalid ID. Please enter a numeric value.');
                 artworksSection.appendChild(errorMessage);
                 } else {
-                // Example: Display both artwork cards and posts for demonstration
                 
                 try {
                     await displayArtworkPage(id); // Display artwork card
@@ -160,19 +159,10 @@ export async function locationHandler() {
                 
                 
                 window.history.replaceState = `/art/${id}`;
-                // await displayPost(id);       // Display post
                 }
             });
             
-            
-            searchButton.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') {
-                    // code for enter
-                    console.log('Enter pressed')
-                }
-            
-            });
-            
+                        
             // Execute a function when the user presses a key on the keyboard
                 searchBar.addEventListener("keypress", function(event) {
                     // If the user presses the "Enter" key on the keyboard
@@ -308,7 +298,6 @@ export async function locationHandler() {
                     categoryGrid.appendChild(errorMessage);
                 }
                 
-                
                 window.history.replaceState = `/category/${id}`;
                 
                 }
@@ -347,7 +336,7 @@ export async function locationHandler() {
 };
 
 
-// create a function that watches the hash and calls the urlLocationHandler
+
 // call the urlLocationHandler to load the page
 locationHandler();
 window.onpopstate = locationHandler;

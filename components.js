@@ -4,16 +4,13 @@ import { locationHandler } from "./routes.js";
 export function createArtworkCard(artwork, artwork_manifest= null) {
   const card = document.createElement('div');
   card.className = 'artwork-card'; // Styling will be in styles.css
-  // todo: handle if the color is too black or dark
+
 
   try {
     card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
   } catch (error) {
     card.style.background = '#aaa'
   }
-
-  // card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
-  // card.style.background = `pink`;
 
 
   // Add image
@@ -42,10 +39,6 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
 
 
   image.addEventListener('click', function routeURL() {
-    // console.log('image.clicked');
-    // image.parentElement.remove();
-    // console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
-    // const defaultImage = '/media/placeholder.jpg';
     window.history.pushState({}, "", `/art/${artwork.id}`);
     locationHandler();
       
@@ -54,7 +47,6 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
 
   imagewrapper.appendChild(image);
   card.appendChild(imagewrapper);
-  // card.appendChild(image);
 
 
   // Add title
@@ -134,7 +126,6 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   if (artwork_manifest != null) { 
   if (typeof artwork_manifest.description[0] !== 'undefined') { 
     description.innerHTML = artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />") || ((( artwork.short_description || artwork.description )) || 'No description available.');
-    // console.log(artwork_manifest.description[0]['value']);
   }}
   else {
     description.innerHTML = ((( artwork.short_description || artwork.description )) || 'No description available.');
@@ -243,10 +234,6 @@ export function createArtistInfo(artist) {
   date_display.innerHTML = 'Artist Date of Birth: ' + (artist.data.birth_date || 'No Date Known') + '<br>' + 'Artist Date of Death: ' + (artist.data.death_date || 'No Date Known');
   infoWrapper.appendChild(date_display);
 
-  // const death_date_display = document.createElement('p');
-  // death_date_display.className = 'artist-date';
-  // death_date_display.textContent = 'Artist Date of Death: ' + (artist.data.death_date || 'No Date Known');
-  // infoWrapper.appendChild(death_date_display);
 
   card.appendChild(infoWrapper);
 
@@ -318,9 +305,6 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
     card.style.background = '#aaa'
   }
 
-  // card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
-  // card.style.background = `pink`;
-
 
   // Add image
   const imagewrapper = document.createElement('a');
@@ -328,8 +312,9 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
   imagewrapper.className = 'new-image-wrapper';
   imagewrapper.href = `/art/${artwork.id}`;
   image.className = 'card-img explicit-outbound';
-  if (!artwork.image) {
-    // console.log(`Image for id: ${artwork.id} not available from the server. Fetching placeholder image.`);
+  
+  
+  if (!artwork.image) { // If the latest API data doesnt have an image set the OK status to false
     status.Ok = false; 
   }
   image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
@@ -347,10 +332,6 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
   });
   
   image.addEventListener('click', function routeURL() {
-    // console.log('image.clicked');
-    // image.parentElement.remove();
-    // console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
-    // const defaultImage = '/media/placeholder.jpg';
     window.history.pushState({}, "", `/art/${artwork.id}`);
     locationHandler();
       
@@ -358,7 +339,6 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
 
   imagewrapper.appendChild(image);
   card.appendChild(imagewrapper);
-  // card.appendChild(image);
 
 
   // Add title
@@ -388,9 +368,6 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   } catch (error) {
     card.style.background = '#aaa'
   }
-
-  // card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
-  // card.style.background = `pink`;
 
 
   // Add image
@@ -499,14 +476,6 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   desc_header.className = 'display-title';
   desc_header.textContent =`Description`;
   description.className = 'display-description';
-  // if (artwork_manifest != null) { 
-  // if (typeof artwork_manifest.description[0] !== 'undefined') { 
-  //   description.innerHTML = artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />") || ((( artwork.short_description || artwork.description )) || 'No description available.');
-  //   // console.log(artwork_manifest.description[0]['value']);
-  // }}
-  // else {
-  //   description.innerHTML = ((( artwork.short_description || artwork.description )) || 'No description available.');
-  // }
   
   description.innerHTML = ((( artwork.description || artwork.short_description )) || 'No description available.');
   infoWrapper.appendChild(desc_header);
