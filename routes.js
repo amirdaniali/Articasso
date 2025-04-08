@@ -52,7 +52,7 @@ document.addEventListener("click", (e) => {
     if (e.explicitOriginalTarget.className.includes("explicit-outbound") ){
         e.preventDefault();
         route();
-        test_ids();
+        // test_ids();
     }
     // console.log('target not a link');
     

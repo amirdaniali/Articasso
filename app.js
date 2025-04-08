@@ -2,15 +2,12 @@ import { createArtworkCard, createLoader,createNewArtwork , createErrorMessage, 
 import { find_art, find_recent_artworks, find_manifest, find_art_field, find_art_image, find_artist, find_category } from './helpers.js';
 
 
-// todo: maybe add history functionality like imdb
 // find a way to show artist work
 // add back forward functionality
 // make zen mode
 // search overhaul
 // load more to see more. infinite scroll
 // click art opens in the same page
-// make node server
-
 
 
 // Function to display artwork cards

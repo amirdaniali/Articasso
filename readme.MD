@@ -13,12 +13,40 @@ First download this repository with
 git clone https://github.com/amirdaniali/Code-The-Dream.git
 ```
 
-Then open the project with vscode and open index.html via live server. Server functionality with node will come soon. 
+### Hosting Using NPM
 
+Then you need to be able to serve the files locally. One way is by using `node.js` and `http-server`:
 
-<!-- You can clone the repository via this link .... -->
+#### Linux, Mac
+```Bash
+ npm install -g http-server
+ cd path/to/the/project
+ http-server
+ ```
 
-<!-- then run.... -->
+#### Windows
+
+Or if you are on windows: 
+
+```Powershell
+npm install -g http-server
+ cd path/to/the/project
+ ./node_modules/.bin/http-server
+```
+
+ You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
+
+### Python
+
+ Alternatively you can use Python’s Built-in HTTP Server
+
+```Bash
+cd path/to/your/project
+python -m http.server
+```
+Access the application at http://localhost:8000 in your browser.
+
+Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. 
 
 ## Design Decisions
 
@@ -74,6 +102,11 @@ I decide on this following architecture.
    - Description:
      - Contains functions to create dynamic HTML elements (like artwork cards, search bars).
      - Helps maintain modularity in code.
+6. `routes.js`
+   - Purpose: Allows the user to view parts of the application by simple clicks. 
+   - Description:
+     - Contains functions to analyse click events and route them to the proper destinations.
+     - Calls the proper functions in `app.js` to populate pages with the correct data.
 
 
 This is a diagram I made for the way different parts of the project interact:
@@ -114,3 +147,15 @@ Afterwards I began coding the `app.js` file where I setup the interactivity of t
 The application I wanted to build had to have many pages. One for Showing the main page, one for showing the page related to the art-pieces themselves and maybe one especially for each artist. Such functionality would require multiple `page.html` files and a complex way of routing them without needing complex express/node backends. At the end I decided to go with a SPA concept I learned from this [blog](https://dev.to/thedevdrawer/single-page-application-routing-using-hash-or-url-9jh)
 
 All routing logic is implemented in `routes.js` file and allows for multiple pages to be loaded with browser URL functionality supported. 
+
+Whenever a new link to a page is clicked, the `routes.js` file checks to see if the element has the class-name: `explicit-outband`. If so it ignores the default behavior of the browser and loads the contexts of the local page into the `main-container` section tag in the main `index.html` file. If it cannot find the classname it treats it as a normal `<a>` tag and allows the link to redirect to another url. 
+
+After loading the custom resources for any page `routes.js` calls multiple functions in `app.js` to load the interactivity of the proper page the user has requested. `app.js` then can call `helpers.js` to request the resources from the ARTIC API and then call `components.js` to display the resources to the user. 
+
+## Conclusion
+
+By using the architecture mentioned above I can make multiple pages just behave like static files and besides needing a service to load the files, no resource is wasted with unneeded computations. All logic is client-side and the project can be used with minimal costs as long as the ARTIC Api remains online. 
+
+This project helped me greatly to think outside the box to recreate the typical luxuries we use everyday granted to us by frameworks like React or Vue inside pure javascript. 
+
+I thank Code the Dream team to inspire me to create this project celebrating the beautiful art collection of the Art Institute of Chicago.
