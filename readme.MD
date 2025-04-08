@@ -44,7 +44,7 @@ python -m http.server
 ```
 Access the application at http://localhost:8000 in your browser.
 
-Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. 
+Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. Alternatively you can view the final project hosted via github pages on my personal website [here](https://artic-arts.amirdaniali.com).
 
 ## Design Decisions
 
@@ -249,3 +249,6 @@ By using the architecture mentioned above I can make multiple pages just behave 
 This project helped me greatly to think outside the box to recreate the typical luxuries we use everyday granted to us by frameworks like React or Vue inside pure javascript. 
 
 I thank Code the Dream team to inspire me to create this project celebrating the beautiful art collection of the Art Institute of Chicago.
+
+
+Reminder: You can view the website and the project on my personal website [here](https://artic-arts.amirdaniali.com).
