@@ -36,6 +36,22 @@ Then you need to be able to serve the files locally. One way is by using `node.j
 
 The above steps should be reproducible in vscode and windows terminal on windows. For linux or mac the path to the node module could be different. You can download Node.js from [nodejs.org](https://nodejs.org/)
 
+### Python
+
+Alternatively the static files can be served via a `python` `http.server`. You can open `serve.py` from the project directory via your IDE, change the path paramether to where you downloaded the project and run:
+
+```bash
+python ./serve.py
+```
+
+Or
+
+```bash
+py serve.py
+```
+
+You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
+
 Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. Alternatively you can view the final project hosted via github pages on my personal website [here](https://artic-arts.amirdaniali.com).
 
 ## Design Decisions
