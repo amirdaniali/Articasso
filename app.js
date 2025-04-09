@@ -186,7 +186,6 @@ export async function displayCuratedlist() {
     187528, 
     55494,
     64729,
-    7503,
     151108,
     45418,
     80084,
