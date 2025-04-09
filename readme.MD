@@ -71,10 +71,10 @@ The options for the APIs in the course are as follows:
 I had to choose between different api providers and build an app around them. I am a fan of Arts and wouldnt say no to an excuse to build something useful that pleases the spirit as well. So I took a look at the ARTIC Api from Art Institute of Chicago.
 
 Here is the [Website](https://www.artic.edu/) of Art Institute of Chicago.
-![Art Institute of Chicago Website](./media/ART_Chicago_Website.png "Art Institute of Chicago Website")
+![Art Institute of Chicago Website](./media/ART_Chicago_Website.jpg "Art Institute of Chicago Website")
 
 And Here is the link to the [API Documentation](https://api.artic.edu/docs/#introduction). 
-![API Documentation](./media/Dcoumentation_Screenshot.png "Art Institute of Chicago API Dcoumentation")
+![API Documentation](./media/Documentation_Screenshot.png "Art Institute of Chicago API Dcoumentation")
 
 The Project I wanted to make needed to demonstrate the data from at least two endpoints from the api, and allow the user to navigate through them. Since the data already exists I made the design choice to Keep all code in the front-end and didnt feel the need to complicate the logic via a backend. The hope for this project is one day this project can exist in a website somewhere forever without incurring needless server costs. 
 
@@ -401,5 +401,4 @@ Reminder: You can view the website and the project on my personal website [here]
 If I return to this project in the future here is the list of things I'd love to add to the functionality of the website.
 
 - Find a way to show artist work. Unfortunately I couldnt find anyway so far to show which arts were made by which artists to populate their pages. I have already made the component that those possible results will be placed at. I hope I can find a way to show the arts made by each artist in their own page somehow. 
-- Add back forward functionality to the pages so by changing pages back to where you have been you see the arts you saw before. 
 - Add load more buttons

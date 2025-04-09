@@ -1,6 +1,6 @@
 import { locationHandler } from "./routes.js";
 
-// Module to create an artwork card
+// Component to create an artwork card
 export function createArtworkCard(artwork, artwork_manifest= null) {
   const card = document.createElement('div');
   card.className = 'artwork-card'; // Styling will be in styles.css
@@ -18,14 +18,14 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   const image = document.createElement('img');
   imagewrapper.className = 'card-image-wrapper';
   imagewrapper.href = `/art/${artwork.id}`;
-  image.className = 'card-img explicit-outbound';
+  image.className = 'card-img explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
   if (!artwork.image) {
     console.log(`Image for id: ${artwork.id} not available from API. Fetching placeholder image.`);
   }
   image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
   image.alt = '--Image Not Available--' || 'Artwork';
 
-
+  // encountered when server has an issue and cannot show the image, then replace the image with placeholder
   image.addEventListener('error', function handleError() {
     console.log(image.parentElement);
     // image.parentElement.remove();
@@ -37,7 +37,7 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
       
   });
 
-
+  // handle image redirects
   image.addEventListener('click', function routeURL() {
     window.history.pushState({}, "", `/art/${artwork.id}`);
     locationHandler();
@@ -51,7 +51,7 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   // Add title
   const title = document.createElement('a');
   title.title = artwork.title;
-  title.className = 'card-title explicit-outbound';
+  title.className = 'card-title explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
   title.href = `/art/${artwork.id}`;
   title.appendChild(document.createTextNode(artwork.title));
   title.textContent = artwork.title || 'Untitled';
@@ -65,7 +65,7 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
 
   const id = document.createElement('a');
   id.title = `ID: ${artwork.id}`;
-  id.className = 'card-id explicit-outbound';
+  id.className = 'card-id explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
   id.href = `/art/${artwork.id}`;
   id.appendChild(document.createTextNode(`ID: ${artwork.id}`));
   infoWrapper.appendChild(id);
@@ -88,11 +88,11 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   artists_wrapper.appendChild(artists_header);
   const artists = document.createElement('ul');
   artists.className = 'card-ul';
-
-  if (artwork.artists.length) {
+ 
+  if (artwork.artists.length) {  // for each artist add their name and a link to their page
     artwork.artists.forEach( (artist, index) => {
       const aLink = document.createElement('a');
-      aLink.className = 'card-list-item explicit-outbound';
+      aLink.className = 'card-list-item explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
       aLink.title = `${artist}`;
       aLink.href = `/artist/${artwork.arists_links[index]}`;
       aLink.appendChild(document.createTextNode(`${artist}`));
@@ -100,7 +100,7 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
       outer_list.appendChild(aLink);
       artists.appendChild(outer_list);
     });
-  } else {
+  } else { // No artist data found so no <a> link needed.
     const noArtist = document.createElement('p');
     noArtist.className ='card-list-item';
     noArtist.innerText = 'No Known Artist';
@@ -110,11 +110,6 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   
   artists_wrapper.appendChild(artists);
   card.appendChild(artists_wrapper);
-
-
-
-
-
 
   // Add Description
   const description = document.createElement('div');
@@ -144,9 +139,9 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   // Add categories
   const categories = document.createElement('ul');  
   categories.className = 'card-ul';  
-  artwork.categories.forEach( (category, index) => {
+  artwork.categories.forEach( (category, index) => { // add a link to each category
     const aLink = document.createElement('a');
-    aLink.className = 'card-list-item explicit-outbound';
+    aLink.className = 'card-list-item explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
     aLink.title = `${category} `;
     aLink.href = `/category/${artwork.category_links[index]}`;
     aLink.appendChild(document.createTextNode(`${category}`));
@@ -162,7 +157,7 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   return card;
 }
     
-  // Module to create a generic loader (for "loading" placeholders)
+// Component to create a generic loader (for "loading" placeholders)
 export function createLoader() {
   const loader = document.createElement('div');
   loader.className = 'loader'; // Styling will be in styles.css
@@ -171,7 +166,7 @@ export function createLoader() {
   return loader;
 }
   
-  // Module to create an error message
+// Component to create an error message
 export function createErrorMessage(errorMessage) {
   const errorContainer = document.createElement('div');
   errorContainer.className = 'error-message'; // Styling will be in styles.css
@@ -180,7 +175,7 @@ export function createErrorMessage(errorMessage) {
   return errorContainer;
 }
 
-// Module to create a search result item
+// Component to create a search result item
 export function createSearchResultItem(item) {
   const resultItem = document.createElement('div');
   resultItem.className = 'search-result-item'; // Styling will be in styles.css
@@ -196,7 +191,7 @@ export function createSearchResultItem(item) {
   return resultItem;
 }
 
-
+// Component to show the data about an artist
 export function createArtistInfo(artist) {
   const card = document.createElement('div');
   card.className = 'artist-info'; // Styling will be in styles.css
@@ -221,7 +216,7 @@ export function createArtistInfo(artist) {
 
   const id = document.createElement('a');
   id.title = `Artist ID: ${artist.data.id}`;
-  id.className = 'artist-id explicit-outbound';
+  id.className = 'artist-id explicit-outbound';  // all links with explicit-outbound class will be handled by routes.js file
   id.href = `/artist/${artist.data.id}`;
   id.appendChild(document.createTextNode(`Artist ID: ${artist.data.id}`));
   infoWrapper.appendChild(id);
@@ -249,10 +244,7 @@ export function createArtistInfo(artist) {
   return card
 }
 
-
-
-
-
+// Component to show the data about a category
 export function createCategoryInfo(category) {
   const card = document.createElement('div');
   card.className = 'category-info'; // Styling will be in styles.css
@@ -279,7 +271,7 @@ export function createCategoryInfo(category) {
 
   const id = document.createElement('a');
   id.title = `Category ID: ${category.data.id}`;
-  id.className = 'category-id explicit-outbound';
+  id.className = 'category-id explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
   id.href = `/category/${category.data.id}`;
   id.appendChild(document.createTextNode(`Category ID: ${category.data.id}`));
   infoWrapper.appendChild(id);
@@ -290,7 +282,7 @@ export function createCategoryInfo(category) {
 }
 
 
-
+// Component to show a new artwork just fetched from the api
 export function createNewArtwork(artwork, artwork_manifest= null) {
   var status = {};
   status.Ok = true;
@@ -312,7 +304,7 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
   const image = document.createElement('img');
   imagewrapper.className = 'new-image-wrapper';
   imagewrapper.href = `/art/${artwork.id}`;
-  image.className = 'card-img explicit-outbound';
+  image.className = 'card-img explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
   
   
   if (!artwork.image) { // If the latest API data doesnt have an image set the OK status to false
@@ -321,7 +313,7 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
   image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
   image.alt = '--Image Not Available--' || 'Artwork';
 
-
+  // encountered when server has an issue and cannot show the image, then replace the image with placeholder
   image.addEventListener('error', function handleError() {
     console.log(image.parentElement);
     image.parentElement.remove();
@@ -332,6 +324,7 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
       image.alt = 'default';    
   });
   
+  // handles image redirects
   image.addEventListener('click', function routeURL() {
     window.history.pushState({}, "", `/art/${artwork.id}`);
     locationHandler();
@@ -358,7 +351,7 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
 
 
 
-// Module to create an artwork display
+// Component to create an artwork display
 export function displayArtwork(artwork, artwork_manifest= null) {
   const card = document.createElement('div');
   card.className = 'artwork-display'; // Styling will be in styles.css
@@ -411,7 +404,6 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   const title = document.createElement('a');
   title.title = artwork.title;
   title.className = 'display-title';
-  // title.href = `/art/${artwork.id}`;
   title.appendChild(document.createTextNode(artwork.title));
   title.textContent = artwork.title || 'Untitled';
   infoWrapper.appendChild(title);
@@ -423,7 +415,6 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   const id = document.createElement('a');
   id.title = `ID: ${artwork.id}`;
   id.className = 'display-id';
-  // id.href = `/art/${artwork.id}`;
   id.appendChild(document.createTextNode(`ID: ${artwork.id}`));
   infoWrapper.appendChild(id);
 
@@ -446,10 +437,10 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   const artists = document.createElement('ul');
   artists.className = 'display-ul';
 
-  if (artwork.artists.length) {
+  if (artwork.artists.length) { // for each artist add their name and a link to their page
     artwork.artists.forEach( (artist, index) => {
       const aLink = document.createElement('a');
-      aLink.className = 'display-list-item explicit-outbound';
+      aLink.className = 'display-list-item explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
       aLink.title = `${artist}`;
       aLink.href = `/artist/${artwork.arists_links[index]}`;
       aLink.appendChild(document.createTextNode(`${artist}`));
@@ -467,10 +458,6 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   
   artists_wrapper.appendChild(artists);
   infoWrapper.appendChild(artists_wrapper);
-
-
-
-
 
 
   // Add Description
@@ -495,9 +482,9 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   // Add categories
   const categories = document.createElement('ul');  
   categories.className = 'display-ul';  
-  artwork.categories.forEach( (category, index) => {
+  artwork.categories.forEach( (category, index) => { // for each category add name and a link to its page
     const aLink = document.createElement('a');
-    aLink.className = 'display-list-item explicit-outbound';
+    aLink.className = 'display-list-item explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
     aLink.title = `${category} `;
     aLink.href = `/category/${artwork.category_links[index]}`;
     aLink.appendChild(document.createTextNode(`${category}`));
@@ -517,13 +504,12 @@ export function displayArtwork(artwork, artwork_manifest= null) {
 
 
 
-// Module to create the art work of the day display
+// Component to create the art work of the day display
 export function displayDayArtwork(artwork, artwork_manifest= null) {
   const card = document.createElement('div');
   card.className = 'artwork-display'; // Styling will be in styles.css
   
   // Change the backgroud color if image colors are available
-
   try {
     card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
   } catch (error) {
@@ -555,6 +541,7 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
       
   });
   
+  // handle image redirects
   image.addEventListener('click', function routeURL() {
     window.history.pushState({}, "", `/art/${artwork.id}`);
     locationHandler();  });
@@ -607,9 +594,9 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
   artists.className = 'display-ul';
 
   if (artwork.artists.length) {
-    artwork.artists.forEach( (artist, index) => {
+    artwork.artists.forEach( (artist, index) => { // for each artist add their name and a link to their page
       const aLink = document.createElement('a');
-      aLink.className = 'display-list-item explicit-outbound';
+      aLink.className = 'display-list-item explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
       aLink.title = `${artist}`;
       aLink.href = `/artist/${artwork.arists_links[index]}`;
       aLink.appendChild(document.createTextNode(`${artist}`));
@@ -650,9 +637,9 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
   // Add categories
   const categories = document.createElement('ul');  
   categories.className = 'display-ul';  
-  artwork.categories.forEach( (category, index) => {
+  artwork.categories.forEach( (category, index) => { // for each category add name and a link to its page
     const aLink = document.createElement('a');
-    aLink.className = 'display-list-item explicit-outbound';
+    aLink.className = 'display-list-item explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
     aLink.title = `${category} `;
     aLink.href = `/category/${artwork.category_links[index]}`;
     aLink.appendChild(document.createTextNode(`${category}`));

@@ -2,6 +2,17 @@ import { createErrorMessage } from './components.js';
 import {test_ids, displayArtworkPage, populatePage, displayArtist, displayCategory, displayCuratedlist, displayArtworkofDay } from './app.js';
 
 
+// In order to remember where the user has been before and what they have done we store this variable
+// Format {url: [url_state1, url_state2,...]}
+export var previousStates = { 
+    'art': [],
+    'artist': [],
+    'category': []
+}
+
+
+
+// These routes are the pagess the application will be able to redirect to. Otherwise 404 will kick in. 
 const routes = {
     404: {
         template: "/routes/index.html",
@@ -104,20 +115,19 @@ export async function locationHandler() {
     
     switch (currentView[0]) {
         case '':
-            console.log('Home Loaded.')
             displayArtworkofDay();
             populatePage();
             displayCuratedlist();
             break;
 
         case 'art':
-          
             // DOM Elements
             const artworksSection = document.getElementById('artworks');
             const searchBar = document.getElementById('search-bar');
             const searchButton = document.getElementById('search-button');
             
             if (currentView[1]) {
+                previousStates['art'].push(currentView[1]);
                 searchBar.defaultValue = currentView[1];
                 try {
                     await displayArtworkPage(currentView[1]); // Display artwork card
@@ -126,8 +136,19 @@ export async function locationHandler() {
                     artworksSection.appendChild(errorMessage);
                 }
             } else {
-                searchBar.placeholder = "Art ID";
-            }
+                if (previousStates['art'].length > 0) {
+                    searchBar.defaultValue = previousStates['art'].slice(-1)[0];
+                    try {
+                        await displayArtworkPage(searchBar.defaultValue); // Display artwork card
+                    } catch (error) {
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['art'].slice(-1)[0]}`);
+                        artworksSection.appendChild(errorMessage);
+                        
+
+                    }}
+                    else {
+                        searchBar.placeholder = "Art ID";
+            }}
             
 
             searchButton.addEventListener('click', async () => {
@@ -154,9 +175,9 @@ export async function locationHandler() {
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
                     artworksSection.appendChild(errorMessage);
+                    return 
                 }
-                
-                
+
                 window.history.replaceState = `/art/${id}`;
                 }
             });
@@ -173,19 +194,18 @@ export async function locationHandler() {
                     searchButton.click();
                 }}); 
                 
-                
-                console.log('Art Loaded.')
                 break;
             
         case 'artist':
 
-                // DOM Elements
+            // DOM Elements
             const artistGrid = document.getElementById('artist-grid');
             const artistSearch = document.getElementById('search-bar');
             const ArtistSearchButton = document.getElementById('search-button');
             const artistInfo = document.getElementById('artist-info');  
             
             if (currentView[1]) {
+                previousStates['artist'].push(currentView[1]);
                 artistSearch.defaultValue = currentView[1];
                 try {
                     await displayArtist(currentView[1]); // Display artist card
@@ -194,8 +214,17 @@ export async function locationHandler() {
                     artistInfo.appendChild(errorMessage);
                 }
             } else {
+                if (previousStates['artist'].length > 0) {
+                    artistSearch.defaultValue = previousStates['artist'].slice(-1)[0];
+                    try {
+                        await displayArtist(artistSearch.defaultValue); // Display artist card previously shown
+                    } catch (error) {
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['artist'].slice(-1)[0]}`);
+                        artistInfo.appendChild(errorMessage);
+                    }}
+                    else {
                 ArtistSearchButton.placeholder = "Artist ID";
-            }
+            }}
             
 
             ArtistSearchButton.addEventListener('click', async () => {
@@ -212,14 +241,15 @@ export async function locationHandler() {
                 }
             
                 // Display either an artwork card or a post based on the entered ID
-                const id = parseInt(searchValue, 10);
-                console.log('artist Id to check= ',id);
-                
+                const id = parseInt(searchValue, 10);                
                 try {
                     await displayArtist(id); // Display artwork card
+                    previousStates['artist'].push(id);
+
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${id}`);
                     artistInfo.appendChild(errorMessage);
+
                 }
                 
                 
@@ -250,51 +280,66 @@ export async function locationHandler() {
                 
                 
 
-                console.log('Artist Loaded.')
                 break;
         case 'about':
-                console.log('About Loaded.')
                 break;
+
         case 'category':
 
             // DOM Elements
             const categoryGrid = document.getElementById('category-grid');
+            const categoryInfo = document.getElementById('category-info');
             const categorySearch = document.getElementById('search-bar');
             const categorySearchButton = document.getElementById('search-button');
             
-            if (currentView[1]) {
+            if (currentView[1]) { // try to show category id if user clicked on a link
                 categorySearch.defaultValue = currentView[1];
+                previousStates['category'].push(currentView[1]);
                 try {
                     await displayCategory(currentView[1]); // Display category card
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid Category ID. The Artic Database has no category with id: ${currentView[1]}`);
-                    categoryGrid.appendChild(errorMessage);
+                    categoryInfo.appendChild(errorMessage);
                 }
-            } else {
-                categorySearchButton.placeholder = "Category ID";
-            }
+            } else { // If user has visited any valid category before switching to other tabs show it instead 
+                if (previousStates['category'].length > 0) {
+                    categorySearch.defaultValue = previousStates['category'].slice(-1)[0];
+                    try {
+                        await displayCategory(categorySearch.defaultValue); // Display category card shown before
+                    } catch (error) {
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no category with id: ${previousStates['category'].slice(-1)[0]}`);
+                        categoryInfo.appendChild(errorMessage);
+                    }}
+                else { // user hasn't visited categories tabs before, show placeholder.
+                    categorySearch.placeholder = "Category ID";
+            }}
             
 
             categorySearchButton.addEventListener('click', async () => {
                 // Clear any existing content
                 categoryGrid.innerHTML = '';
-            
+                categoryInfo.innerHTML = '';
+
+
                 const searchValue = categorySearch.value.trim();
                 if (searchValue === '') {
                 const errorMessage = createErrorMessage('Please enter an ID to search.');
-                categoryGrid.appendChild(errorMessage);
+                categoryInfo.appendChild(errorMessage);
                 return;
                 }
             
                 // Display either an artwork card or a post based on the entered ID
                 const id = searchValue;
-                console.log('Category ID to check= ',id);
                 
                 try {
                     await displayCategory(id); // Display artwork card
+                    previousStates['category'].push(id);
+
+
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid category ID. The Artic Database has no artist with id: ${id}`);
-                    categoryGrid.appendChild(errorMessage);
+                    categoryInfo.appendChild(errorMessage);
+
                 }
                 
                 window.history.replaceState = `/category/${id}`;
@@ -302,15 +347,7 @@ export async function locationHandler() {
                 }
             );
             
-            
-            categorySearch.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') {
-                    // code for enter
-                    console.log('Enter pressed')
-                }
-            
-            });
-            
+           
             // Execute a function when the user presses a key on the keyboard
             categorySearch.addEventListener("keypress", function(event) {
                     // If the user presses the "Enter" key on the keyboard
@@ -318,14 +355,9 @@ export async function locationHandler() {
                     // Cancel the default action, if needed
                     event.preventDefault();
                     // Trigger the button element with a click
-                    console.log('Pressed Button with Enter');
-                    categorySearch.click();
+                    categorySearchButton.click();
                 }}); 
 
-
-
-                
-                console.log('Category Loaded.')
                 break;
         default:
                 window.location.pathname = '/';

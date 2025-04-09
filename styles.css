@@ -147,7 +147,7 @@ a:active {
   }
     
   .artwork-card {
-    /* background-color: #fff; */
+
     border: 1px solid;
     border-radius: 8px;
     padding: 10px;
@@ -323,13 +323,14 @@ a:active {
 .artwork-display {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  /* gap: 20px; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
   border-radius: 20px;
 }
 
 .page-container {
   box-sizing: border-box;
-  max-width: 1300px;
+  max-width: 1200px;
   margin: 0px auto;
   padding: 0;
   
@@ -420,14 +421,14 @@ a:active {
   margin: 0px;
   color:#111 !important;
   font-size: 18px;
-  /* text-shadow: 1px 1px white; */
+
 }
 
 .display-list-item:hover {
   padding-bottom: 10px;
   color:#444 !important;
   font-size: 18px;
-  /* text-shadow: 1px 1px white; */
+
 }
 
 .display-list-item > a, .display-list-item > a:visited {

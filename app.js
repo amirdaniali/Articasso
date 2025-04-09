@@ -13,9 +13,7 @@ export async function displayArtworkCard(id) {
       // Fetch artwork data
     const artwork = await find_art(id, false);
     const art_manifest = await find_manifest(id);
-    console.log('manifest', art_manifest);
-    // console.log(artwork.data.image_id);
-    // console.log(`displayartwork retrevied art ${artwork}`)
+
       if (artwork.data.image_id) {
         var artImage = await find_art_image(artwork.data.image_id)
       } else {
@@ -25,7 +23,7 @@ export async function displayArtworkCard(id) {
     // Remove the loader
     artworksSection.removeChild(loader);
 
-        // Create an artwork card and add it to the DOM
+    // Create an artwork card and add it to the DOM
     const card = createArtworkCard({
       title: artwork.data.title,
       artists: artwork.data.artist_titles,
@@ -78,6 +76,7 @@ export async function populatePage(limit=15) {
         var art_manifest = null;
       }
       newArtsSection.removeChild(loader);
+
       const [card, status] = createNewArtwork({
         title: element.title,
         artists: element.artist_titles,
@@ -91,7 +90,8 @@ export async function populatePage(limit=15) {
         color: element.color,
         categories: element.category_titles,
         category_links: element.category_ids,
-      }, art_manifest);
+      }, art_manifest
+    );
 
       
       if (status.Ok == true) { 
@@ -151,13 +151,13 @@ export async function displayCategory (id) {
     const loader = createLoader();
     categoryInfo.appendChild(loader);
     const category = await find_category(id);
-    console.log('Category Data: ', category);
-      
+          
     categoryInfo.removeChild(loader);
 
 
     const card = createCategoryInfo(category);
-    categoryInfo.appendChild(card);}  
+    categoryInfo.appendChild(card);
+  }  
 
   catch (error) {
     console.log('Error:', error);
@@ -380,7 +380,7 @@ export async function displayArtworkofDay() {
     // Remove the loader
     artSection.removeChild(loader);
 
-        // Create an artwork card and add it to the DOM
+    // Create an artwork card and add it to the DOM
     const card = displayDayArtwork({
       title: artwork.data.title,
       artists: artwork.data.artist_titles,
