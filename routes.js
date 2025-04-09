@@ -57,7 +57,6 @@ document.addEventListener("click", (e) => {
 
 export async function locationHandler() {
 
-    // get the url path, replace hash with empty string
     const location = window.location.pathname; // get the url path
     
     
@@ -106,8 +105,8 @@ export async function locationHandler() {
     switch (currentView[0]) {
         case '':
             console.log('Home Loaded.')
-            populatePage();
             displayArtworkofDay();
+            populatePage();
             displayCuratedlist();
             break;
 

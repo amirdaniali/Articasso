@@ -19,30 +19,22 @@ Then you need to be able to serve the files locally. One way is by using `node.j
 
 #### On Linux, Mac
 ```Bash
- npm install -g http-server
  cd path/to/the/project
+ npm install -g http-server
  http-server
  ```
 
 #### if http-server not Installed with -g  
 
 ```bash
-   npm install -g http-server
    cd path/to/the/project
+   npm install http-server
    ./node_modules/.bin/http-server
 ```
 
  You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
 
-### Python
-
- Alternatively you can use Python’s Built-in HTTP Server
-
-```Bash
-cd path/to/your/project
-python -m http.server
-```
-Access the application at http://localhost:8000 in your browser.
+The above steps should be reproducible in vscode and windows terminal on windows. For linux or mac the path to the node module could be different. You can download Node.js from [nodejs.org](https://nodejs.org/)
 
 Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. Alternatively you can view the final project hosted via github pages on my personal website [here](https://artic-arts.amirdaniali.com).
 
@@ -139,7 +131,6 @@ In the lines above the function determines if a reduced set of fields are reques
 
 Afterwards I began coding the `app.js` file where I setup the interactivity of the main page and made sure the search box was connected to the helper functions to retrieve the user information. After that I started coding the `components.js` file to produce the results of the user searches. 
 
-
 ### Setting Up The Single Page Application
 
 The application I wanted to build had to have many pages. One for Showing the main page, one for showing the page related to the art-pieces themselves and maybe one especially for each artist. Such functionality would require multiple `page.html` files and a complex way of routing them without needing complex express/node backends. At the end I decided to go with a SPA concept I learned from this [blog](https://dev.to/thedevdrawer/single-page-application-routing-using-hash-or-url-9jh)
@@ -169,10 +160,15 @@ document.addEventListener("click", (e) => {
 locationHandler();
 window.onpopstate = locationHandler;
 window.route = route;
+```
 
+And here is how the locationHandler function is set up. I ommitted some of the longer logic blocs in the switch case for brevity. 
+
+
+```javascript
 export async function locationHandler() {
 
-    // get the url path, replace hash with empty string
+
     const location = window.location.pathname; // get the url path
     
     // if the path length is 0, set it to primary page route
@@ -182,9 +178,7 @@ export async function locationHandler() {
     }
     else{ 
         currentView = location.split('/');
-        currentView.splice(0, 1);
-        // console.log('location=', location, 'currentView=',currentView);
-       
+        currentView.splice(0, 1);       
     }
     
     // get the route object from the routes object
@@ -194,26 +188,10 @@ export async function locationHandler() {
     // set the content of the content div to the html
     
    // prepare the wrapper section and remove the current view
-    document.getElementById("page-container").innerHTML = '';
+
     document.getElementById("main-container").innerHTML = '';
-    if (currentView[0] == 'art') {
-        document.getElementById("page-container").innerHTML = html; // Only for the art page for special styling
+    document.getElementById("main-container").innerHTML = html; 
 
-    }
-    else {
-        document.getElementById("main-container").innerHTML = html; // All other routes use the main container.
-
-        
-    }
-    // document.getElementById("main-container").innerHTML = html;
-    // set the title of the document to the title of the route
-    document.title = route.title;
-    // set the description of the document to the description of the route
-    document
-        .querySelector('meta[name="description"]')
-        .setAttribute("content", route.description);
-    // console.log('routing ended up at', location);
-    
       // Furthur down:
     
     switch (currentView[0]) {
@@ -224,7 +202,7 @@ export async function locationHandler() {
             displayCuratedlist();
             break;
          case 'art':
-            // displayArt();
+            // displayArt(); // Also do alot more stuff
             break;
          case 'artist':
             // displayArtist();
@@ -241,6 +219,155 @@ export async function locationHandler() {
 ```
 
 After loading the custom resources for any page `routes.js` calls multiple functions in `app.js` to load the interactivity of the proper page the user has requested. `app.js` then can call `helpers.js` to request the resources from the ARTIC API and then call `components.js` to display the resources to the user. 
+
+
+### Components
+
+Here is how components are structured. I have a `<section>` element in the main `index.html` file. The `routes.js` file injects the main wrapper inside that `<section>` element. After that `components.js` injects every needed element into the `section`.
+
+Here is an example logic displaying the artwork page.
+
+```javascript
+
+// app.js
+
+export async function displayArtworkPage(id) {
+  try {
+    const artworksSection = document.getElementById('artworks');
+    // Create a loader while fetching data
+    const loader = createLoader();
+    artworksSection.appendChild(loader);
+    try {
+      // Fetch artwork data
+    const artwork = await find_art(id, false);
+    const art_manifest = await find_manifest(id);
+      if (artwork.data.image_id) {
+        var artImage = await find_art_image(artwork.data.image_id)
+      } else {
+        var artImage = null;
+      }
+
+    // Remove the loader
+    artworksSection.removeChild(loader);
+
+        // Create an artwork card and add it to the DOM
+    const card = displayArtwork({
+      title: artwork.data.title,
+      artists: artwork.data.artist_titles,
+      arists_links: artwork.data.artist_ids,
+      image: artImage,
+      id:artwork.data.id,
+      date:artwork.data.date_display,
+      description:artwork.data.short_description,
+      history: artwork.data.exhibition_history,
+      color: artwork.data.color,
+      categories: artwork.data.category_titles,
+      category_links: artwork.data.category_ids,
+    }, art_manifest);
+    artworksSection.appendChild(card);
+    
+    // catch stamenet for error handling is placed here
+    
+}}}
+
+```
+
+```javascript
+// components.js
+
+// Module to create an artwork display
+export function displayArtwork(artwork, artwork_manifest= null) {
+  const card = document.createElement('div');
+  card.className = 'artwork-display'; // Styling will be in styles.css
+  
+  // Change the backgroud color if image colors are available
+
+  try {
+    card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+  } catch (error) {
+    card.style.background = '#aaa';
+  }
+
+
+  // Add image
+  const imagewrapper = document.createElement('div');
+  const image = document.createElement('img');
+  imagewrapper.className = 'image-wrapper';
+
+  // handle if image data isn't available from the api
+  image.className = 'display-img ';
+  if (!artwork.image) {
+    console.log(`Image for id: ${artwork.id} not available from API. Fetching placeholder image.`);
+  }
+  image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
+  image.alt = '--Image Not Available--' || 'Artwork';
+
+  // handle cors errors from the server
+
+  image.addEventListener('error', function handleError() {
+
+    console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
+    const defaultImage = '/media/placeholder.jpg';
+  
+      image.src = defaultImage;
+      image.alt = 'default';
+      
+  });
+  
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+  // sample logic for all elements is shown here
+  // Add artist id to the card
+
+  const id = document.createElement('a');
+  id.title = `ID: ${artwork.id}`;
+  id.className = 'display-id';
+  // id.href = `/art/${artwork.id}`;
+  id.appendChild(document.createTextNode(`ID: ${artwork.id}`));
+  card.appendChild(id);
+
+  // Add title
+  // Add Date
+  // Add artist
+  // Add Description
+  // Add title
+  // Add categories
+
+  return card;
+}
+```
+
+### Art of the day.
+
+Something I'm very happy to get the chance to add to the project is the artwork of the day section. 
+
+A problem with the api is simply that not every random id exists. When I tried a logic like `find_art(100000+dayofYear)` I simply ran into 404 issues. As a result after trying a few times with different initial ids, I simply gave up and tried another approach. 
+
+In the final version, I started by simply going over every single artwork id after an initial number. If the artwork exists I added it to the final selected elements list. 
+
+Afterwards I coded the date handling logic like this:
+
+```javascript
+
+const artSection = document.getElementById('art-of-the-day');
+const now = new Date();
+const start = new Date(now.getFullYear(), 0, 0);
+const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+const oneDay = 1000 * 60 * 60 * 24;
+const day = Math.floor(diff / oneDay);
+
+const allArtworks = // A very long list of IDS for each day.
+
+
+const id = allArtworks[day]['ID'];
+const artwork = await find_art(id, false);
+const card = displayDayArtwork(artwork);
+artSection.appendChild(card);
+
+```
+
 
 ## Conclusion
 
@@ -259,5 +386,4 @@ If I return to this project in the future here is the list of things I'd love to
 
 - Find a way to show artist work. Unfortunately I couldnt find anyway so far to show which arts were made by which artists to populate their pages. I have already made the component that those possible results will be placed at. I hope I can find a way to show the arts made by each artist in their own page somehow. 
 - Add back forward functionality to the pages so by changing pages back to where you have been you see the arts you saw before. 
-- Write about how I added the art of the day functionality 
-- Write about how components are structured
+- Add load more buttons
