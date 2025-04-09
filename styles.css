@@ -149,7 +149,7 @@ a:active {
     border: 1px solid;
     border-radius: 8px;
     padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     text-align: center;
   }
   
@@ -321,7 +321,7 @@ a:active {
 .artwork-display {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 
   border-radius: 20px;
 }
@@ -346,6 +346,7 @@ a:active {
   max-width: 100%; 
   padding: 0px;
   margin: 0px;
+  border-radius: 20px;
 }
 
 .card-img:hover {
