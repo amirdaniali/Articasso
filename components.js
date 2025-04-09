@@ -197,7 +197,7 @@ export function createArtistInfo(artist) {
   card.className = 'artist-info'; // Styling will be in styles.css
   
   // Add title
-  const title = document.createElement('h1');
+  const title = document.createElement('p');
   title.className = 'artist-title';
   title.textContent = artist.data.title || 'Unknown Artist';
   card.appendChild(title);
@@ -250,7 +250,7 @@ export function createCategoryInfo(category) {
   card.className = 'category-info'; // Styling will be in styles.css
   
   // Add title
-  const title = document.createElement('h1');
+  const title = document.createElement('p');
   title.className = 'category-title';
   title.textContent = category.data.title || 'Unknown Category';
   card.appendChild(title);
@@ -467,7 +467,13 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   desc_header.textContent =`Description`;
   description.className = 'display-description';
   
-  description.innerHTML = ((( artwork.description || artwork.short_description )) || 'No description available.');
+  if (artwork_manifest != null) { // If there is a manifst description use it. 
+    if (typeof artwork_manifest.description[0] !== 'undefined') { 
+      description.innerHTML = artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />") || ((( artwork.short_description || artwork.description )) || 'No description available.');
+    }}
+    else {
+      description.innerHTML = ((( artwork.short_description || artwork.description )) || 'No description available.');
+    }
   infoWrapper.appendChild(desc_header);
   infoWrapper.appendChild(description);
 
@@ -622,9 +628,18 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
   desc_header.textContent =`Description`;
   description.className = 'display-description';
   
-  description.innerHTML = ((( artwork.description || artwork.short_description )) || 'No description available.');
+  if (artwork_manifest != null) { // If there is a manifst description use it. 
+    if (typeof artwork_manifest.description[0] !== 'undefined') { 
+      description.innerHTML = artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />") || ((( artwork.short_description || artwork.description )) || 'No description available.');
+    }}
+    else {
+      description.innerHTML = ((( artwork.short_description || artwork.description )) || 'No description available.');
+    }
   infoWrapper.appendChild(desc_header);
   infoWrapper.appendChild(description);
+
+
+  
 
   // Add title
   const category_wrapper = document.createElement('div');

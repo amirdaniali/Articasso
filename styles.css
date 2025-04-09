@@ -38,14 +38,12 @@ a:active {
 }
     
   /* Main Container Styling */
-  .main-container {
+  .main-container , .page-container{
     box-sizing: border-box;
     max-width: 1200px;
     margin: 0px auto;
     padding: 0 15px;
   }
-
-
   
   /* Search Section Styling */
   .search-section {
@@ -297,12 +295,17 @@ a:active {
   }
   
 
-.artist-title > *{
+.artist-title , .category-title  {
   font-size: 22px;
   font-weight: 800;
   color:#000
 }
 
+.artist-title > *, .category-title > * {
+  font-size: 22px;
+  font-weight: 800;
+  color:#000
+}
 
 .home-introduction > h2 {
   color: #004494;
@@ -324,14 +327,6 @@ a:active {
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 
   border-radius: 20px;
-}
-
-.page-container {
-  box-sizing: border-box;
-  max-width: 1200px;
-  margin: 0px auto;
-  padding: 0;
-  
 }
 
 .display-info {
