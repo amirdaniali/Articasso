@@ -401,4 +401,3 @@ Reminder: You can view the website and the project on my personal website [here]
 If I return to this project in the future here is the list of things I'd love to add to the functionality of the website.
 
 - Find a way to show artist work. Unfortunately I couldnt find anyway so far to show which arts were made by which artists to populate their pages. I have already made the component that those possible results will be placed at. I hope I can find a way to show the arts made by each artist in their own page somehow. 
-- Add load more buttons

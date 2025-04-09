@@ -125,6 +125,7 @@ export async function locationHandler() {
             const searchButton = document.getElementById('search-button');
             
             if (currentView[1]) {
+                artworksSection.innerHTML = '';
                 previousStates['art'].push(currentView[1]);
                 searchBar.defaultValue = currentView[1];
                 try {
@@ -135,6 +136,7 @@ export async function locationHandler() {
                 }
             } else {
                 if (previousStates['art'].length > 0) {
+                    artworksSection.innerHTML = '';
                     searchBar.defaultValue = previousStates['art'].slice(-1)[0];
                     try {
                         await displayArtworkPage(searchBar.defaultValue); // Display artwork card
@@ -145,7 +147,12 @@ export async function locationHandler() {
 
                     }}
                     else {
-                        searchBar.placeholder = "Art ID";
+                        searchBar.placeholder = "Artwork ID";
+                        artworksSection.innerHTML = '';
+                        const information = document.createElement('div');
+                        information.className = 'display-information';
+                        information.innerHTML = 'Enter a unique Artwork ID in the field above to view the artwork information. ';
+                        artworksSection.appendChild(information);
             }}
             
 
@@ -203,6 +210,7 @@ export async function locationHandler() {
             const artistInfo = document.getElementById('artist-info');  
             
             if (currentView[1]) {
+                artistInfo.innerHTML = '';
                 previousStates['artist'].push(currentView[1]);
                 artistSearch.defaultValue = currentView[1];
                 try {
@@ -213,6 +221,7 @@ export async function locationHandler() {
                 }
             } else {
                 if (previousStates['artist'].length > 0) {
+                    artistInfo.innerHTML = '';
                     artistSearch.defaultValue = previousStates['artist'].slice(-1)[0];
                     try {
                         await displayArtist(artistSearch.defaultValue); // Display artist card previously shown
@@ -222,6 +231,11 @@ export async function locationHandler() {
                     }}
                     else {
                 ArtistSearchButton.placeholder = "Artist ID";
+                artistInfo.innerHTML = '';
+                const information = document.createElement('div');
+                information.className = 'display-information';
+                information.innerHTML = 'Enter an Artist ID in the field above to view the artist information.  ';
+                artistInfo.appendChild(information);
             }}
             
 
@@ -291,6 +305,7 @@ export async function locationHandler() {
             const categorySearchButton = document.getElementById('search-button');
             
             if (currentView[1]) { // try to show category id if user clicked on a link
+                categoryInfo.innerHTML = '';
                 categorySearch.defaultValue = currentView[1];
                 previousStates['category'].push(currentView[1]);
                 try {
@@ -301,6 +316,7 @@ export async function locationHandler() {
                 }
             } else { // If user has visited any valid category before switching to other tabs show it instead 
                 if (previousStates['category'].length > 0) {
+                    categoryInfo.innerHTML = '';
                     categorySearch.defaultValue = previousStates['category'].slice(-1)[0];
                     try {
                         await displayCategory(categorySearch.defaultValue); // Display category card shown before
@@ -310,6 +326,11 @@ export async function locationHandler() {
                     }}
                 else { // user hasn't visited categories tabs before, show placeholder.
                     categorySearch.placeholder = "Category ID";
+                    categoryInfo.innerHTML = '';
+                    const information = document.createElement('div');
+                    information.className = 'display-information';
+                    information.innerHTML = 'Enter a Category ID in the field above to view the category information. ';
+                    categoryInfo.appendChild(information);
             }}
             
 
