@@ -124,7 +124,7 @@ export async function locationHandler() {
             const searchBar = document.getElementById('search-bar');
             const searchButton = document.getElementById('search-button');
             
-            if (currentView[1]) {
+            if (currentView[1]) { // user has clicked an explicit-outbound link, show the proper artwork
                 artworksSection.innerHTML = '';
                 previousStates['art'].push(currentView[1]);
                 searchBar.defaultValue = currentView[1];
@@ -134,8 +134,8 @@ export async function locationHandler() {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${currentView[1]}`);
                     artworksSection.appendChild(errorMessage);
                 }
-            } else {
-                if (previousStates['art'].length > 0) {
+            } else { 
+                if (previousStates['art'].length > 0) { // user hasn't clicked any artwork but has previously seen an artwork
                     artworksSection.innerHTML = '';
                     searchBar.defaultValue = previousStates['art'].slice(-1)[0];
                     try {
@@ -144,9 +144,8 @@ export async function locationHandler() {
                         const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['art'].slice(-1)[0]}`);
                         artworksSection.appendChild(errorMessage);
                         
-
                     }}
-                    else {
+                    else { // This is the first time user is clicking the artwork page
                         searchBar.placeholder = "Artwork ID";
                         artworksSection.innerHTML = '';
                         const information = document.createElement('div');
@@ -209,7 +208,7 @@ export async function locationHandler() {
             const ArtistSearchButton = document.getElementById('search-button');
             const artistInfo = document.getElementById('artist-info');  
             
-            if (currentView[1]) {
+            if (currentView[1]) { // user has clicked an explicit-outbound link and needs to be shown the artist
                 artistInfo.innerHTML = '';
                 previousStates['artist'].push(currentView[1]);
                 artistSearch.defaultValue = currentView[1];
@@ -220,7 +219,7 @@ export async function locationHandler() {
                     artistInfo.appendChild(errorMessage);
                 }
             } else {
-                if (previousStates['artist'].length > 0) {
+                if (previousStates['artist'].length > 0) { // user hasn't requested and artist but has previously seen one
                     artistInfo.innerHTML = '';
                     artistSearch.defaultValue = previousStates['artist'].slice(-1)[0];
                     try {
@@ -229,14 +228,14 @@ export async function locationHandler() {
                         const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['artist'].slice(-1)[0]}`);
                         artistInfo.appendChild(errorMessage);
                     }}
-                    else {
-                ArtistSearchButton.placeholder = "Artist ID";
-                artistInfo.innerHTML = '';
-                const information = document.createElement('div');
-                information.className = 'display-information';
-                information.innerHTML = 'Enter an Artist ID in the field above to view the artist information.  ';
-                artistInfo.appendChild(information);
-            }}
+                    else {  // user hasn't been to this page before. show the welcome information.
+                        ArtistSearchButton.placeholder = "Artist ID";
+                        artistInfo.innerHTML = '';
+                        const information = document.createElement('div');
+                        information.className = 'display-information';
+                        information.innerHTML = 'Enter an Artist ID in the field above to view the artist information.  ';
+                        artistInfo.appendChild(information);
+                    }}
             
 
             ArtistSearchButton.addEventListener('click', async () => {
@@ -271,14 +270,6 @@ export async function locationHandler() {
             );
             
             
-            artistSearch.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') {
-                    // code for enter
-                    console.log('Enter pressed')
-                }
-            
-            });
-            
             // Execute a function when the user presses a key on the keyboard
             artistSearch.addEventListener("keypress", function(event) {
                     // If the user presses the "Enter" key on the keyboard
@@ -290,9 +281,8 @@ export async function locationHandler() {
                     artistSearch.click();
                 }}); 
                 
-                
-
                 break;
+                
         case 'about':
                 break;
 
