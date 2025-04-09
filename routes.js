@@ -10,8 +10,6 @@ export var previousStates = {
     'category': []
 }
 
-
-
 // These routes are the pagess the application will be able to redirect to. Otherwise 404 will kick in. 
 const routes = {
     404: {
