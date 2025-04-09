@@ -36,7 +36,7 @@ npm install http-server
 
 You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
 
-On windows you can use powershell via windows terminal which allows the above syntax to function. For linux or mac the path to the node module could be different. You can download Node.js from [nodejs.org](https://nodejs.org/)
+On windows you can use powershell via windows terminal which allows the above syntax to function. For linux or mac the path to the node module could be different. You can download Node.js from [nodejs.org](https://nodejs.org/).
 
 ### Python
 
