@@ -150,7 +150,7 @@ export async function locationHandler() {
                         artworksSection.innerHTML = '';
                         const information = document.createElement('div');
                         information.className = 'display-information';
-                        information.innerHTML = 'Enter a unique Artwork ID in the field above to view the artwork information. ';
+                        information.innerHTML = 'Enter a unique Artwork ID in the field above to view the artwork information. <br> You can also click on an artwork in the Home page to view the details for each art.';
                         artworksSection.appendChild(information);
             }}
             
@@ -234,7 +234,7 @@ export async function locationHandler() {
                         artistInfo.innerHTML = '';
                         const information = document.createElement('div');
                         information.className = 'display-information';
-                        information.innerHTML = 'Enter an Artist ID in the field above to view the artist information.  ';
+                        information.innerHTML = 'Enter an Artist ID in the field above to view the artist information. <br> You can also click on an artist link in the description of a any artwork you like.  ';
                         artistInfo.appendChild(information);
                     }}
             
@@ -320,7 +320,7 @@ export async function locationHandler() {
                     categoryInfo.innerHTML = '';
                     const information = document.createElement('div');
                     information.className = 'display-information';
-                    information.innerHTML = 'Enter a Category ID in the field above to view the category information. ';
+                    information.innerHTML = 'Enter a Category ID in the field above to view the category information. <br> You can also click on a category in the description of any art work that has one. ';
                     categoryInfo.appendChild(information);
             }}
             
