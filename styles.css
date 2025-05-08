@@ -372,6 +372,22 @@ a:active {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+.artist-arts-header {
+  font-size: 22px;
+  margin: 20px 0 30px;
+  /* justify-content: center; */
+  /* justify-items: center; */
+  /* justify-self: center; */
+  /* align-items: center; */
+  /* align-self: center; */
+  /* align-content: center; */
+  text-align: center;
+
+  color:#000;
+  display: block;
+  font-weight: 800;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 
 .display-id, .display-date {
   color: #000;

@@ -1,5 +1,5 @@
 import { createArtworkCard, createLoader,createNewArtwork , createErrorMessage, createArtistInfo, displayDayArtwork, createCategoryInfo, displayArtwork } from './components.js';
-import { find_art, find_recent_artworks, find_manifest, find_art_field, find_art_image, find_artist, find_category } from './helpers.js';
+import { find_art, find_recent_artworks, find_manifest, find_art_field, find_art_image, find_artist, find_category, find_artist_arts } from './helpers.js';
 
 
 // Function to display artwork cards
@@ -75,8 +75,7 @@ export async function populatePage(limit=15) {
         var artImage = null;
         var art_manifest = null;
       }
-      newArtsSection.removeChild(loader);
-
+      
       const [card, status] = createNewArtwork({
         title: element.title,
         artists: element.artist_titles,
@@ -92,7 +91,8 @@ export async function populatePage(limit=15) {
         category_links: element.category_ids,
       }, art_manifest
     );
-
+    
+    newArtsSection.removeChild(loader);
       
       if (status.Ok == true) { 
         // If the new artwork doesnt have an image don't show it. 
@@ -129,8 +129,60 @@ export async function displayArtist (id) {
 
 
     const card = createArtistInfo(artist);
-    artistInfo.appendChild(card);}
+    artistInfo.appendChild(card);
 
+
+    const artist_artworks = await find_artist_arts(artist.data.title);
+
+    if (artist_artworks.data.length) {
+      const artist_arts_header = document.createElement('h2');
+      artist_arts_header.className = 'artist-arts-header';
+      artist_arts_header.textContent =`Here are the arts created by this artist:`;
+      artistInfo.appendChild(artist_arts_header);
+    }
+      
+    for (let index = 0; index < artist_artworks.data.length; index++) {
+        let artwork = artist_artworks.data[index];
+        let api_link = artwork.api_link;
+        let art_id = artwork.id;
+
+        let loader = createLoader();
+        artistGrid.appendChild(loader);
+
+        let art_data = await find_art(art_id);
+        
+        if (art_data.data.image_id) {
+          var artImage = await find_art_image(art_data.data.image_id);
+          var art_manifest = await find_manifest(art_id);
+        } else {
+          var artImage = null;
+          var art_manifest = null;
+        }
+
+        let [card, status] = createNewArtwork({
+          title: art_data.data.title,
+          artists: art_data.data.artist_titles,
+          arists_links: art_data.data.artist_ids,
+          image: artImage,
+          id: art_data.data.id,
+          date: art_data.data.date_display,
+          short_description: art_data.data.short_description,
+          description: art_data.data.description,
+          history: art_data.data.exhibition_history,
+          color: art_data.data.color,
+          categories: art_data.data.category_titles,
+          category_links: art_data.data.category_ids,
+        }, art_manifest
+      );
+
+      artistGrid.removeChild(loader);
+      
+      if (status.Ok == true) { 
+        artistGrid.appendChild(card);
+      }
+        
+      }
+  }
   catch (error) {
       // Remove the loader
       // artistInfo.removeChild(loader);

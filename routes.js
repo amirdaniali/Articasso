@@ -210,6 +210,7 @@ export async function locationHandler() {
             
             if (currentView[1]) { // user has clicked an explicit-outbound link and needs to be shown the artist
                 artistInfo.innerHTML = '';
+                artistGrid.innerHTML = '';
                 previousStates['artist'].push(currentView[1]);
                 artistSearch.defaultValue = currentView[1];
                 try {
@@ -219,7 +220,7 @@ export async function locationHandler() {
                     artistInfo.appendChild(errorMessage);
                 }
             } else {
-                if (previousStates['artist'].length > 0) { // user hasn't requested and artist but has previously seen one
+                if (previousStates['artist'].length > 0) { // user hasn't requested an artist but has previously seen one
                     artistInfo.innerHTML = '';
                     artistSearch.defaultValue = previousStates['artist'].slice(-1)[0];
                     try {
@@ -246,9 +247,9 @@ export async function locationHandler() {
             
                 const searchValue = artistSearch.value.trim();
                 if (searchValue === '') {
-                const errorMessage = createErrorMessage('Please enter an ID to search.');
-                artistInfo.appendChild(errorMessage);
-                return;
+                    const errorMessage = createErrorMessage('Please enter an ID to search.');
+                    artistInfo.appendChild(errorMessage);
+                    return;
                 }
             
                 // Display either an artwork card or a post based on the entered ID

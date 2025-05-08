@@ -132,7 +132,7 @@ export async function find_artist(artist_id) {
         return returnResponse
 }
 
-export async function find_artist_arts(artist_id, artist_title) {
+export async function find_artist_arts(artist_title) {
     // // This function tries to search for all art made by a certain artist
     const addressURL = `https://api.artic.edu/api/v1/artworks/search?q=${artist_title}`
     const returnResponse = await fetch(addressURL, 
