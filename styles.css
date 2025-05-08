@@ -88,7 +88,7 @@ a:active {
   }
   
   /* Artworks Grid Styling */
-  .artworks-grid, .curated-arts {
+  .artworks-grid,.category-grid, .curated-arts {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
@@ -373,6 +373,24 @@ a:active {
 }
 
 .artist-arts-header {
+  font-size: 22px;
+  margin: 20px 0 30px;
+  /* justify-content: center; */
+  /* justify-items: center; */
+  /* justify-self: center; */
+  /* align-items: center; */
+  /* align-self: center; */
+  /* align-content: center; */
+  text-align: center;
+
+  color:#000;
+  display: block;
+  font-weight: 800;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+.category-arts-header {
   font-size: 22px;
   margin: 20px 0 30px;
   /* justify-content: center; */

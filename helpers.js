@@ -149,3 +149,22 @@ export async function find_artist_arts(artist_title) {
         })
         return returnResponse
 }
+
+
+export async function find_category_arts(category_title) {
+    // // This function tries to search for all art made by a certain artist
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?q=${category_title}`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+        }})    
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+        return returnResponse
+}

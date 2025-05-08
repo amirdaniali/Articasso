@@ -1,5 +1,5 @@
 import { createArtworkCard, createLoader,createNewArtwork , createErrorMessage, createArtistInfo, displayDayArtwork, createCategoryInfo, displayArtwork } from './components.js';
-import { find_art, find_recent_artworks, find_manifest, find_art_field, find_art_image, find_artist, find_category, find_artist_arts } from './helpers.js';
+import { find_art, find_recent_artworks, find_manifest, find_category_arts, find_art_field, find_art_image, find_artist, find_category, find_artist_arts } from './helpers.js';
 
 
 // Function to display artwork cards
@@ -209,7 +209,55 @@ export async function displayCategory (id) {
 
     const card = createCategoryInfo(category);
     categoryInfo.appendChild(card);
-  }  
+
+    const category_artworks = await find_category_arts(category.data.title);
+
+    if (category_artworks.data.length) {
+      const category_arts_header = document.createElement('h2');
+      category_arts_header.className = 'category-arts-header';
+      category_arts_header.textContent =`Here are the arts with this category:`;
+      categoryInfo.appendChild(category_arts_header);
+    }
+      
+    for (let index = 0; index < category_artworks.data.length; index++) {
+        let artwork = category_artworks.data[index];
+        let api_link = artwork.api_link;
+        let art_id = artwork.id;
+
+        let loader = createLoader();
+        categoryGrid.appendChild(loader);
+
+        let art_data = await find_art(art_id);
+        
+        if (art_data.data.image_id) {
+          var artImage = await find_art_image(art_data.data.image_id);
+          var art_manifest = await find_manifest(art_id);
+        } else {
+          var artImage = null;
+          var art_manifest = null;
+        }
+
+        let [card, status] = createNewArtwork({
+          title: art_data.data.title,
+          artists: art_data.data.artist_titles,
+          arists_links: art_data.data.artist_ids,
+          image: artImage,
+          id: art_data.data.id,
+          date: art_data.data.date_display,
+          short_description: art_data.data.short_description,
+          description: art_data.data.description,
+          history: art_data.data.exhibition_history,
+          color: art_data.data.color,
+          categories: art_data.data.category_titles,
+          category_links: art_data.data.category_ids,
+        }, art_manifest
+      );
+
+      categoryGrid.removeChild(loader);
+      
+      if (status.Ok == true) { 
+        categoryGrid.appendChild(card);
+      }}}
 
   catch (error) {
     console.log('Error:', error);
