@@ -27,7 +27,7 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
 
   // encountered when server has an issue and cannot show the image, then replace the image with placeholder
   image.addEventListener('error', function handleError() {
-    console.log(image.parentElement);
+    // console.log(image.parentElement);
     // image.parentElement.remove();
     console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
     const defaultImage = '/media/placeholder.jpg';
