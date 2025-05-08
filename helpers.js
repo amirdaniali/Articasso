@@ -134,7 +134,7 @@ export async function find_artist(artist_id) {
 
 export async function find_artist_arts(artist_title) {
     // // This function tries to search for all art made by a certain artist
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=100&q=${artist_title}`
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=25&q=${artist_title}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
@@ -153,7 +153,7 @@ export async function find_artist_arts(artist_title) {
 
 export async function find_category_arts(category_title) {
     // // This function tries to search for all art made by a certain artist
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=100&q=${category_title}`
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=25&q=${category_title}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
