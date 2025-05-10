@@ -152,8 +152,63 @@ export async function find_artist_arts(artist_title) {
 
 
 export async function find_category_arts(category_title) {
-    // // This function tries to search for all art made by a certain artist
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=25&q=${category_title}`
+    // // This function tries to search for all art in a certain category
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=100&q=${category_title}`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+        }})    
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+        return returnResponse
+}
+
+
+export async function search_arts(search_term) {
+    // // This function tries to search for all art with search_term in their metadata
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=100&q=${search_term}`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+        }})    
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+        return returnResponse
+}
+
+export async function search_categories(search_term) {
+    // // This function tries to search for all categories with search_term in their metadata
+    const addressURL = `https://api.artic.edu/api/v1/category-terms/search?limit=100&q=${search_term}`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+        }})    
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+        return returnResponse
+}
+
+export async function search_artists(search_term) {
+    // // This function tries to search for all artists with search_term in their metadata
+    const addressURL = `https://api.artic.edu/api/v1/agents/search?limit=100&q=${search_term}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent

@@ -16,14 +16,33 @@
   <!-- Header Section -->
   <header class="header-style">
     <h1>Artworks from the Art Institute of Chicago</h1>
-    <nav class="nav-bar">
-      <a class='explicit-outbound' href="/">Home</a>
+    <ul class="navigation">
+      <li><a href="/" class="explicit-outbound">Home</a></li>
       
-      <a class='explicit-outbound' href="/art">View Art</a>
-      <a class='explicit-outbound' href="/artist">View Artist</a>
-      <a class='explicit-outbound'  href="/category">View Category</a>
-      <a class='explicit-outbound' href="/about">About</a>
-    </nav>
+      <li class="dropdown">
+        <a href="" class="nav-group dropbtn">Artworks</a>
+        <div class="dropdown-content">
+          <a class="explicit-outbound" href="/art_search">Search Artworks</a>
+          <a class="explicit-outbound" href="/art">Artwork ID Lookup</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="" class="nav-group dropbtn">Artists</a>
+        <div class="dropdown-content">
+          <a class="explicit-outbound" href="/artist_search">Search Artists</a>
+          <a class="explicit-outbound" href="/artist">Artist ID Lookup</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="" class="nav-group dropbtn">Categories</a>
+        <div class="dropdown-content">
+          <a class="explicit-outbound" href="/category_search">Search Categories</a>
+          <a class="explicit-outbound" href="/category">Categories ID Lookup</a>
+        </div>
+      </li>
+      <li><a href="/about" class="explicit-outbound">About</a></li>
+    </ul>
+
   </header>
 
   <!-- Main Container -->

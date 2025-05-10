@@ -1,5 +1,13 @@
+import { displayArtworkPage,
+    populatePage,
+    displayArtist,
+    displayCategory,
+    displayCuratedlist,
+    displayArtworkofDay,
+    displayArtworkSearch,
+    displayArtistSearch,
+    displayCategorySearch } from './app.js';
 import { createErrorMessage } from './components.js';
-import {test_ids, displayArtworkPage, populatePage, displayArtist, displayCategory, displayCuratedlist, displayArtworkofDay } from './app.js';
 
 
 // In order to remember where the user has been before and what they have done we store this variable
@@ -15,33 +23,48 @@ const routes = {
     404: {
         template: "/routes/index.html",
         title: "Artic Arts Home",
-        description: "This is the home page",
+        description: "This is the home page.",
     },
     "": {
         template: "/routes/index.html",
         title: "Artic Arts Home",
-        description: "This is the home page",
+        description: "This is the home page.",
     },
     'about': {
         template: "/routes/about.html",
         title: "About",
-        description: "This is the about page",
+        description: "This is the about page.",
     },
     'art': {
         template: "/routes/art.html",
         title: "View Art",
-        description: "This is the art page",
+        description: "This is the art page.",
+    },
+    'art_search': {
+        template: "/routes/art_search.html",
+        title: "Search Art",
+        description: "This is the search for arts.",
     },
     'artist': {
         template: "/routes/artist.html",
         title: "View Artist",
-        description: "This is the artist page",
+        description: "This is the artist page.",
+    },
+    'artist_search': {
+        template: "/routes/artist_search.html",
+        title: "Search Artists",
+        description: "This is the page to search all artists.",
     },
     'category': {
         template: "/routes/category.html",
         title: "Art Category",
-        description: "This is the category page",
+        description: "This is the category page.",
     },
+    'category_search': {
+        template: "/routes/category_search.html",
+        title: "Search Categories",
+        description: "This is the page to search all categories.",
+    }
 };
 
 
@@ -58,6 +81,11 @@ document.addEventListener("click", (e) => {
     if (e.explicitOriginalTarget.className.includes("explicit-outbound") ){
         e.preventDefault();
         route();
+    }
+    else {
+        if (e.explicitOriginalTarget.className.includes("nav-group") ){
+            e.preventDefault();
+        }
     }
 
     
@@ -81,11 +109,12 @@ export async function locationHandler() {
         currentView = location.split('/');
         currentView.splice(0, 1);
     }
-    
+    // console.log('currentview:',currentView);
     // get the route object from the routes object
     const route = routes[currentView[0]] || routes["404"];
     // get the html from the template
     const html = await fetch(route.template).then((response) => response.text());
+    // console.log('html loaded:', html)
     // set the content of the content div to the html
     
 
@@ -97,9 +126,7 @@ export async function locationHandler() {
 
     }
     else {
-        document.getElementById("main-container").innerHTML = html; // All other routes use the main container.
-
-        
+        document.getElementById("main-container").innerHTML = html; // All other routes use the main container.       
     }
 
     // set the title of the document to the title of the route
@@ -109,8 +136,6 @@ export async function locationHandler() {
         .querySelector('meta[name="description"]')
         .setAttribute("content", route.description);
   
-
-    
     switch (currentView[0]) {
         case '':
             displayArtworkofDay();
@@ -118,7 +143,7 @@ export async function locationHandler() {
             displayCuratedlist();
             break;
 
-        case 'art':
+        case 'art': {
             // DOM Elements
             const artworksSection = document.getElementById('artworks');
             const searchBar = document.getElementById('search-bar');
@@ -199,8 +224,8 @@ export async function locationHandler() {
                 }}); 
                 
                 break;
-            
-        case 'artist':
+        }
+        case 'artist': {
 
             // DOM Elements
             const artistGrid = document.getElementById('artist-grid');
@@ -230,7 +255,6 @@ export async function locationHandler() {
                         artistInfo.appendChild(errorMessage);
                     }}
                     else {  // user hasn't been to this page before. show the welcome information.
-                        ArtistSearchButton.placeholder = "Artist ID";
                         artistInfo.innerHTML = '';
                         const information = document.createElement('div');
                         information.className = 'display-information';
@@ -279,15 +303,15 @@ export async function locationHandler() {
                     event.preventDefault();
                     // Trigger the button element with a click
                     console.log('Pressed Button with Enter');
-                    artistSearch.click();
+                    ArtistSearchButton.click();
                 }}); 
                 
                 break;
-                
+            }
         case 'about':
                 break;
 
-        case 'category':
+        case 'category': {
 
             // DOM Elements
             const categoryGrid = document.getElementById('category-grid');
@@ -369,6 +393,170 @@ export async function locationHandler() {
                 }}); 
 
                 break;
+            }
+            case 'art_search': {
+            // DOM Elements
+            const artworksSection = document.getElementById('artworks');
+            const searchBar = document.getElementById('search-bar');
+            const searchButton = document.getElementById('search-button');
+            
+            
+            searchBar.placeholder = "Search Art by Origin, Style or Artist";
+            artworksSection.innerHTML = '';
+            const information = document.createElement('div');
+            information.className = 'display-information';
+            information.innerHTML = 'Search for art in field above to view the artwork information.';
+            artworksSection.appendChild(information);
+            
+            
+
+            searchButton.addEventListener('click', async () => {
+                // Clear any existing content
+                artworksSection.innerHTML = '';
+            
+                const searchValue = searchBar.value.trim();
+                if (searchValue === '') {
+                const errorMessage = createErrorMessage('Please enter something to search.');
+                artworksSection.appendChild(errorMessage);
+                return;
+                }
+                
+                try {
+                    await displayArtworkSearch(searchValue); // Display artwork card
+                } catch (error) {
+                    const errorMessage = createErrorMessage(`There is a problem with your search term.`);
+                    artworksSection.appendChild(errorMessage);
+                    return 
+                }
+                }
+            );
+            
+                        
+            // Execute a function when the user presses a key on the keyboard
+                searchBar.addEventListener("keypress", function(event) {
+                    // If the user presses the "Enter" key on the keyboard
+                    if (event.key === "Enter") {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    console.log('Pressed Button with Enter');
+                    searchButton.click();
+                }}); 
+                
+                break;
+            }
+            case 'artist_search': {
+                // DOM Elements
+
+            const artistGrid = document.getElementById('artist-grid');
+            const artistSearch = document.getElementById('search-bar');
+            const ArtistSearchButton = document.getElementById('search-button');
+            const artistInfo = document.getElementById('artist-info');  
+            
+            artistInfo.innerHTML = '';
+            const information = document.createElement('div');
+            information.className = 'display-information';
+            information.innerHTML = 'Enter your search term in the field above to view the artist information. ';
+            artistInfo.appendChild(information);
+                    
+            ArtistSearchButton.addEventListener('click', async () => {
+                // Clear any existing content
+                artistGrid.innerHTML = '';
+                artistInfo.innerHTML = '';
+
+            
+                const searchValue = artistSearch.value.trim();
+                if (searchValue === '') {
+                    const errorMessage = createErrorMessage('Please enter something to search.');
+                    artistInfo.appendChild(errorMessage);
+                    return;
+                }
+                         
+                try {
+                    await displayArtistSearch(searchValue); // Display artwork card
+
+                } catch (error) {
+                    const errorMessage = createErrorMessage(`There is a problem with your search term.`);
+                    artistInfo.appendChild(errorMessage);
+                }
+                
+                }
+            );
+            
+            
+            // Execute a function when the user presses a key on the keyboard
+            artistSearch.addEventListener("keypress", function(event) {
+                    // If the user presses the "Enter" key on the keyboard
+                    if (event.key === "Enter") {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    console.log('Pressed Button with Enter');
+                    ArtistSearchButton.click();
+                }}); 
+
+                break
+            }
+
+
+            case 'category_search': {
+                console.log('Category Search Loaded');
+                // DOM Elements
+                const categoryGrid = document.getElementById('category-grid');
+                const categoryInfo = document.getElementById('category-info');
+                const categorySearch = document.getElementById('search-bar');
+                const categorySearchButton = document.getElementById('search-button');
+                
+                
+
+                categoryInfo.innerHTML = '';
+                const information = document.createElement('div');
+                information.className = 'display-information';
+                information.innerHTML = 'Enter your search term in the field above to view the category information. ';
+                categoryInfo.appendChild(information);
+                
+                
+    
+                categorySearchButton.addEventListener('click', async () => {
+                    // Clear any existing content
+                    categoryGrid.innerHTML = '';
+                    categoryInfo.innerHTML = '';
+    
+    
+                    const searchValue = categorySearch.value.trim();
+                    if (searchValue === '') {
+                    const errorMessage = createErrorMessage('Please enter something to search.');
+                    categoryInfo.appendChild(errorMessage);
+                    return;
+                    }
+                
+                    // Display either an artwork card or a post based on the entered ID
+                    
+                    try {
+                        await displayCategorySearch(searchValue); // Display artwork card
+    
+    
+                    } catch (error) {
+                        const errorMessage = createErrorMessage(`Something went wrong when searching.`);
+                        categoryInfo.appendChild(errorMessage);
+    
+                    }
+                                      
+                    }
+                );
+                
+               
+                // Execute a function when the user presses a key on the keyboard
+                categorySearch.addEventListener("keypress", function(event) {
+                        // If the user presses the "Enter" key on the keyboard
+                        if (event.key === "Enter") {
+                        // Cancel the default action, if needed
+                        event.preventDefault();
+                        // Trigger the button element with a click
+                        categorySearchButton.click();
+                    }}); 
+    
+                break;}
         default:
                 window.location.pathname = '/';
                 console.log('404 Encountered')
@@ -382,3 +570,6 @@ export async function locationHandler() {
 locationHandler();
 window.onpopstate = locationHandler;
 window.route = route;
+
+
+document.addEventListener("touchstart", function() {}, true);

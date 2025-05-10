@@ -669,3 +669,32 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
 
   return card;
 }
+
+
+// Component to create an Artist Search Result
+export function createArtistResult(data=null) {
+  const artistContainer = document.createElement('div');
+  artistContainer.className = 'small-result'; // Styling will be in styles.css
+  const aLink = document.createElement('a');
+  aLink.className = 'small-result-item explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
+  aLink.title = data.title || 'Unknown';
+  aLink.href = `/artist/${data.id}`;
+  aLink.textContent = data.title || 'Unknown';
+  artistContainer.appendChild(aLink);
+
+  return artistContainer;
+}
+
+// Component to create a category Search Result
+export function createCategoryResult(data=null) {
+  const categoryContainer = document.createElement('div');
+  categoryContainer.className = 'small-result'; // Styling will be in styles.css
+  const aLink = document.createElement('a');
+  aLink.className = 'small-result-item explicit-outbound'; // all links with explicit-outbound class will be handled by routes.js file
+  aLink.title = data.title || 'Unknown';
+  aLink.href = `/category/${data.id}`;
+  aLink.textContent = data.title || 'Unknown';
+  categoryContainer.appendChild(aLink);
+
+  return categoryContainer;
+}

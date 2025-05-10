@@ -1,5 +1,26 @@
-import { createArtworkCard, createLoader,createNewArtwork , createErrorMessage, createArtistInfo, displayDayArtwork, createCategoryInfo, displayArtwork } from './components.js';
-import { find_art, find_recent_artworks, find_manifest, find_category_arts, find_art_field, find_art_image, find_artist, find_category, find_artist_arts } from './helpers.js';
+import { createArtworkCard,
+  createLoader,
+  createNewArtwork,
+  createErrorMessage,
+  createArtistInfo,
+  displayDayArtwork,
+  createCategoryInfo,
+  displayArtwork,
+  createArtistResult,
+  createCategoryResult   } from './components.js';
+
+import { find_art,
+  find_recent_artworks,
+  search_artists,
+  search_categories,
+  search_arts,
+  find_manifest,
+  find_category_arts,
+  find_art_field,
+  find_art_image,
+  find_artist,
+  find_category,
+  find_artist_arts} from './helpers.js';
 
 
 // Function to display artwork cards
@@ -424,7 +445,7 @@ export async function test_ids() {
 
 
 
-// Function to display artwork cards
+// Function to display artwork of day cards 
 export async function displayArtworkofDay() {
   try {
     const artSection = document.getElementById('art-of-the-day');
@@ -490,5 +511,120 @@ export async function displayArtworkofDay() {
     console.error(error);
     const errorMessage = createErrorMessage('Failed to load artwork. Please try again.');
     artSection.appendChild(errorMessage);
+  }
+}
+
+
+// Function to display artwork Search Results
+export async function displayArtworkSearch(search_term) {
+  try {
+    const artworksSection = document.getElementById('artworks');
+
+    const searchresults = await search_arts(search_term);
+      
+    for (let index = 0; index < searchresults.data.length; index++) {
+        let artwork = searchresults.data[index];
+        let api_link = artwork.api_link;
+        let art_id = artwork.id;
+
+        let loader = createLoader();
+        artworksSection.appendChild(loader);
+
+        let art_data = await find_art(art_id);
+        
+        if (art_data.data.image_id) {
+          var artImage = await find_art_image(art_data.data.image_id);
+          var art_manifest = await find_manifest(art_id);
+        } else {
+          var artImage = null;
+          var art_manifest = null;
+        }
+
+        let [card, status] = createNewArtwork({
+          title: art_data.data.title,
+          artists: art_data.data.artist_titles,
+          arists_links: art_data.data.artist_ids,
+          image: artImage,
+          id: art_data.data.id,
+          date: art_data.data.date_display,
+          short_description: art_data.data.short_description,
+          description: art_data.data.description,
+          history: art_data.data.exhibition_history,
+          color: art_data.data.color,
+          categories: art_data.data.category_titles,
+          category_links: art_data.data.category_ids,
+        }, art_manifest
+      );
+
+      artworksSection.removeChild(loader);
+      
+      if (status.Ok == true) { 
+        artworksSection.appendChild(card);
+      }}}
+    catch (error) {
+    // Handle errors and show a message
+    
+    console.error(error);
+    const errorMessage = createErrorMessage('Failed to search artworks.');
+    artworksSection.appendChild(errorMessage);
+  }
+}
+
+
+// Function to display artist Search Results
+export async function displayArtistSearch(search_term) {
+  try {
+    const artistsSection = document.getElementById('artist-grid');
+
+    const searchresults = await search_artists(search_term);
+      
+    for (let index = 0; index < searchresults.data.length; index++) {
+        let artist = searchresults.data[index];
+
+        let loader = createLoader();
+        artistsSection.appendChild(loader);
+
+        let card = createArtistResult(artist);
+
+        artistsSection.removeChild(loader);
+        artistsSection.appendChild(card);
+      
+      }}
+    catch (error) {
+    // Handle errors and show a message
+    
+    console.error(error);
+    const errorMessage = createErrorMessage('Failed to search artists.');
+    artistsSection.appendChild(errorMessage);
+  }
+}
+
+
+
+// Function to display category Search Results
+export async function displayCategorySearch(search_term) {
+  try {
+    const categorySection = document.getElementById('category-grid');
+
+    const searchresults = await search_categories(search_term);
+      
+    for (let index = 0; index < searchresults.data.length; index++) {
+        let category = searchresults.data[index];
+
+        let loader = createLoader();
+        categorySection.appendChild(loader);
+
+        let card = createCategoryResult(category);
+
+        categorySection.removeChild(loader);
+        categorySection.appendChild(card);
+      
+      }}
+    catch (error) {
+    // Handle errors and show a message
+    
+    console.error(error);
+    const errorMessage = createErrorMessage('Failed to search artists.');
+    categorySection.appendChild(errorMessage);
   }
 }
