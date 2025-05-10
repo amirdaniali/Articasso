@@ -424,18 +424,34 @@ li.dropdown {
 .day-image-wrapper {
   box-sizing: border-box;
   margin-right: 10px;
-  max-width: 400px;
+  max-width: 700px;
+  overflow: hidden; 
 }
 
 /* Images shown on cards */
-.display-img, .day-img{
-  /* max-height:80vh; */
-  width: min(300px, max-width); 
-  padding: 0px;
-  margin: 0px;
-  margin-right: 10px;
+.display-img, .day-img {
+  width: min(700px, 100%); 
+  max-width: 100%; 
+  padding: 0;
+  margin: 0 10px; 
   border-radius: 20px;
+  display: block; 
 }
+
+/* Responsive Fix for Small Screens */
+@media (max-width: 500px) {
+  .day-image-wrapper {
+    max-width: 90vw; 
+  }
+
+  .display-img, .day-img {
+    width: 90vw; 
+    max-width: 90vw; 
+    margin: 0 auto; 
+  }
+}
+
+
 
 
 /* make the images scale on hover but not on mobile*/
