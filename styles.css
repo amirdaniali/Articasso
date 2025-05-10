@@ -1,48 +1,39 @@
-/* General Body Styling */
-
+/* General Body font style */
 * {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-a:link {
+/* Reset Link Styles */
+a:link , a:active, a:visited, a:hover {
     text-decoration: none;
 
 }
 
-a:visited {
-    text-decoration: none;
-
-}
-
-a:hover {
-    text-decoration: none;
-
-}
-
-a:active {
-    text-decoration: none;
-
-}
-
+/* Container uses grid layout */
 .navigation {
   width: 100%;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  list-style-type: none;
+  list-style: none;
   margin: 0;
   padding: 0;
-  
 }
+
 
 .navigation > li {
-  border-style: solid solid solid none;
-  border-color: #ccc;
-  border-width: 2px;
-  float: left;
+  border: 2px solid #ccc;
+  border-left: none;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Establish a positioning context for dropdowns */
 }
 
-.navigation > li > a, .dropbtn {
+/* Navigation links / buttons */
+.navigation > li > a,
+.dropbtn {
   display: inline-block;
   color: white;
   text-align: center;
@@ -50,70 +41,57 @@ a:active {
   text-decoration: none;
 }
 
-.navigation > li > a:hover, .dropbtn:hover {
+/* Hover and focus state for links */
+.navigation > li:hover,
+.dropDOWN:hover,
+.navigation > li:focus,
+.dropdown:focus {
   background-color: #004494;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-/* li a:hover, .dropdown:hover .dropbtn, .dropdown:active .dropbtn {
-  background-color: #004494; 
-  box-shadow: 0px 8px 16px 0px rgba(250, 250, 250, 0.2);
-  color: #f3f4f6; 
-} */
-
-.navigation > li , .navigation > li a {
-  box-sizing: border-box;
-  width:auto;
-  display: flex;
-  flex: 1;
-  /* text-align: center;
-  align-self: center;
-  align-items: center;
-  align-content: center; */
-  justify-content: center;
-  justify-items: center;
-}
-
+/* Dropdown container styling */
 li.dropdown {
   display: inline-block;
 }
 
 .dropdown-content {
   box-sizing: border-box;
-  box-sizing: border-box;
-  width:20%;
-   /* align-self: center;
-  align-items: center;
-  align-content: center; */
+  width: 100%;
   display: none;
   position: absolute;
+  top: 100%;  /* Position it directly below the parent */
+  left: 0;
   background-color: #0056b3;
   color: white;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  
 }
 
+/* Dropdown links */
 .dropdown-content a {
   color: white;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-
-  border-style: solid none;
-  border-color: #ccc;
-  border-width: 1px;
+  border: 1px solid #ccc;
 }
 
-.dropdown-content a:hover, .dropdown-content a:active {
-  background-color: #004494; 
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+/* Hover, focus, and active states for dropdown links */
+.dropdown-content a:hover,
+.dropdown-content a:active,
+.dropdown-content a:focus {
+  background-color: #004494;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   color: #f3f4f6;
 }
 
-.dropdown:hover .dropdown-content, .dropdown:active .dropdown-content {
+/* Show dropdown when the parent is hovered or receives focus-within.
+   The focus-within pseudo-class helps on mobile/Tap devices.
+*/
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content {
   display: block;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
     
@@ -140,6 +118,7 @@ li.dropdown {
   text-align: center;
 }
 
+/* All pages have a search bar */
 .search-bar {
   box-sizing: border-box;
   width: 100%;
@@ -150,6 +129,7 @@ li.dropdown {
   font-size: 16px;
 }
 
+/* A generic blue themed button to go with the artic theme */
 .search-button {
   box-sizing: border-box;
   width: 100%;
@@ -174,6 +154,7 @@ li.dropdown {
   gap: 20px;
 }
 
+/* These arts are the latest fetched by the api so they are smaller*/
   .new-arts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -200,8 +181,9 @@ li.dropdown {
   padding: 0;
 }
 
+/* Header for the pages */
 .about-header {
-color: #0056b3;
+  color: #0056b3;
   text-align: center;
   padding:  1px 0;
   margin: 0;
@@ -222,6 +204,7 @@ color: #0056b3;
   font-weight: bold;
 }
   
+/* When clicking artworks these cards are shown. */
 .artwork-card {
 
   border: 1px solid;
@@ -231,6 +214,7 @@ color: #0056b3;
   text-align: center;
 }
 
+/* The image for the artwork. */
 .artwork-card img {
   width: 100%;
   border-radius: 8px;
@@ -408,6 +392,7 @@ color: #0056b3;
   color:#000
 }
 
+/* Introdcutory texts on the homepage */
 .home-introduction > h2 {
   color: #004494;
   font-size: 32px;
@@ -419,9 +404,9 @@ color: #0056b3;
   align-self: center;
   align-content: center;
   text-align: center;
-
 }
 
+/* main artwork grid */
 .artwork-display {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -434,9 +419,9 @@ color: #0056b3;
   margin: 0px 20px 20px 20px;
   box-sizing:border-box;
   
-
 }
 
+/* Images shown on cards */
 .display-img, .day-img{
   /* max-height:80vh; */
   max-width: 100%; 
@@ -446,32 +431,27 @@ color: #0056b3;
   border-radius: 20px;
 }
 
-.card-img:hover {
+
+/* make the images scale on hover but not on mobile*/
+@media (hover: hover) and (pointer: fine) {
+  .day-img:hover {
+    transform: scale(1.1);
+    transition: transform 0.25s;
+  }
+  .card-img:hover {
   transform: scale(1.2);
   transition: .25s;
 }
+}
 
- .day-img:hover {
-  transform: scale(1.1);
-  transition: .25s;
-} 
-
-
+/* The title for the component */
 .display-title {
   font-size: 22px;
   margin: 20px 0 10px;
-  /* justify-content: center; */
-  /* justify-items: center; */
-  /* justify-self: center; */
-  /* align-items: center; */
-  /* align-self: center; */
-  /* align-content: center; */
   text-align: center;
-
   color:#000;
   display: block;
   font-weight: 800;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .artist-arts-header {
@@ -488,27 +468,18 @@ color: #0056b3;
   color:#000;
   display: block;
   font-weight: 800;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 
 .category-arts-header {
   font-size: 22px;
   margin: 20px 0 30px;
-  /* justify-content: center; */
-  /* justify-items: center; */
-  /* justify-self: center; */
-  /* align-items: center; */
-  /* align-self: center; */
-  /* align-content: center; */
   text-align: center;
-
   color:#000;
   display: block;
   font-weight: 800;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
+/* The artists and categories dates */
 .display-id, .display-date {
   color: #000;
   font-size: 16px;
@@ -520,13 +491,13 @@ color: #0056b3;
 }
 
 
-
+/* The artists and categories list */
 .display-header  {
   font-size: 20px;
   font-weight: 500;
-  /* padding: 10px 0px 10px 0px; */
 }
 
+/* The artists and categories list */
 .display-ul {
   list-style-type: none;
   align-items:center;
@@ -534,7 +505,7 @@ color: #0056b3;
   padding: 0;
 }
 
-
+/* The artists and categories list */
 .display-artists-wrapper, .display-categories-wrapper {
   width: 100%;
   display: grid;
@@ -545,6 +516,7 @@ color: #0056b3;
   box-sizing:border-box;
 }
 
+/* The artists and categories list */
 .display-list-item {
   padding-bottom: 10px;
   padding-top: 0px;
@@ -554,16 +526,15 @@ color: #0056b3;
 
 }
 
+/* The artists and categories list */
 .display-list-item:hover {
   padding-bottom: 10px;
   color:#444 !important;
   font-size: 18px;
 
 }
-
+/* The artists and categories list */
 .display-list-item > a, .display-list-item > a:visited {
-  
   padding: 5px;
-  
 }
 
