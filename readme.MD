@@ -18,6 +18,8 @@ git clone https://github.com/amirdaniali/Code-The-Dream.git
 
 ### Python Flask
 
+Since the project is a list of static files you can choose between 4 ways of serving the files. You can move onto other options if one doesn't work. First try the Flask method. Open `serve-flask.py` and change the `BASE_DIR` to the path that you downloaded the project then run the code below depending on your operating system. 
+
 On windows:
 
 ```bash
@@ -41,9 +43,9 @@ python ./serve-flask.py
 
 You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
 
-### Serving Using NPM
+### Serving Using NPM globally
 
-Then you need to be able to serve the files locally. One way is by using `node.js` and `http-server`. Make sure the npm global directory is added to the $PATH. If this method doesn't work, search google for `mac how to add npm to path` or `windows how to add npm to PATH`
+Another way is by using `node.js` and `http-server`. Make sure the npm global directory is added to the $PATH. If this method doesn't work, search google for `mac how to add npm to path` or `windows how to add npm to PATH`
 
 ```Bash
 cd path/to/the/project
@@ -51,7 +53,9 @@ npm install -g http-server
 http-server
  ```
 
-If you don't want to install http-server with globally, you can install it just for this project. Run: 
+### Serving Using NPM for this project
+
+If you don't want to install http-server globally, you can install it just for this project. Run: 
 
 ```bash
 cd path/to/the/project
@@ -79,7 +83,7 @@ The above method works well on windows, on mac you can get the path to the proje
 
 You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
 
-Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. You can also see the latest version of this repo hosted via github at: artic-arts.amirdaniali.com.
+Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. You can also see the latest version of this repo hosted via github at: [artic-arts.amirdaniali.com.]
 
 ## Design Decisions
 
