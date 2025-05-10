@@ -15,9 +15,35 @@ First download this repository with
 git clone https://github.com/amirdaniali/Code-The-Dream.git
 ```
 
+
+### Python Flask
+
+On windows:
+
+```bash
+
+cd path/to/the/project
+python -m venv ./venv
+./venv/Scripts/activate 
+python -m pip install flask
+python ./serve-flask.py
+
+```
+On mac and linux:
+```bash
+cd path/to/the/project
+python -m venv ./venv
+source ./venv/bin/activate
+python -m pip install flask
+python ./serve-flask.py
+```
+
+
+You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
+
 ### Serving Using NPM
 
-Then you need to be able to serve the files locally. One way is by using `node.js` and `http-server`:
+Then you need to be able to serve the files locally. One way is by using `node.js` and `http-server`. Make sure the npm global directory is added to the $PATH. If this method doesn't work, search google for `mac how to add npm to path` or `windows how to add npm to PATH`
 
 ```Bash
 cd path/to/the/project
@@ -25,7 +51,7 @@ npm install -g http-server
 http-server
  ```
 
-If http-server not Installed with -g  
+If you don't want to install http-server with globally, you can install it just for this project. Run: 
 
 ```bash
 cd path/to/the/project
@@ -33,30 +59,27 @@ npm install http-server
 ./node_modules/.bin/http-server
 ```
 
+You need to make sure you can view the node_modules folder created in the project directory. In case of any issues with your npm instalations, you can try yarn as a substitue. 
 
-You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
 
-On windows you can use powershell via windows terminal which allows the above syntax to function. For linux or mac the path to the node module could be different. You can download Node.js from [nodejs.org](https://nodejs.org/).
+Finally, you should be able to access the application on http://localhost:8080 or http://127.0.0.1:8080
 
-### Python
+On windows you can use powershell via windows terminal which allows the above syntax to function. For linux or mac the path to the node module could be different. You can download Node.js from [nodejs.org](https://nodejs.org/). Search google for specific npm instructions for your OS.
 
-Alternatively the static files can be served via a `python` `http.server`. You can open `serve.py` from the project directory via your IDE, change the path paramether to where you downloaded the project and run:
+### Python HTTP Server
+
+Alternatively the static files can be served via a `python` `http.server`. You can open `serve-http.py` from the project directory via your IDE, change the path paramether to where you downloaded the project and run:
 
 ```bash
 cd path/to/the/project
 python ./serve.py
 ```
 
-Or
-
-```bash
-cd path/to/the/project
-py serve.py
-```
+The above method works well on windows, on mac you can get the path to the project via finder and then change the path in `serve-http.py`. If you run into any issues you should search how to configure python http server for your OS to serve .
 
 You can then access the application on http://localhost:8080 or http://127.0.0.1:8080
 
-Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. 
+Should you run into any issues serving the files you can view the project screenshot in the media folder of this repository. You can also see the latest version of this repo hosted via github at: artic-arts.amirdaniali.com.
 
 ## Design Decisions
 
