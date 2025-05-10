@@ -421,10 +421,16 @@ li.dropdown {
   
 }
 
+.day-image-wrapper {
+  box-sizing: border-box;
+  margin-right: 10px;
+  max-width: 400px;
+}
+
 /* Images shown on cards */
 .display-img, .day-img{
   /* max-height:80vh; */
-  max-width: 100%; 
+  width: min(300px, max-width); 
   padding: 0px;
   margin: 0px;
   margin-right: 10px;
