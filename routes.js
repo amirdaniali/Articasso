@@ -150,8 +150,11 @@ export async function locationHandler() {
             const artworksSection = document.getElementById('artworks');
             const searchBar = document.getElementById('search-bar');
             const searchButton = document.getElementById('search-button');
+            const artInfo = document.getElementById('art-info');
+            console.log(artInfo);
             
             if (currentView[1]) { // user has clicked an explicit-outbound link, show the proper artwork
+                artInfo.innerHTML = '';
                 artworksSection.innerHTML = '';
                 previousStates['art'].push(currentView[1]);
                 searchBar.defaultValue = currentView[1];
@@ -163,7 +166,8 @@ export async function locationHandler() {
                 }
             } else { 
                 if (previousStates['art'].length > 0) { // user hasn't clicked any artwork but has previously seen an artwork
-                    artworksSection.innerHTML = '';
+                    artInfo.innerHTML = `<div>Since You previously looked up: ${previousStates['art'].slice(-1)[0]}<br></div>`;
+                    artworksSection.innerHTML = ``;
                     searchBar.defaultValue = previousStates['art'].slice(-1)[0];
                     try {
                         await displayArtworkPage(searchBar.defaultValue); // Display artwork card
@@ -175,17 +179,18 @@ export async function locationHandler() {
                     else { // This is the first time user is clicking the artwork page
                         searchBar.placeholder = "Artwork ID";
                         artworksSection.innerHTML = '';
+                        artInfo.innerHTML = ``;
                         const information = document.createElement('div');
                         information.className = 'display-information';
                         information.innerHTML = 'Enter a unique Artwork ID in the field above to view the artwork information. <br> You can also click on an artwork in the Home page to view the details for each art.';
-                        artworksSection.appendChild(information);
+                        artInfo.appendChild(information);
             }}
             
 
             searchButton.addEventListener('click', async () => {
                 // Clear any existing content
                 artworksSection.innerHTML = '';
-            
+                artInfo.innerHTML = ``;
                 const searchValue = searchBar.value.trim();
                 if (searchValue === '') {
                 const errorMessage = createErrorMessage('Please enter an ID to search.');
@@ -237,7 +242,7 @@ export async function locationHandler() {
             const artistInfo = document.getElementById('artist-info');  
             
             if (currentView[1]) { // user has clicked an explicit-outbound link and needs to be shown the artist
-                artistInfo.innerHTML = '';
+                artistInfo.innerHTML = ``;
                 artistGrid.innerHTML = '';
                 previousStates['artist'].push(currentView[1]);
                 artistSearch.defaultValue = currentView[1];
@@ -249,7 +254,8 @@ export async function locationHandler() {
                 }
             } else {
                 if (previousStates['artist'].length > 0) { // user hasn't requested an artist but has previously seen one
-                    artistInfo.innerHTML = '';
+                    artistInfo.innerHTML = `<div>Since You previously looked up: ${previousStates['artist'].slice(-1)[0]}<br></div>`;
+                    artistGrid.innerHTML = ``;
                     artistSearch.defaultValue = previousStates['artist'].slice(-1)[0];
                     try {
                         await displayArtist(artistSearch.defaultValue); // Display artist card previously shown
@@ -259,6 +265,7 @@ export async function locationHandler() {
                     }}
                     else {  // user hasn't been to this page before. show the welcome information.
                         artistInfo.innerHTML = '';
+                        artistGrid.innerHTML = ``;
                         const information = document.createElement('div');
                         information.className = 'display-information';
                         information.innerHTML = 'Enter an Artist ID in the field above to view the artist information. <br> You can also click on an artist link in the description of a any artwork you like.  ';
@@ -324,6 +331,7 @@ export async function locationHandler() {
             
             if (currentView[1]) { // try to show category id if user clicked on a link
                 categoryInfo.innerHTML = '';
+                categoryGrid.innerHTML = '';
                 categorySearch.defaultValue = currentView[1];
                 previousStates['category'].push(currentView[1]);
                 try {
@@ -334,7 +342,7 @@ export async function locationHandler() {
                 }
             } else { // If user has visited any valid category before switching to other tabs show it instead 
                 if (previousStates['category'].length > 0) {
-                    categoryInfo.innerHTML = '';
+                    categoryInfo.innerHTML = `<div>Since You previously looked up: ${previousStates['category'].slice(-1)[0]}<br></div>`;
                     categorySearch.defaultValue = previousStates['category'].slice(-1)[0];
                     try {
                         await displayCategory(categorySearch.defaultValue); // Display category card shown before
@@ -345,6 +353,7 @@ export async function locationHandler() {
                 else { // user hasn't visited categories tabs before, show placeholder.
                     categorySearch.placeholder = "Category ID";
                     categoryInfo.innerHTML = '';
+                    categoryGrid.innerHTML = ``;
                     const information = document.createElement('div');
                     information.className = 'display-information';
                     information.innerHTML = 'Enter a Category ID in the field above to view the category information. <br> You can also click on a category in the description of any art work that has one. ';
@@ -402,14 +411,14 @@ export async function locationHandler() {
             const artworksSection = document.getElementById('artworks');
             const searchBar = document.getElementById('search-bar');
             const searchButton = document.getElementById('search-button');
-            
-
+            const artInfo = document.getElementById('art-info');
 
             if (previousStates['art_search'].length > 0) { // user hasn't clicked any artwork but has previously seen an artwork
+                    artInfo.innerHTML = `<div>Since You previously searched for: ${previousStates['art_search'].slice(-1)[0]}<br></div>`;
                     artworksSection.innerHTML = '';
                     searchBar.defaultValue = previousStates['art_search'].slice(-1)[0];
                     try {
-                        await displayArtworkSearch(searchBar.defaultValue); // Display artwork card
+                        await displayArtworkSearch(previousStates['art_search'].slice(-1)[0]); // Display artwork card
                     } catch (error) {
                         const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['art'].slice(-1)[0]}`);
                         artworksSection.appendChild(errorMessage);
@@ -418,10 +427,11 @@ export async function locationHandler() {
             else { // This is the first time user is clicking the artwork page
                 searchBar.placeholder = "Search Art by Origin, Style or Artist";
                 artworksSection.innerHTML = '';
+                artInfo.innerHTML = '';
                 const information = document.createElement('div');
                 information.className = 'display-information';
                 information.innerHTML = 'Search for art in field above to view the artwork information.';
-                artworksSection.appendChild(information);
+                artInfo.appendChild(information);
             }
             
             
@@ -431,6 +441,7 @@ export async function locationHandler() {
             searchButton.addEventListener('click', async () => {
                 // Clear any existing content
                 artworksSection.innerHTML = '';
+                artInfo.innerHTML = '';
             
                 const searchValue = searchBar.value.trim();
                 if (searchValue === '') {
@@ -440,10 +451,10 @@ export async function locationHandler() {
                 }
                 
                 try {
-                    await displayArtworkSearch(searchValue); // Display search value
 
                     previousStates['art_search'].push(searchValue);
                     window.history.replaceState = `/art_search/${searchValue}`
+                    await displayArtworkSearch(searchValue); // Display search value
                     
                 } catch (error) {
                     const errorMessage = createErrorMessage(`There is a problem with your search term.`);
@@ -477,7 +488,7 @@ export async function locationHandler() {
             
 
             if (previousStates['artist_search'].length > 0) { // user hasn't requested an artist but has previously seen one
-                    artistInfo.innerHTML = '';
+                    artistInfo.innerHTML = `<div>Since You previously searched for: ${previousStates['artist_search'].slice(-1)[0]}<br></div>`;
                     artistSearch.defaultValue = previousStates['artist_search'].slice(-1)[0];
                     try {
                         await displayArtistSearch(artistSearch.defaultValue); // Display artists
@@ -487,6 +498,7 @@ export async function locationHandler() {
                     }}
             else {  // user hasn't been to this page before. show the welcome information.
                         artistInfo.innerHTML = '';
+                        artistGrid.innerHTML = '';
                         const information = document.createElement('div');
                         information.className = 'display-information';
                         information.innerHTML = 'Enter your search term in the field above to view the artist information. ';
@@ -510,9 +522,9 @@ export async function locationHandler() {
                 }
                          
                 try {
-                    await displayArtistSearch(searchValue); // Display artwork card
                     window.history.replaceState = `/artist_search/${searchValue}`;
                     previousStates['artist_search'].push(searchValue);
+                    await displayArtistSearch(searchValue); // Display artwork card
 
                 } catch (error) {
                     const errorMessage = createErrorMessage(`There is a problem with your search term.`);
@@ -547,7 +559,7 @@ export async function locationHandler() {
                 const categorySearchButton = document.getElementById('search-button');
                 
                 if (previousStates['category_search'].length > 0) {// If user has visited any valid category before switching to other tabs show it instead 
-                    categoryInfo.innerHTML = '';
+                    categoryInfo.innerHTML = `<div>Since You previously searched for: ${previousStates['category_search'].slice(-1)[0]}<br></div>`;
                     categorySearch.defaultValue = previousStates['category_search'].slice(-1)[0];
                     try {
                         await displayCategorySearch(categorySearch.defaultValue); // Display categories
@@ -579,9 +591,9 @@ export async function locationHandler() {
                     // Display either an artwork card or a post based on the entered ID
                     
                     try {
-                        await displayCategorySearch(searchValue); // Display artwork card
                         previousStates['category_search'].push(searchValue);
                         window.history.replaceState = `/category_search/${searchValue}`
+                        await displayCategorySearch(searchValue); // Display artwork card
     
     
                     } catch (error) {

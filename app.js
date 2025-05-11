@@ -357,6 +357,7 @@ export async function displayCuratedlist() {
 export async function displayArtworkPage(id) {
   try {
     const artworksSection = document.getElementById('artworks');
+    const artInfo = document.getElementById('art-info');
     // Create a loader while fetching data
     const loader = createLoader();
     artworksSection.appendChild(loader);
