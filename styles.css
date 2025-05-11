@@ -485,9 +485,21 @@ li.dropdown {
   font-size: 22px;
   margin: 20px 0 10px;
   text-align: center;
-  color:#000;
+  color: #000;
   display: block;
   font-weight: 800;
+  max-width: 100%; /* Ensures it doesn't exceed its container */
+  overflow-wrap: break-word; /* Allows long words to break */
+  word-wrap: break-word; /* Alternative for older browsers */
+  white-space: normal; /* Ensures text wraps */
+}
+
+/* Responsive Fix for Small Screens */
+@media (max-width: 500px) {
+  .display-title {
+    font-size: 18px; /* Reduce font size for smaller screens */
+    padding: 0 10px; /* Add padding to prevent overflow */
+  }
 }
 
 .artist-arts-header {
