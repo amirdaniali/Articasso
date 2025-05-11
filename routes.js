@@ -15,8 +15,10 @@ import { createErrorMessage } from './components.js';
 export var previousStates = { 
     'art': [],
     'artist': [],
-    'category': []
-}
+    'category': [], 
+    'art_search': [],
+    'artist_search': [],
+    'category_search': []}
 
 // These routes are the pagess the application will be able to redirect to. Otherwise 404 will kick in. 
 const routes = {
@@ -201,6 +203,7 @@ export async function locationHandler() {
                 
                 try {
                     await displayArtworkPage(id); // Display artwork card
+                    previousStates['art'].push(id);
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
                     artworksSection.appendChild(errorMessage);
@@ -400,13 +403,28 @@ export async function locationHandler() {
             const searchBar = document.getElementById('search-bar');
             const searchButton = document.getElementById('search-button');
             
+
+
+            if (previousStates['art_search'].length > 0) { // user hasn't clicked any artwork but has previously seen an artwork
+                    artworksSection.innerHTML = '';
+                    searchBar.defaultValue = previousStates['art_search'].slice(-1)[0];
+                    try {
+                        await displayArtworkSearch(searchBar.defaultValue); // Display artwork card
+                    } catch (error) {
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['art'].slice(-1)[0]}`);
+                        artworksSection.appendChild(errorMessage);
+                        
+                    }}
+            else { // This is the first time user is clicking the artwork page
+                searchBar.placeholder = "Search Art by Origin, Style or Artist";
+                artworksSection.innerHTML = '';
+                const information = document.createElement('div');
+                information.className = 'display-information';
+                information.innerHTML = 'Search for art in field above to view the artwork information.';
+                artworksSection.appendChild(information);
+            }
             
-            searchBar.placeholder = "Search Art by Origin, Style or Artist";
-            artworksSection.innerHTML = '';
-            const information = document.createElement('div');
-            information.className = 'display-information';
-            information.innerHTML = 'Search for art in field above to view the artwork information.';
-            artworksSection.appendChild(information);
+            
             
             
 
@@ -422,7 +440,11 @@ export async function locationHandler() {
                 }
                 
                 try {
-                    await displayArtworkSearch(searchValue); // Display artwork card
+                    await displayArtworkSearch(searchValue); // Display search value
+
+                    previousStates['art_search'].push(searchValue);
+                    window.history.replaceState = `/art_search/${searchValue}`
+                    
                 } catch (error) {
                     const errorMessage = createErrorMessage(`There is a problem with your search term.`);
                     artworksSection.appendChild(errorMessage);
@@ -453,11 +475,26 @@ export async function locationHandler() {
             const ArtistSearchButton = document.getElementById('search-button');
             const artistInfo = document.getElementById('artist-info');  
             
-            artistInfo.innerHTML = '';
-            const information = document.createElement('div');
-            information.className = 'display-information';
-            information.innerHTML = 'Enter your search term in the field above to view the artist information. ';
-            artistInfo.appendChild(information);
+
+            if (previousStates['artist_search'].length > 0) { // user hasn't requested an artist but has previously seen one
+                    artistInfo.innerHTML = '';
+                    artistSearch.defaultValue = previousStates['artist_search'].slice(-1)[0];
+                    try {
+                        await displayArtistSearch(artistSearch.defaultValue); // Display artists
+                    } catch (error) {
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['artist'].slice(-1)[0]}`);
+                        artistInfo.appendChild(errorMessage);
+                    }}
+            else {  // user hasn't been to this page before. show the welcome information.
+                        artistInfo.innerHTML = '';
+                        const information = document.createElement('div');
+                        information.className = 'display-information';
+                        information.innerHTML = 'Enter your search term in the field above to view the artist information. ';
+                        artistInfo.appendChild(information);
+                    }
+
+
+            
                     
             ArtistSearchButton.addEventListener('click', async () => {
                 // Clear any existing content
@@ -474,6 +511,8 @@ export async function locationHandler() {
                          
                 try {
                     await displayArtistSearch(searchValue); // Display artwork card
+                    window.history.replaceState = `/artist_search/${searchValue}`;
+                    previousStates['artist_search'].push(searchValue);
 
                 } catch (error) {
                     const errorMessage = createErrorMessage(`There is a problem with your search term.`);
@@ -507,15 +546,22 @@ export async function locationHandler() {
                 const categorySearch = document.getElementById('search-bar');
                 const categorySearchButton = document.getElementById('search-button');
                 
-                
-
-                categoryInfo.innerHTML = '';
+                if (previousStates['category_search'].length > 0) {// If user has visited any valid category before switching to other tabs show it instead 
+                    categoryInfo.innerHTML = '';
+                    categorySearch.defaultValue = previousStates['category_search'].slice(-1)[0];
+                    try {
+                        await displayCategorySearch(categorySearch.defaultValue); // Display categories
+                    } catch (error) {
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no category with id: ${previousStates['category'].slice(-1)[0]}`);
+                        categoryInfo.appendChild(errorMessage);
+                    }}
+                else { // user hasn't visited categories tabs before, show placeholder.
+                    categoryInfo.innerHTML = '';
                 const information = document.createElement('div');
                 information.className = 'display-information';
                 information.innerHTML = 'Enter your search term in the field above to view the category information. ';
                 categoryInfo.appendChild(information);
-                
-                
+            }                             
     
                 categorySearchButton.addEventListener('click', async () => {
                     // Clear any existing content
@@ -534,6 +580,8 @@ export async function locationHandler() {
                     
                     try {
                         await displayCategorySearch(searchValue); // Display artwork card
+                        previousStates['category_search'].push(searchValue);
+                        window.history.replaceState = `/category_search/${searchValue}`
     
     
                     } catch (error) {
