@@ -416,6 +416,22 @@ artSection.appendChild(card);
 ```
 
 
+## Gallery
+
+
+![Updated Homepage](./media/iMac.jpg "The main homepage.")
+The main homepage.
+
+![mobile view](./media/iPhone.jpg "Mobile view")
+Mobile view
+
+![Searching functionality for categories](./media/Africa.png "Searching for africa in categories.")
+Searching for africa in categories.
+
+
+![Searching functionality for arts](./media/Van_Gogh.png "Searching for van gogh in arts.")
+Searching for van gogh in arts.
+
 ## Conclusion
 
 By using the architecture mentioned above I can make multiple pages just behave like static files and besides needing a service to load the files, no resource is wasted with unneeded computations. All logic is client-side and the project can be used with minimal costs as long as the ARTIC Api remains online. 
