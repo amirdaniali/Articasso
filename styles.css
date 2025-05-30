@@ -62,7 +62,7 @@ li.dropdown {
   position: absolute;
   top: 100%;  /* Position it directly below the parent */
   left: 0;
-  background-color: #0056b3;
+  background-color: hsl(210, 100%, 40%);
   color: white;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -134,7 +134,7 @@ li.dropdown {
   box-sizing: border-box;
   width: 100%;
   padding: 10px;
-  background-color: #0056b3;
+  background-color: hsl(210, 100%, 40%);
   color: white;
   border: none;
   border-radius: 4px;
@@ -165,7 +165,7 @@ li.dropdown {
 
 /* Footer Styling */
 .footer-style {
-  background-color: #0056b3;
+  background-color: hsl(210, 100%, 40%);
   color: white;
   text-align: center;
   padding: 5px 0;
@@ -183,7 +183,7 @@ li.dropdown {
 
 /* Header for the pages */
 .about-header {
-  color: #0056b3;
+  color: hsl(210, 100%, 40%);
   text-align: center;
   padding:  1px 0;
   margin: 0;
@@ -194,7 +194,7 @@ li.dropdown {
 
 /* Header Styling */
 .header-style {
-  background-color: #0056b3;
+  background-color: hsl(210, 100%, 40%);
   color: white;
   text-align: center;
   padding:  1px 0;
@@ -318,7 +318,7 @@ li.dropdown {
 /* Loader Styling */
 .loader {
   font-size: 16px;
-  background-color: green;
+  background-color: hsl(200, 100%, 75%);
   color: #333;
   text-align: center;
   padding: 20px;
@@ -341,7 +341,7 @@ li.dropdown {
 
 /* Artist & Category Search Result Styling */
 .small-message {
-  color: #0056b3;
+  color: hsl(210, 100%, 40%);
   background-color: #59a5f7c4;
   border: 1px solid #1e8afdc4;
   padding: 15px;
