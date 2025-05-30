@@ -7,9 +7,15 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
 
 
   try {
-    card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    if (artwork.color.l > 40){
+      card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    }
+    else {
+      card.style.background = '#aaa';
+    }
+    
   } catch (error) {
-    card.style.background = '#aaa'
+    card.style.background = '#aaa';
   }
 
 
@@ -359,7 +365,13 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   // Change the backgroud color if image colors are available
 
   try {
-    card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    if (artwork.color.l > 40){
+      card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    }
+    else {
+      card.style.background = '#aaa';
+    }
+    
   } catch (error) {
     card.style.background = '#aaa';
   }
@@ -517,7 +529,13 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
   
   // Change the backgroud color if image colors are available
   try {
-    card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    if (artwork.color.l > 40){
+      card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    }
+    else {
+      card.style.background = '#aaa';
+    }
+    
   } catch (error) {
     card.style.background = '#aaa';
   }

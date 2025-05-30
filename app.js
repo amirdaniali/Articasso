@@ -127,6 +127,8 @@ export async function displayArtist (id) {
 
     const artist_artworks = await find_artist_arts(artist.data.title);
 
+    document.title = artist.data.title || 'View Artist';
+
     if (artist_artworks.data.length) {
       const artist_arts_header = document.createElement('h2');
       artist_arts_header.className = 'artist-arts-header';
@@ -224,6 +226,8 @@ export async function displayCategory (id) {
     categoryInfo.appendChild(card);
 
     const category_artworks = await find_category_arts(category.data.title);
+
+    document.title = category.data.title || 'View Category';
 
     if (category_artworks.data.length) {
       const category_arts_header = document.createElement('h2');
@@ -429,6 +433,7 @@ export async function displayArtworkPage(id) {
       } 
 
     // Remove the loader
+    document.title = artwork.data.title || 'View Art';
     artworksSection.removeChild(loader);
 
         // Create an artwork card and add it to the DOM
@@ -450,7 +455,7 @@ export async function displayArtworkPage(id) {
 
     } catch (error) {
       console.log('Error:', error);
-      const errorMessage = createErrorMessage(`Unexpected error occured while fetching artwork.`);
+      const errorMessage = createErrorMessage(`Cannot find the id in the Artic Database.`);
       artworksSection.appendChild(errorMessage);
     }
 
@@ -597,41 +602,60 @@ export async function displayArtworkofDay() {
 export async function displayArtworkSearch(search_term) {
   try {
     const artworksSection = document.getElementById('artworks');
-
+    let state = new State();
+    let loader = createLoader();
+    document.title = ('Search Art: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Art';
     const searchresults = await search_arts(search_term);
       
     for (let index = 0; index < searchresults.data.length; index++) {
-        let artwork = searchresults.data[index];
-        let api_link = artwork.api_link;
-        let art_id = artwork.id;
+      artworksSection.appendChild(loader);
+        
+      let artwork = searchresults.data[index];
+      let art_id = artwork.id;
+      let art_manifest;
+      let olddata;
+      let artImage;
+      let art_data;
 
-        let loader = createLoader();
-        artworksSection.appendChild(loader);
 
-        let art_data = await find_art(art_id);
+
+      if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = state.getState()[String(art_id)];
+        art_data = olddata['art'];
+        art_manifest = olddata['manifest'];
+        artImage = olddata['image'];
+      }
+      else { // Fetch artwork data
+        art_data = await find_art(art_id);
         
         if (art_data.data.image_id) {
-          var artImage = await find_art_image(art_data.data.image_id);
-          var art_manifest = await find_manifest(art_id);
+          artImage = await find_art_image(art_data.data.image_id);
+          art_manifest = await find_manifest(art_id);
         } else {
-          var artImage = null;
-          var art_manifest = null;
+          artImage = null;
+          art_manifest = null;
         }
+        state.add(String(artwork.id),{
+          'art' : art_data,
+          'manifest': art_manifest,
+          'image': artImage
+        })
+      }
 
-        let [card, status] = createNewArtwork({
-          title: art_data.data.title,
-          artists: art_data.data.artist_titles,
-          arists_links: art_data.data.artist_ids,
-          image: artImage,
-          id: art_data.data.id,
-          date: art_data.data.date_display,
-          short_description: art_data.data.short_description,
-          description: art_data.data.description,
-          history: art_data.data.exhibition_history,
-          color: art_data.data.color,
-          categories: art_data.data.category_titles,
-          category_links: art_data.data.category_ids,
-        }, art_manifest
+      let [card, status] = createNewArtwork({
+        title: art_data.data.title,
+        artists: art_data.data.artist_titles,
+        arists_links: art_data.data.artist_ids,
+        image: artImage,
+        id: art_data.data.id,
+        date: art_data.data.date_display,
+        short_description: art_data.data.short_description,
+        description: art_data.data.description,
+        history: art_data.data.exhibition_history,
+        color: art_data.data.color,
+        categories: art_data.data.category_titles,
+        category_links: art_data.data.category_ids,
+      }, art_manifest
       );
 
       artworksSection.removeChild(loader);
@@ -653,19 +677,20 @@ export async function displayArtworkSearch(search_term) {
 export async function displayArtistSearch(search_term) {
   try {
     const artistsSection = document.getElementById('artist-grid');
-
+    let loader = createLoader();
+    document.title = ('Search Artist: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Artist';
     const searchresults = await search_artists(search_term);
       
     for (let index = 0; index < searchresults.data.length; index++) {
-        let artist = searchresults.data[index];
+      artistsSection.appendChild(loader);
+      
+      
+      
+      let artist = searchresults.data[index];
+      let card = createArtistResult(artist);
 
-        let loader = createLoader();
-        artistsSection.appendChild(loader);
-
-        let card = createArtistResult(artist);
-
-        artistsSection.removeChild(loader);
-        artistsSection.appendChild(card);
+      artistsSection.removeChild(loader);
+      artistsSection.appendChild(card);
       
       }}
     catch (error) {
@@ -683,7 +708,7 @@ export async function displayArtistSearch(search_term) {
 export async function displayCategorySearch(search_term) {
   try {
     const categorySection = document.getElementById('category-grid');
-
+    document.title = ('Search Category: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Category';
     const searchresults = await search_categories(search_term);
       
     for (let index = 0; index < searchresults.data.length; index++) {
