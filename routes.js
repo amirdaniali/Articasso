@@ -10,18 +10,7 @@ import { displayArtworkPage,
 
 import { createErrorMessage } from './components.js';
 
-
-// In order to remember where the user has been before and what they have done we store this variable
-// Format {url: [url_state1, url_state2,...]}
-export let previousStates = { 
-    'art': [],
-    'artist': [],
-    'category': [], 
-    'art_search': [],
-    'artist_search': [],
-    'category_search': []
-};
-
+import { State } from './state.js'
 
 
 // These routes are the pagess the application will be able to redirect to. Otherwise 404 will kick in. 
@@ -160,7 +149,7 @@ export async function locationHandler() {
             if (currentView[1]) { // user has clicked an explicit-outbound link, show the proper artwork
                 artInfo.innerHTML = '';
                 artworksSection.innerHTML = '';
-                previousStates['art'].push(currentView[1]);
+                previousRoutes['art'].push(currentView[1]);
                 searchBar.defaultValue = currentView[1];
                 try {
                     await displayArtworkPage(currentView[1]); // Display artwork card
@@ -169,14 +158,14 @@ export async function locationHandler() {
                     artworksSection.appendChild(errorMessage);
                 }
             } else { 
-                if (previousStates['art'].length > 0) { // user hasn't clicked any artwork but has previously seen an artwork
-                    artInfo.innerHTML = `<div>Since You previously looked up: ${previousStates['art'].slice(-1)[0]}<br></div>`;
+                if (previousRoutes['art'].length > 0) { // user hasn't clicked any artwork but has previously seen an artwork
+                    artInfo.innerHTML = `<div>Since You previously looked up: ${previousRoutes['art'].slice(-1)[0]}<br></div>`;
                     artworksSection.innerHTML = ``;
-                    searchBar.defaultValue = previousStates['art'].slice(-1)[0];
+                    searchBar.defaultValue = previousRoutes['art'].slice(-1)[0];
                     try {
                         await displayArtworkPage(searchBar.defaultValue); // Display artwork card
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['art'].slice(-1)[0]}`);
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousRoutes['art'].slice(-1)[0]}`);
                         artworksSection.appendChild(errorMessage);
                         
                     }}
@@ -212,7 +201,7 @@ export async function locationHandler() {
                 
                 try {
                     await displayArtworkPage(id); // Display artwork card
-                    previousStates['art'].push(id);
+                    previousRoutes['art'].push(id);
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
                     artworksSection.appendChild(errorMessage);
@@ -248,7 +237,7 @@ export async function locationHandler() {
             if (currentView[1]) { // user has clicked an explicit-outbound link and needs to be shown the artist
                 artistInfo.innerHTML = ``;
                 artistGrid.innerHTML = '';
-                previousStates['artist'].push(currentView[1]);
+                previousRoutes['artist'].push(currentView[1]);
                 artistSearch.defaultValue = currentView[1];
                 try {
                     await displayArtist(currentView[1]); // Display artist card
@@ -257,14 +246,14 @@ export async function locationHandler() {
                     artistInfo.appendChild(errorMessage);
                 }
             } else {
-                if (previousStates['artist'].length > 0) { // user hasn't requested an artist but has previously seen one
-                    artistInfo.innerHTML = `<div>Since You previously looked up: ${previousStates['artist'].slice(-1)[0]}<br></div>`;
+                if (previousRoutes['artist'].length > 0) { // user hasn't requested an artist but has previously seen one
+                    artistInfo.innerHTML = `<div>Since You previously looked up: ${previousRoutes['artist'].slice(-1)[0]}<br></div>`;
                     artistGrid.innerHTML = ``;
-                    artistSearch.defaultValue = previousStates['artist'].slice(-1)[0];
+                    artistSearch.defaultValue = previousRoutes['artist'].slice(-1)[0];
                     try {
                         await displayArtist(artistSearch.defaultValue); // Display artist card previously shown
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['artist'].slice(-1)[0]}`);
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousRoutes['artist'].slice(-1)[0]}`);
                         artistInfo.appendChild(errorMessage);
                     }}
                     else {  // user hasn't been to this page before. show the welcome information.
@@ -294,7 +283,7 @@ export async function locationHandler() {
                 const id = parseInt(searchValue, 10);                
                 try {
                     await displayArtist(id); // Display artwork card
-                    previousStates['artist'].push(id);
+                    previousRoutes['artist'].push(id);
 
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${id}`);
@@ -337,7 +326,7 @@ export async function locationHandler() {
                 categoryInfo.innerHTML = '';
                 categoryGrid.innerHTML = '';
                 categorySearch.defaultValue = currentView[1];
-                previousStates['category'].push(currentView[1]);
+                previousRoutes['category'].push(currentView[1]);
                 try {
                     await displayCategory(currentView[1]); // Display category card
                 } catch (error) {
@@ -345,13 +334,13 @@ export async function locationHandler() {
                     categoryInfo.appendChild(errorMessage);
                 }
             } else { // If user has visited any valid category before switching to other tabs show it instead 
-                if (previousStates['category'].length > 0) {
-                    categoryInfo.innerHTML = `<div>Since You previously looked up: ${previousStates['category'].slice(-1)[0]}<br></div>`;
-                    categorySearch.defaultValue = previousStates['category'].slice(-1)[0];
+                if (previousRoutes['category'].length > 0) {
+                    categoryInfo.innerHTML = `<div>Since You previously looked up: ${previousRoutes['category'].slice(-1)[0]}<br></div>`;
+                    categorySearch.defaultValue = previousRoutes['category'].slice(-1)[0];
                     try {
                         await displayCategory(categorySearch.defaultValue); // Display category card shown before
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no category with id: ${previousStates['category'].slice(-1)[0]}`);
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no category with id: ${previousRoutes['category'].slice(-1)[0]}`);
                         categoryInfo.appendChild(errorMessage);
                     }}
                 else { // user hasn't visited categories tabs before, show placeholder.
@@ -383,7 +372,7 @@ export async function locationHandler() {
                 
                 try {
                     await displayCategory(id); // Display artwork card
-                    previousStates['category'].push(id);
+                    previousRoutes['category'].push(id);
 
 
                 } catch (error) {
@@ -417,14 +406,14 @@ export async function locationHandler() {
             const searchButton = document.getElementById('search-button');
             const artInfo = document.getElementById('art-info');
 
-            if (previousStates['art_search'].length > 0) { // user hasn't clicked any artwork but has previously seen an artwork
-                    artInfo.innerHTML = `<div>Since You previously searched for: ${previousStates['art_search'].slice(-1)[0]}<br></div>`;
+            if (previousRoutes['art_search'].length > 0) { // user hasn't clicked any artwork but has previously seen an artwork
+                    artInfo.innerHTML = `<div>Since You previously searched for: ${previousRoutes['art_search'].slice(-1)[0]}<br></div>`;
                     artworksSection.innerHTML = '';
-                    searchBar.defaultValue = previousStates['art_search'].slice(-1)[0];
+                    searchBar.defaultValue = previousRoutes['art_search'].slice(-1)[0];
                     try {
-                        await displayArtworkSearch(previousStates['art_search'].slice(-1)[0]); // Display artwork card
+                        await displayArtworkSearch(previousRoutes['art_search'].slice(-1)[0]); // Display artwork card
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['art'].slice(-1)[0]}`);
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousRoutes['art'].slice(-1)[0]}`);
                         artworksSection.appendChild(errorMessage);
                         
                     }}
@@ -456,7 +445,7 @@ export async function locationHandler() {
                 
                 try {
 
-                    previousStates['art_search'].push(searchValue);
+                    previousRoutes['art_search'].push(searchValue);
                     window.history.replaceState = `/art_search/${searchValue}`
                     await displayArtworkSearch(searchValue); // Display search value
                     
@@ -491,13 +480,13 @@ export async function locationHandler() {
             const artistInfo = document.getElementById('artist-info');  
             
 
-            if (previousStates['artist_search'].length > 0) { // user hasn't requested an artist but has previously seen one
-                    artistInfo.innerHTML = `<div>Since You previously searched for: ${previousStates['artist_search'].slice(-1)[0]}<br></div>`;
-                    artistSearch.defaultValue = previousStates['artist_search'].slice(-1)[0];
+            if (previousRoutes['artist_search'].length > 0) { // user hasn't requested an artist but has previously seen one
+                    artistInfo.innerHTML = `<div>Since You previously searched for: ${previousRoutes['artist_search'].slice(-1)[0]}<br></div>`;
+                    artistSearch.defaultValue = previousRoutes['artist_search'].slice(-1)[0];
                     try {
                         await displayArtistSearch(artistSearch.defaultValue); // Display artists
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousStates['artist'].slice(-1)[0]}`);
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${previousRoutes['artist'].slice(-1)[0]}`);
                         artistInfo.appendChild(errorMessage);
                     }}
             else {  // user hasn't been to this page before. show the welcome information.
@@ -527,7 +516,7 @@ export async function locationHandler() {
                          
                 try {
                     window.history.replaceState = `/artist_search/${searchValue}`;
-                    previousStates['artist_search'].push(searchValue);
+                    previousRoutes['artist_search'].push(searchValue);
                     await displayArtistSearch(searchValue); // Display artwork card
 
                 } catch (error) {
@@ -562,13 +551,13 @@ export async function locationHandler() {
                 const categorySearch = document.getElementById('search-bar');
                 const categorySearchButton = document.getElementById('search-button');
                 
-                if (previousStates['category_search'].length > 0) {// If user has visited any valid category before switching to other tabs show it instead 
-                    categoryInfo.innerHTML = `<div>Since You previously searched for: ${previousStates['category_search'].slice(-1)[0]}<br></div>`;
-                    categorySearch.defaultValue = previousStates['category_search'].slice(-1)[0];
+                if (previousRoutes['category_search'].length > 0) {// If user has visited any valid category before switching to other tabs show it instead 
+                    categoryInfo.innerHTML = `<div>Since You previously searched for: ${previousRoutes['category_search'].slice(-1)[0]}<br></div>`;
+                    categorySearch.defaultValue = previousRoutes['category_search'].slice(-1)[0];
                     try {
                         await displayCategorySearch(categorySearch.defaultValue); // Display categories
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no category with id: ${previousStates['category'].slice(-1)[0]}`);
+                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no category with id: ${previousRoutes['category'].slice(-1)[0]}`);
                         categoryInfo.appendChild(errorMessage);
                     }}
                 else { // user hasn't visited categories tabs before, show placeholder.
@@ -595,7 +584,7 @@ export async function locationHandler() {
                     // Display either an artwork card or a post based on the entered ID
                     
                     try {
-                        previousStates['category_search'].push(searchValue);
+                        previousRoutes['category_search'].push(searchValue);
                         window.history.replaceState = `/category_search/${searchValue}`
                         await displayCategorySearch(searchValue); // Display artwork card
     
@@ -628,6 +617,12 @@ export async function locationHandler() {
     }
 };
 
+document.addEventListener("touchstart", function() {}, true);
+
+// Initialize the State management
+let main_state = new State();
+let previousRoutes = main_state.getPreviousRoutes();
+
 
 
 // call the urlLocationHandler to load the page
@@ -636,4 +631,4 @@ window.onpopstate = locationHandler;
 window.route = route;
 
 
-document.addEventListener("touchstart", function() {}, true);
+

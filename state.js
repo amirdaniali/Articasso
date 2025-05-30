@@ -3,15 +3,35 @@ export class State {
     static artists = new Object();
     static categories = new Object();
 
+    // In order to remember where the user has been before and what they have done we store this variable
+    // Format {url: [url_state1, url_state2,...]}
+    static previousRoutes = { 
+        'art': [],
+        'artist': [],
+        'category': [], 
+        'art_search': [],
+        'artist_search': [],
+        'category_search': []
+};
+
+
     constructor() {
         
+    }
+
+    getPreviousRoutes(){
+        return State.previousRoutes;
+    }
+
+    addRoute(field, newRoute){
+        State.previousRoutes[field].push(newRoute);
     }
 
     addArt(new_id,new_data) {
         if (State.artworks.hasOwnProperty(new_id)) {
         }
         else {
-        State.artworks[new_id] = new_data;
+            State.artworks[new_id] = new_data;
         }
     }
 
@@ -32,7 +52,7 @@ export class State {
         if (State.artists.hasOwnProperty(new_id)) {
         }
         else {
-        State.artists[new_id] = new_data;
+            State.artists[new_id] = new_data;
         }
     }
 
@@ -53,7 +73,7 @@ export class State {
         if (State.categories.hasOwnProperty(new_id)) {
         }
         else {
-        State.categories[new_id] = new_data;
+            State.categories[new_id] = new_data;
         }
     }
 
@@ -70,3 +90,5 @@ export class State {
     }
 
 }
+
+
