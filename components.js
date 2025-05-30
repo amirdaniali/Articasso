@@ -11,11 +11,13 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
       card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
     }
     else {
-      card.style.background = '#aaa';
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
     }
     
   } catch (error) {
-    card.style.background = '#aaa';
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
   }
 
 
@@ -299,9 +301,17 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
   // Change the backgroud color if image colors are available
 
   try {
-    card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    if (artwork.color.l > 40){
+      card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    }
+    else {
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
+    }
+    
   } catch (error) {
-    card.style.background = '#aaa'
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
   }
 
 
@@ -369,11 +379,13 @@ export function displayArtwork(artwork, artwork_manifest= null) {
       card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
     }
     else {
-      card.style.background = '#aaa';
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
     }
     
   } catch (error) {
-    card.style.background = '#aaa';
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
   }
 
 
@@ -533,11 +545,13 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
       card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
     }
     else {
-      card.style.background = '#aaa';
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
     }
     
   } catch (error) {
-    card.style.background = '#aaa';
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
   }
 
 
