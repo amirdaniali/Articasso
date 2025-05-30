@@ -413,7 +413,7 @@ export async function displayArtworkPage(id) {
       if (state.hasArtID(String(id))) { // We have loaded the artwork before, no need to make a fetch request
         olddata = state.getState()[String(id)];
         artwork = olddata['art'];
-        console.log(olddata);
+        // console.log(olddata);
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
       }
@@ -539,7 +539,7 @@ export async function displayArtworkofDay() {
       if (state.hasArtID(String(id))) { // We have loaded the artwork before, no need to make a fetch request
         olddata = state.getState()[String(id)];
         artwork = olddata['art'];
-        console.log(olddata);
+        // console.log(olddata);
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
       }
