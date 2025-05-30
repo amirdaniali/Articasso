@@ -1,30 +1,72 @@
-
-
 export class State {
-    static state = new Object();
-    
+    static artworks = new Object();
+    static artists = new Object();
+    static categories = new Object();
+
     constructor() {
         
     }
 
-    add(new_id,new_data) {
-        if (State.state.hasOwnProperty(new_id)) {
+    addArt(new_id,new_data) {
+        if (State.artworks.hasOwnProperty(new_id)) {
         }
         else {
-        State.state[new_id] = new_data;
+        State.artworks[new_id] = new_data;
         }
     }
 
-    getState(){
-        return State.state;
+    getArtState(){
+        return State.artworks;
     }
 
     hasArtID(new_id){
-        return State.state.hasOwnProperty(new_id);
+        return State.artworks.hasOwnProperty(new_id);
     }
 
-    removeID(new_id){
-        delete State.state[new_id]
+    removeArtID(new_id){
+        delete State.artworks[new_id];
+    }
+
+
+    addArtist(new_id,new_data) {
+        if (State.artists.hasOwnProperty(new_id)) {
+        }
+        else {
+        State.artists[new_id] = new_data;
+        }
+    }
+
+    getArtistState(){
+        return State.artists;
+    }
+
+    hasArtistID(new_id){
+        return State.artists.hasOwnProperty(new_id);
+    }
+
+    removeArtistID(new_id){
+        delete State.artworks[new_id];
+    }
+
+
+    addCategory(new_id,new_data) {
+        if (State.categories.hasOwnProperty(new_id)) {
+        }
+        else {
+        State.categories[new_id] = new_data;
+        }
+    }
+
+    getCategoryState(){
+        return State.categories;
+    }
+
+    hasCategoryID(new_id){
+        return State.categories.hasOwnProperty(new_id);
+    }
+
+    removeCategoryID(new_id){
+        delete State.categories[new_id];
     }
 
 }

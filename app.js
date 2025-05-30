@@ -45,7 +45,7 @@ export async function populatePage(limit=15) {
       let artImage;
 
       if (state.hasArtID(String(element.id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getState()[String(element.id)];
+        olddata = state.getArtState()[String(element.id)];
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -64,7 +64,7 @@ export async function populatePage(limit=15) {
           'image': artImage
         };
         newData.art.data = element;
-        state.add(String(element.id), newData)
+        state.addArt(String(element.id), newData)
       } 
 
 
@@ -151,7 +151,7 @@ export async function displayArtist (id) {
       
       
       if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getState()[String(art_id)];
+        olddata = state.getArtState()[String(art_id)];
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -166,7 +166,7 @@ export async function displayArtist (id) {
           artImage = null;
           art_manifest = null;
         }
-        state.add(String(artwork.id),{
+        state.addArt(String(artwork.id),{
           'art' : art_data,
           'manifest': art_manifest,
           'image': artImage
@@ -251,7 +251,7 @@ export async function displayCategory (id) {
       
       
       if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getState()[String(art_id)];
+        olddata = state.getArtState()[String(art_id)];
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -266,7 +266,7 @@ export async function displayCategory (id) {
           artImage = null;
           art_manifest = null;
         }
-        state.add(String(artwork.id),{
+        state.addArt(String(artwork.id),{
           'art' : art_data,
           'manifest': art_manifest,
           'image': artImage
@@ -346,7 +346,7 @@ export async function displayCuratedlist() {
       let artImage;
 
       if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getState()[String(art_id)];
+        olddata = state.getArtState()[String(art_id)];
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -361,7 +361,7 @@ export async function displayCuratedlist() {
           artImage = null;
           art_manifest = null;
         }
-        state.add(String(art_id),{
+        state.addArt(String(art_id),{
           'art' : artwork,
           'manifest': art_manifest,
           'image': artImage
@@ -411,7 +411,7 @@ export async function displayArtworkPage(id) {
       let artImage;
 
       if (state.hasArtID(String(id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getState()[String(id)];
+        olddata = state.getArtState()[String(id)];
         artwork = olddata['art'];
         // console.log(olddata);
         art_manifest = olddata['manifest'];
@@ -425,7 +425,7 @@ export async function displayArtworkPage(id) {
         } else {
           artImage = null;
         }
-        state.add(String(id),{
+        state.addArt(String(id),{
           'art' : artwork,
           'manifest': art_manifest,
           'image': artImage
@@ -537,7 +537,7 @@ export async function displayArtworkofDay() {
       let artImage;
 
       if (state.hasArtID(String(id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getState()[String(id)];
+        olddata = state.getArtState()[String(id)];
         artwork = olddata['art'];
         // console.log(olddata);
         art_manifest = olddata['manifest'];
@@ -551,7 +551,7 @@ export async function displayArtworkofDay() {
         } else {
           artImage = null;
         }
-        state.add(String(id),{
+        state.addArt(String(id),{
           'art' : artwork,
           'manifest': art_manifest,
           'image': artImage
@@ -620,7 +620,7 @@ export async function displayArtworkSearch(search_term) {
 
 
       if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getState()[String(art_id)];
+        olddata = state.getArtState()[String(art_id)];
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -635,7 +635,7 @@ export async function displayArtworkSearch(search_term) {
           artImage = null;
           art_manifest = null;
         }
-        state.add(String(artwork.id),{
+        state.addArt(String(artwork.id),{
           'art' : art_data,
           'manifest': art_manifest,
           'image': artImage
@@ -684,8 +684,6 @@ export async function displayArtistSearch(search_term) {
     for (let index = 0; index < searchresults.data.length; index++) {
       artistsSection.appendChild(loader);
       
-      
-      
       let artist = searchresults.data[index];
       let card = createArtistResult(artist);
 
@@ -706,22 +704,23 @@ export async function displayArtistSearch(search_term) {
 
 // Function to display category Search Results
 export async function displayCategorySearch(search_term) {
+
+  let loader = createLoader();
   try {
     const categorySection = document.getElementById('category-grid');
     document.title = ('Search Category: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Category';
     const searchresults = await search_categories(search_term);
-      
+    
     for (let index = 0; index < searchresults.data.length; index++) {
-        let category = searchresults.data[index];
+         
+      let category = searchresults.data[index];
+      categorySection.appendChild(loader);
 
-        let loader = createLoader();
-        categorySection.appendChild(loader);
+      let card = createCategoryResult(category);
 
-        let card = createCategoryResult(category);
-
-        categorySection.removeChild(loader);
-        categorySection.appendChild(card);
-      
+      categorySection.removeChild(loader);
+      categorySection.appendChild(card);
+    
       }}
     catch (error) {
     // Handle errors and show a message

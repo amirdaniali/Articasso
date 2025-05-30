@@ -3,26 +3,24 @@ import { displayArtworkPage,
     displayArtist,
     displayCategory,
     displayCuratedlist,
+    displayArtistSearch,
     displayArtworkofDay,
     displayArtworkSearch,
-    displayArtistSearch,
     displayCategorySearch } from './app.js';
+
 import { createErrorMessage } from './components.js';
-
-import {State} from './state.js';
-
-export let mainState = new State();
 
 
 // In order to remember where the user has been before and what they have done we store this variable
 // Format {url: [url_state1, url_state2,...]}
-export var previousStates = { 
+export let previousStates = { 
     'art': [],
     'artist': [],
     'category': [], 
     'art_search': [],
     'artist_search': [],
-    'category_search': []};
+    'category_search': []
+};
 
 
 
