@@ -1,4 +1,4 @@
-export async function find_art(id = 129884, all_fields = true) {
+export async function find_art(id, all_fields = false) {
     // This function returns the json data from the api related to the art with id = {id}
 
     // if only a small selection of data is needed we can request them by setting all_fields = false
@@ -24,7 +24,7 @@ export async function find_art(id = 129884, all_fields = true) {
         return returnResponse
 }
 
-export async function find_manifest(id = 129884) {
+export async function find_manifest(id) {
     // This function returns the art manifest json object
     // The manifest often includes some other useful data not retured by the other route. It often has better descriptions too.
     
@@ -51,7 +51,7 @@ export async function find_manifest(id = 129884) {
 
 
 
-export async function find_art_field(id = 129884, field = none) {
+export async function find_art_field(id, field = false) {
     // This function returns the value from a single field of an artwork data
     const address_parameters = field ? `?fields=${field}` : ``;
     const addressURL = `https://api.artic.edu/api/v1/artworks/${id}${address_parameters}`
@@ -91,7 +91,7 @@ export async function find_recent_artworks(limit) {
 }
 
 
-export async function find_category( category_id, limit = 15) {
+export async function find_category( category_id) {
     // This function returns the category data json object from the api
     const addressURL = `https://api.artic.edu/api/v1/category-terms/${category_id}`
     const returnResponse = await fetch(addressURL, 
@@ -134,7 +134,7 @@ export async function find_artist(artist_id) {
 
 export async function find_artist_arts(artist_title) {
     // // This function tries to search for all art made by a certain artist
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=25&q=${artist_title}`
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${artist_title}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
@@ -153,7 +153,7 @@ export async function find_artist_arts(artist_title) {
 
 export async function find_category_arts(category_title) {
     // // This function tries to search for all art in a certain category
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=100&q=${category_title}`
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${category_title}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
@@ -172,7 +172,7 @@ export async function find_category_arts(category_title) {
 
 export async function search_arts(search_term) {
     // // This function tries to search for all art with search_term in their metadata
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=100&q=${search_term}`
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${search_term}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
