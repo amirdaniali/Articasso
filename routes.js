@@ -9,6 +9,10 @@ import { displayArtworkPage,
     displayCategorySearch } from './app.js';
 import { createErrorMessage } from './components.js';
 
+import {State} from './state.js';
+
+export let mainState = new State();
+
 
 // In order to remember where the user has been before and what they have done we store this variable
 // Format {url: [url_state1, url_state2,...]}
@@ -18,7 +22,9 @@ export var previousStates = {
     'category': [], 
     'art_search': [],
     'artist_search': [],
-    'category_search': []}
+    'category_search': []};
+
+
 
 // These routes are the pagess the application will be able to redirect to. Otherwise 404 will kick in. 
 const routes = {
@@ -151,7 +157,7 @@ export async function locationHandler() {
             const searchBar = document.getElementById('search-bar');
             const searchButton = document.getElementById('search-button');
             const artInfo = document.getElementById('art-info');
-            console.log(artInfo);
+            
             
             if (currentView[1]) { // user has clicked an explicit-outbound link, show the proper artwork
                 artInfo.innerHTML = '';
