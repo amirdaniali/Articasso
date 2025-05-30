@@ -27,7 +27,7 @@ import {State,
 
 
 
-export async function populatePage(limit=15) {
+export async function populatePage(limit=25) {
   const newArtsSection = document.getElementById('new-arts');
   
   try {
@@ -478,7 +478,7 @@ export async function test_ids() {
   const status = {};
   status.Ok = [];
   status.Bad = [];
-  var index = 0
+  let index = 0;
   while (status.Ok.length < 370) {
     let new_id = initial_id + index;
     try {
@@ -495,7 +495,7 @@ export async function test_ids() {
     }
     index++
   }
-  for (let index = 0; index < status.Ok.length; index++) {
+  for (index = 0; index < status.Ok.length; index++) {
     const element = status.Ok[index];
     console.log(element);
     
@@ -604,6 +604,8 @@ export async function displayArtworkSearch(search_term) {
     const artworksSection = document.getElementById('artworks');
     let state = new State();
     let loader = createLoader();
+
+    // Capitalize each word
     document.title = ('Search Art: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Art';
     const searchresults = await search_arts(search_term);
       
@@ -678,6 +680,8 @@ export async function displayArtistSearch(search_term) {
   try {
     const artistsSection = document.getElementById('artist-grid');
     let loader = createLoader();
+
+    // Capitalize each word
     document.title = ('Search Artist: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Artist';
     const searchresults = await search_artists(search_term);
       
@@ -708,7 +712,9 @@ export async function displayCategorySearch(search_term) {
   let loader = createLoader();
   try {
     const categorySection = document.getElementById('category-grid');
-    document.title = ('Search Category: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Category';
+
+    // Capitalize each word
+    document.title = ('Search Category: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Category'; 
     const searchresults = await search_categories(search_term);
     
     for (let index = 0; index < searchresults.data.length; index++) {
@@ -730,3 +736,5 @@ export async function displayCategorySearch(search_term) {
     categorySection.appendChild(errorMessage);
   }
 }
+
+
