@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 
+ http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator https://sitemap-generator.org/ -->
+  <url>
+   <loc>https://articasso.org/</loc>
+   <lastmod>2025-06-01T23:20:47.255Z</lastmod>
+   <priority>1.00</priority>
+ </url>
+  <url>
+   <loc>https://articasso.org/art_search</loc>
+   <lastmod>2025-06-01T23:20:47.255Z</lastmod>
+   <priority>0.80</priority>
+ </url>
+  <url>
+   <loc>https://articasso.org/art</loc>
+   <lastmod>2025-06-01T23:20:47.255Z</lastmod>
+   <priority>0.80</priority>
+ </url>
+  <url>
+   <loc>https://articasso.org/artist_search</loc>
+   <lastmod>2025-06-01T23:20:47.255Z</lastmod>
+   <priority>0.80</priority>
+ </url>
+  <url>
+   <loc>https://articasso.org/artist</loc>
+   <lastmod>2025-06-01T23:20:47.255Z</lastmod>
+   <priority>0.80</priority>
+ </url>
+  <url>
+   <loc>https://articasso.org/category_search</loc>
+   <lastmod>2025-06-01T23:20:47.255Z</lastmod>
+   <priority>0.80</priority>
+ </url>
+  <url>
+   <loc>https://articasso.org/category</loc>
+   <lastmod>2025-06-01T23:20:47.255Z</lastmod>
+   <priority>0.80</priority>
+ </url>
+  <url>
+   <loc>https://articasso.org/about</loc>
+   <lastmod>2025-06-01T23:20:47.255Z</lastmod>
+   <priority>0.80</priority>
+ </url>
+</urlset>
