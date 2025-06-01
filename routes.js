@@ -17,13 +17,13 @@ import { State } from './state.js'
 const routes = {
     404: {
         template: "/routes/index.html",
-        title: "Artic Arts Home",
-        description: "This is the home page.",
+        title: "Articasso",
+        description: "Welcome to Articasso where you can view millions of artworks made by over 16000 artists.",
     },
     "": {
         template: "/routes/index.html",
-        title: "Artic Arts Home",
-        description: "This is the home page.",
+        title: "Articasso",
+        description: "Welcome to Articasso where you can view millions of artworks made by over 16000 artists.",
     },
     'about': {
         template: "/routes/about.html",
