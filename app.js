@@ -44,8 +44,10 @@ export async function populatePage(limit=25) {
       let olddata;
       let artImage;
 
-      if (state.hasArtID(String(element.id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getArtState()[String(element.id)];
+      let artExists = await state.hasItem("artworksStore", String(element.id));
+
+      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = await state.getState("artworksStore", String(element.id));
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -64,7 +66,7 @@ export async function populatePage(limit=25) {
           'image': artImage
         };
         newData.art.data = element;
-        state.addArt(String(element.id), newData)
+        state.addItem("artworksStore", String(element.id), newData);
       } 
 
 
@@ -148,10 +150,10 @@ export async function displayArtist (id) {
       let olddata;
       let artImage;
       let art_data;
-      
-      
-      if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getArtState()[String(art_id)];
+        
+      let artExists = await state.hasItem("artworksStore", String(art_id));
+      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = await state.getState("artworksStore", String(art_id));
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -166,11 +168,10 @@ export async function displayArtist (id) {
           artImage = null;
           art_manifest = null;
         }
-        state.addArt(String(artwork.id),{
-          'art' : art_data,
+        state.addItem("artworksStore", String(artwork.id), 
+          { 'art' : art_data, 
           'manifest': art_manifest,
-          'image': artImage
-        })
+          'image': artImage})
       } 
 
 
@@ -249,9 +250,9 @@ export async function displayCategory (id) {
       let artImage;
       let art_data;
       
-      
-      if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getArtState()[String(art_id)];
+      let artExists = await state.hasItem("artworksStore", String(art_id));
+      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = await state.getState("artworksStore", String(art_id));
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -266,11 +267,12 @@ export async function displayCategory (id) {
           artImage = null;
           art_manifest = null;
         }
-        state.addArt(String(artwork.id),{
+        let newData = {
           'art' : art_data,
           'manifest': art_manifest,
           'image': artImage
-        })
+        };
+        state.addItem("artworksStore", String(artwork.id), newData);
       }
 
         let [card, status] = createNewArtwork({
@@ -345,8 +347,9 @@ export async function displayCuratedlist() {
       let olddata;
       let artImage;
 
-      if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getArtState()[String(art_id)];
+      let artExists = await state.hasItem("artworksStore", String(art_id));
+      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = await state.getState("artworksStore", String(art_id));
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -361,11 +364,12 @@ export async function displayCuratedlist() {
           artImage = null;
           art_manifest = null;
         }
-        state.addArt(String(art_id),{
+        let newData = {
           'art' : artwork,
           'manifest': art_manifest,
           'image': artImage
-        })
+        };
+        state.addItem("artworksStore", String(art_id), newData);
       } 
 
       const card = createArtworkCard({
@@ -410,10 +414,10 @@ export async function displayArtworkPage(id) {
       let olddata;
       let artImage;
 
-      if (state.hasArtID(String(id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getArtState()[String(id)];
+      let artExists = await state.hasItem("artworksStore", String(id));
+      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = await state.getState("artworksStore", String(id));
         artwork = olddata['art'];
-        // console.log(olddata);
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
       }
@@ -425,11 +429,12 @@ export async function displayArtworkPage(id) {
         } else {
           artImage = null;
         }
-        state.addArt(String(id),{
+        let newData = {
           'art' : artwork,
           'manifest': art_manifest,
           'image': artImage
-        })
+        };
+        state.addItem("artworksStore", String(id), newData);
       } 
 
     // Remove the loader
@@ -536,27 +541,28 @@ export async function displayArtworkofDay() {
       let olddata;
       let artImage;
 
-      if (state.hasArtID(String(id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getArtState()[String(id)];
+      let artExists = await state.hasItem("artworksStore", String(id));
+      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = await state.getState("artworksStore", String(id));
         artwork = olddata['art'];
-        // console.log(olddata);
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
       }
       else { // Fetch artwork data
-          artwork = await find_art(id, false);
-          art_manifest = await find_manifest(id);
+        artwork = await find_art(id, false);
+        art_manifest = await find_manifest(id);
         if (artwork.data.image_id) {
           artImage = await find_art_image(artwork.data.image_id)
         } else {
           artImage = null;
         }
-        state.addArt(String(id),{
+        let newData = {
           'art' : artwork,
           'manifest': art_manifest,
           'image': artImage
-        })
-      }
+        };
+        state.addItem("artworksStore", String(id), newData);
+      } 
 
     
     // Remove the loader
@@ -620,9 +626,9 @@ export async function displayArtworkSearch(search_term) {
       let art_data;
 
 
-
-      if (state.hasArtID(String(art_id))) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = state.getArtState()[String(art_id)];
+      let artExists = await state.hasItem("artworksStore", String(art_id));
+      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = await state.getState("artworksStore", String(art_id));
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
         artImage = olddata['image'];
@@ -637,7 +643,7 @@ export async function displayArtworkSearch(search_term) {
           artImage = null;
           art_manifest = null;
         }
-        state.addArt(String(artwork.id),{
+        state.addItem("artworksStore", String(art_id),{
           'art' : art_data,
           'manifest': art_manifest,
           'image': artImage
