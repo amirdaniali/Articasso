@@ -1,8 +1,11 @@
-import { displayArtworkPage,
-    displayRecentFeed,
+import { 
     displayArtist,
+    displayFeedPage,
     displayCategory,
+    displayRecentFeed,
     displayCuratedlist,
+    displayArtworkPage,
+    displayOdysseyPage,
     displayArtistSearch,
     displayArtworkofDay,
     displayArtworkSearch,
@@ -556,9 +559,11 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
             }
 
             case 'odyssey': {
+                displayOdysseyPage();
                 break
             }
             case 'feed': {
+                displayFeedPage();
                 break
             }
             case 'category_search': {

@@ -32,8 +32,10 @@ import { State,
 } from './state.js';
 
 
-
-export async function displayRecentFeed(limit=25) {
+// Feed is one of the first sections the user sees in the homepage. 
+// Don't mistake this for displayFeedPage; that one loads the feed page
+// This function just loads the homepage part
+export async function displayRecentFeed(limit=24) {
   const newArtsSection = document.getElementById('new-arts');
   
   try {
@@ -103,12 +105,9 @@ export async function displayRecentFeed(limit=25) {
       }
       
     }
-    
-      let currentDisplayData = {'page': 0, 'lastFetched': limit};
       const feedHandler = feedCard();
       newArtsSection.appendChild(feedHandler);
 
-  
   }
           
     catch (error) {
@@ -763,4 +762,96 @@ export async function displayCategorySearch(search_term) {
   }
 }
 
+
+
+// todo
+// Function to display the feed page
+export async function displayFeedPage(pageNumber = 0, itemsPerPage = 25) {
+  const newArtsSection = document.getElementById('new-arts');
+  
+  try {
+    const newArtworks = await find_recent_artworks(limit);
+    let state = new State();
+
+    for (let index = 0; index < limit; index++) {
+      const element = newArtworks.data[index];
+      const loader = createLoader();
+      newArtsSection.appendChild(loader);
+
+      let artwork;
+      let art_manifest;
+      let olddata;
+      let art_image;
+
+      let artExists = await state.hasItem("artworksStore", String(element.id));
+
+      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+        olddata = await state.getState("artworksStore", String(element.id));
+        artwork = olddata['art'];
+        art_manifest = olddata['manifest'];
+        art_image = olddata['image'];
+      }
+      else { // Fetch artwork data
+        if (element.image_id) {
+          art_image = await find_art_image(element.image_id);
+          art_manifest = await find_manifest(element.id);
+        } else {
+          art_image = null;
+          art_manifest = null;
+        }
+        let newData = {
+          'art' : element,
+          'manifest': art_manifest,
+          'image': art_image
+        };
+        newData.art.data = element;
+        state.addItem("artworksStore", String(element.id), newData);
+      } 
+
+
+      
+      const [card, status] = createNewArtwork({
+        title: element.title,
+        artists: element.artist_titles,
+        arists_links: element.artist_ids,
+        image: art_image,
+        id: element.id,
+        date: element.date_display,
+        short_description: element.short_description,
+        description: element.description,
+        history: element.exhibition_history,
+        color: element.color,
+        categories: element.category_titles,
+        category_links: element.category_ids,
+      }, art_manifest
+    );
+    
+    newArtsSection.removeChild(loader);
+      
+      if (status.Ok == true) { 
+        // If the new artwork doesnt have an image don't show it. 
+        // I chose this behavior because most of the latest fetched arts don't have an image attached and they will be attached later on. 
+        // but if I show all of them the users will think its an error of the website and not a characteristic of the API
+        newArtsSection.appendChild(card);
+      }
+      
+    }
+    
+
+
+  
+  }
+          
+    catch (error) {
+      // Remove the loader
+      console.log('Error:', error);
+      const errorMessage = createErrorMessage(`Problem Fetching New Arts.`);
+      newArtsSection.appendChild(errorMessage);
+    }
+}
+
+// Function to display category Search Results
+export async function displayOdysseyPage() {
+
+}
 
