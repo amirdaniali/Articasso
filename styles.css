@@ -1,7 +1,10 @@
 /* General Body font style */
 * {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+  /* font-family: "Proza Libre", sans-serif */
+  font-family: "Karla", sans-serif;
 }
+
 
 /* Reset Link Styles */
 a:link , a:active, a:visited, a:hover {
@@ -197,13 +200,17 @@ li.dropdown {
   background-color: hsl(210, 100%, 40%);
   color: white;
   text-align: center;
-  padding:  1px 0;
-  margin: 0;
+  padding:  1px 0px;
+  margin: 0px;
   display: block;
-  font-size: 18px;
-  font-weight: bold;
+
 }
   
+.header-style h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: "Delius Swash Caps", cursive;
+}
 /* When clicking artworks these cards are shown. */
 .artwork-card {
 
@@ -226,8 +233,8 @@ li.dropdown {
   margin: 10px 0;
   color:#000;
   display: block;
-  font-weight: 800;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bold;
+  font-family: "Delius Swash Caps", cursive;
 }
 
 
@@ -260,7 +267,7 @@ li.dropdown {
 
 .card-header  {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .card-ul {
@@ -355,7 +362,7 @@ li.dropdown {
   align-content: center;
   text-align: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
@@ -382,13 +389,13 @@ li.dropdown {
 
 .artist-title , .category-title  {
   font-size: 22px;
-  font-weight: 800;
+  font-weight: bold;
   color:#000
 }
 
 .artist-title > *, .category-title > * {
   font-size: 22px;
-  font-weight: 800;
+  font-weight: bold;
   color:#000
 }
 
@@ -421,15 +428,53 @@ li.dropdown {
   
 }
 
-.day-image-wrapper {
-  box-sizing: border-box;
-  margin-right: 10px;
-  max-width: 800px;
-  overflow: hidden; 
+
+.artwork-day {
+  background-size: cover;
+  width: 100%;
+  height: 50vh;
+  margin: 20px 10px 20px 10px;
+  position: relative;
+  float: left;
+}
+
+.day-title , .day-title > *{
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 3rem;
+  transform: translate(-50%, -50%);
+}
+
+.day-feature {
+  color: rgb(211, 203, 203);
+  margin: 0;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-family: "Delius Swash Caps", cursive;
+}
+
+.day-artist {
+  color: rgb(211, 203, 203);
+  margin: 0;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  font-size: 1.3rem;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-family: "Delius Swash Caps", cursive;
 }
 
 /* Images shown on cards */
-.display-img, .day-img {
+.display-img {
   width: min(800px, 100%); 
   max-width: 100%; 
   padding: 0;
@@ -487,7 +532,7 @@ li.dropdown {
   text-align: center;
   color: #000;
   display: block;
-  font-weight: 800;
+  font-weight: bold;
   max-width: 100%; /* Ensures it doesn't exceed its container */
   overflow-wrap: break-word; /* Allows long words to break */
   word-wrap: break-word; /* Alternative for older browsers */
@@ -515,7 +560,7 @@ li.dropdown {
 
   color:#000;
   display: block;
-  font-weight: 800;
+  font-weight: bold;
 }
 
 
@@ -525,7 +570,7 @@ li.dropdown {
   text-align: center;
   color:#000;
   display: block;
-  font-weight: 800;
+  font-weight: bold;
 }
 /* The artists and categories dates */
 .display-id, .display-date {
@@ -542,7 +587,7 @@ li.dropdown {
 /* The artists and categories list */
 .display-header  {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 /* The artists and categories list */

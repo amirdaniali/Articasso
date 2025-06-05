@@ -42,7 +42,7 @@ export async function populatePage(limit=25) {
       let artwork;
       let art_manifest;
       let olddata;
-      let artImage;
+      let art_image;
 
       let artExists = await state.hasItem("artworksStore", String(element.id));
 
@@ -50,20 +50,20 @@ export async function populatePage(limit=25) {
         olddata = await state.getState("artworksStore", String(element.id));
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
-        artImage = olddata['image'];
+        art_image = olddata['image'];
       }
       else { // Fetch artwork data
         if (element.image_id) {
-          artImage = await find_art_image(element.image_id);
+          art_image = await find_art_image(element.image_id);
           art_manifest = await find_manifest(element.id);
         } else {
-          artImage = null;
+          art_image = null;
           art_manifest = null;
         }
         let newData = {
           'art' : element,
           'manifest': art_manifest,
-          'image': artImage
+          'image': art_image
         };
         newData.art.data = element;
         state.addItem("artworksStore", String(element.id), newData);
@@ -75,7 +75,7 @@ export async function populatePage(limit=25) {
         title: element.title,
         artists: element.artist_titles,
         arists_links: element.artist_ids,
-        image: artImage,
+        image: art_image,
         id: element.id,
         date: element.date_display,
         short_description: element.short_description,
@@ -148,7 +148,7 @@ export async function displayArtist (id) {
       let art_id = artwork.id;
       let art_manifest;
       let olddata;
-      let artImage;
+      let art_image;
       let art_data;
         
       let artExists = await state.hasItem("artworksStore", String(art_id));
@@ -156,22 +156,22 @@ export async function displayArtist (id) {
         olddata = await state.getState("artworksStore", String(art_id));
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
-        artImage = olddata['image'];
+        art_image = olddata['image'];
       }
       else { // Fetch artwork data
         art_data = await find_art(art_id);
         
         if (art_data.data.image_id) {
-          artImage = await find_art_image(art_data.data.image_id);
+          art_image = await find_art_image(art_data.data.image_id);
           art_manifest = await find_manifest(art_id);
         } else {
-          artImage = null;
+          art_image = null;
           art_manifest = null;
         }
         state.addItem("artworksStore", String(artwork.id), 
           { 'art' : art_data, 
           'manifest': art_manifest,
-          'image': artImage})
+          'image': art_image})
       } 
 
 
@@ -179,7 +179,7 @@ export async function displayArtist (id) {
         title: art_data.data.title,
         artists: art_data.data.artist_titles,
         arists_links: art_data.data.artist_ids,
-        image: artImage,
+        image: art_image,
         id: art_data.data.id,
         date: art_data.data.date_display,
         short_description: art_data.data.short_description,
@@ -247,7 +247,7 @@ export async function displayCategory (id) {
       let art_id = artwork.id;
       let art_manifest;
       let olddata;
-      let artImage;
+      let art_image;
       let art_data;
       
       let artExists = await state.hasItem("artworksStore", String(art_id));
@@ -255,22 +255,22 @@ export async function displayCategory (id) {
         olddata = await state.getState("artworksStore", String(art_id));
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
-        artImage = olddata['image'];
+        art_image = olddata['image'];
       }
       else { // Fetch artwork data
         art_data = await find_art(art_id);
         
         if (art_data.data.image_id) {
-          artImage = await find_art_image(art_data.data.image_id);
+          art_image = await find_art_image(art_data.data.image_id);
           art_manifest = await find_manifest(art_id);
         } else {
-          artImage = null;
+          art_image = null;
           art_manifest = null;
         }
         let newData = {
           'art' : art_data,
           'manifest': art_manifest,
-          'image': artImage
+          'image': art_image
         };
         state.addItem("artworksStore", String(artwork.id), newData);
       }
@@ -279,7 +279,7 @@ export async function displayCategory (id) {
           title: art_data.data.title,
           artists: art_data.data.artist_titles,
           arists_links: art_data.data.artist_ids,
-          image: artImage,
+          image: art_image,
           id: art_data.data.id,
           date: art_data.data.date_display,
           short_description: art_data.data.short_description,
@@ -345,29 +345,29 @@ export async function displayCuratedlist() {
       let artwork;
       let art_manifest;
       let olddata;
-      let artImage;
+      let art_image;
 
       let artExists = await state.hasItem("artworksStore", String(art_id));
       if (artExists) { // We have loaded the artwork before, no need to make a fetch request
         olddata = await state.getState("artworksStore", String(art_id));
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
-        artImage = olddata['image'];
+        art_image = olddata['image'];
       }
       else { // Fetch artwork data
         artwork =  await find_art(art_id,false);
         
         if (artwork.data.image_id) {
-          artImage = await find_art_image(artwork.data.image_id);
+          art_image = await find_art_image(artwork.data.image_id);
           art_manifest= await find_manifest(art_id);
         } else {
-          artImage = null;
+          art_image = null;
           art_manifest = null;
         }
         let newData = {
           'art' : artwork,
           'manifest': art_manifest,
-          'image': artImage
+          'image': art_image
         };
         state.addItem("artworksStore", String(art_id), newData);
       } 
@@ -376,7 +376,7 @@ export async function displayCuratedlist() {
         title: artwork.data.title,
         artists: artwork.data.artist_titles,
         arists_links: artwork.data.artist_ids,
-        image: artImage,
+        image: art_image,
         id: artwork.data.id,
         date: artwork.data.date_display,
         description: artwork.data.short_description,
@@ -412,27 +412,27 @@ export async function displayArtworkPage(id) {
       let artwork;
       let art_manifest;
       let olddata;
-      let artImage;
+      let art_image;
 
       let artExists = await state.hasItem("artworksStore", String(id));
       if (artExists) { // We have loaded the artwork before, no need to make a fetch request
         olddata = await state.getState("artworksStore", String(id));
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
-        artImage = olddata['image'];
+        art_image = olddata['image'];
       }
       else { // Fetch artwork data
         artwork = await find_art(id, false);
         art_manifest = await find_manifest(id);
         if (artwork.data.image_id) {
-          artImage = await find_art_image(artwork.data.image_id)
+          art_image = await find_art_image(artwork.data.image_id)
         } else {
-          artImage = null;
+          art_image = null;
         }
         let newData = {
           'art' : artwork,
           'manifest': art_manifest,
-          'image': artImage
+          'image': art_image
         };
         state.addItem("artworksStore", String(id), newData);
       } 
@@ -446,7 +446,7 @@ export async function displayArtworkPage(id) {
       title: artwork.data.title,
       artists: artwork.data.artist_titles,
       arists_links: artwork.data.artist_ids,
-      image: artImage,
+      image: art_image,
       id:artwork.data.id,
       date:artwork.data.date_display,
       description:artwork.data.short_description,
@@ -539,27 +539,27 @@ export async function displayArtworkofDay() {
       let artwork;
       let art_manifest;
       let olddata;
-      let artImage;
+      let art_image;
 
       let artExists = await state.hasItem("artworksStore", String(id));
       if (artExists) { // We have loaded the artwork before, no need to make a fetch request
         olddata = await state.getState("artworksStore", String(id));
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
-        artImage = olddata['image'];
+        art_image = olddata['image'];
       }
       else { // Fetch artwork data
         artwork = await find_art(id, false);
         art_manifest = await find_manifest(id);
         if (artwork.data.image_id) {
-          artImage = await find_art_image(artwork.data.image_id)
+          art_image = await find_art_image(artwork.data.image_id)
         } else {
-          artImage = null;
+          art_image = null;
         }
         let newData = {
           'art' : artwork,
           'manifest': art_manifest,
-          'image': artImage
+          'image': art_image
         };
         state.addItem("artworksStore", String(id), newData);
       } 
@@ -573,7 +573,7 @@ export async function displayArtworkofDay() {
       title: artwork.data.title,
       artists: artwork.data.artist_titles,
       arists_links: artwork.data.artist_ids,
-      image: artImage,
+      image: art_image,
       id:artwork.data.id,
       date:artwork.data.date_display,
       description:artwork.data.short_description,
@@ -622,7 +622,7 @@ export async function displayArtworkSearch(search_term) {
       let art_id = artwork.id;
       let art_manifest;
       let olddata;
-      let artImage;
+      let art_image;
       let art_data;
 
 
@@ -631,22 +631,22 @@ export async function displayArtworkSearch(search_term) {
         olddata = await state.getState("artworksStore", String(art_id));
         art_data = olddata['art'];
         art_manifest = olddata['manifest'];
-        artImage = olddata['image'];
+        art_image = olddata['image'];
       }
       else { // Fetch artwork data
         art_data = await find_art(art_id);
         
         if (art_data.data.image_id) {
-          artImage = await find_art_image(art_data.data.image_id);
+          art_image = await find_art_image(art_data.data.image_id);
           art_manifest = await find_manifest(art_id);
         } else {
-          artImage = null;
+          art_image = null;
           art_manifest = null;
         }
         state.addItem("artworksStore", String(art_id),{
           'art' : art_data,
           'manifest': art_manifest,
-          'image': artImage
+          'image': art_image
         })
       }
 
@@ -654,7 +654,7 @@ export async function displayArtworkSearch(search_term) {
         title: art_data.data.title,
         artists: art_data.data.artist_titles,
         arists_links: art_data.data.artist_ids,
-        image: artImage,
+        image: art_image,
         id: art_data.data.id,
         date: art_data.data.date_display,
         short_description: art_data.data.short_description,
