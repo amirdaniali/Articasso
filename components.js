@@ -1,4 +1,5 @@
-import { locationHandler } from "./routes.js";
+import {locationHandler} from "./routes.js";
+import {truncateString} from './helpers.js';
 
 // Component to create an artwork card
 export function createArtworkCard(artwork, artwork_manifest= null) {
@@ -71,19 +72,19 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   
   // Add id
 
-  const id = document.createElement('a');
-  id.title = `ID: ${artwork.id}`;
-  id.className = 'card-id SPA-link'; // all links with SPA-link class will be handled by routes.js file
-  id.href = `/art/${artwork.id}`;
-  id.appendChild(document.createTextNode(`ID: ${artwork.id}`));
-  infoWrapper.appendChild(id);
+  // const id = document.createElement('a');
+  // id.title = `ID: ${artwork.id}`;
+  // id.className = 'card-id SPA-link'; // all links with SPA-link class will be handled by routes.js file
+  // id.href = `/art/${artwork.id}`;
+  // id.appendChild(document.createTextNode(`ID: ${artwork.id}`));
+  // infoWrapper.appendChild(id);
 
 
   // Add Date
-  const date_display = document.createElement('p');
-  date_display.className = 'card-date';
-  date_display.textContent = 'Date Displayed: ' + (artwork.date || 'No Date Known');
-  infoWrapper.appendChild(date_display);
+  // const date_display = document.createElement('p');
+  // date_display.className = 'card-date';
+  // date_display.textContent = 'Date Displayed: ' + (artwork.date || 'No Date Known');
+  // infoWrapper.appendChild(date_display);
 
   card.appendChild(infoWrapper);
 
@@ -119,29 +120,15 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   artists_wrapper.appendChild(artists);
   card.appendChild(artists_wrapper);
 
-  // Add Description
-  const description = document.createElement('div');
-  const desc_header = document.createElement('div');
-  desc_header.className = 'card-title';
-  desc_header.textContent =`Description`;
-  description.className = 'card-description';
-  if (artwork_manifest != null) { 
-  if (typeof artwork_manifest.description[0] !== 'undefined') { 
-    description.innerHTML = artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />") || ((( artwork.short_description || artwork.description )) || 'No description available.');
-  }}
-  else {
-    description.innerHTML = ((( artwork.short_description || artwork.description )) || 'No description available.');
-  }
-  
-  card.appendChild(desc_header);
-  card.appendChild(description);
 
+    
+  
   // Add title
   const category_wrapper = document.createElement('div');
   category_wrapper.className = 'card-categories-wrapper';  
   const category_header = document.createElement('div');
   category_header.className = 'card-header';
-  category_header.textContent =`  Categories(s): `;
+  category_header.textContent =`  Categories: `;
   category_wrapper.appendChild(category_header);
 
   // Add categories
@@ -160,7 +147,25 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   category_wrapper.appendChild(categories);
   card.appendChild(category_wrapper);
 
-
+  // Add Description
+    const description = document.createElement('div');
+    const desc_header = document.createElement('div');
+    desc_header.className = 'card-title';
+    desc_header.textContent =`Description`;
+    description.className = 'card-description';
+    if (artwork_manifest != null) { 
+    if (typeof artwork_manifest.description[0] !== 'undefined') { 
+      description.innerHTML = 
+        truncateString(artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />"), 300)
+      ;
+      card.appendChild(desc_header);
+      card.appendChild(description);
+    }}
+    else { if (( artwork.short_description || artwork.description )) {
+      description.innerHTML = truncateString( artwork.short_description || artwork.description, 300 ) ;
+      card.appendChild(desc_header);
+      card.appendChild(description);
+    }}
 
   return card;
 }
@@ -172,6 +177,76 @@ export function createLoader() {
   loader.textContent = 'Loading...';
 
   return loader;
+}
+
+// Component to go to feed
+export function feedCard() {
+  const card = document.createElement('div');
+  card.style.background = `hsl(210, 100%, 70%)`;
+  card.className = 'feed-handler-card'; // Styling will be in styles.css
+  
+  
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.className = 'new-image-wrapper';
+  imagewrapper.href = `/feed`;
+  image.className = 'card-img SPA-link';
+  image.src = '/media/redirect.svg';
+  image.alt = 'Go to Feed';
+  image.addEventListener('click', function routeURL() {
+    window.history.pushState({}, "", `/feed`);
+    locationHandler();
+      
+  });
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+    // Add Text
+  const moveToFeed = document.createElement('a');
+  moveToFeed.title = 'View More';
+  moveToFeed.className = 'internal-button-title SPA-link';
+  moveToFeed.href = `/feed`;
+  moveToFeed.textContent = 'View More';
+  card.appendChild(moveToFeed);
+
+  return card;
+}
+
+// Component to go to Art Odyssey
+export function odysseyCard() {
+  const card = document.createElement('div');
+  card.style.background = `hsl(210, 100%, 70%)`;
+  card.className = 'odyssey-handler-card'; // Styling will be in styles.css
+  
+  
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.className = 'odyssey-image-wrapper';
+  imagewrapper.href = `/odyssey`;
+  image.className = 'card-img SPA-link';
+  image.src = '/media/redirect.svg';
+  image.alt = 'Go to Art Odyssey';
+  image.addEventListener('click', function routeURL() {
+    window.history.pushState({}, "", `/odyssey`);
+    locationHandler();
+      
+  });
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+    // Add Text
+  const moveToOdyssey = document.createElement('a');
+  moveToOdyssey.title = 'Visit Art Odyssey';
+  moveToOdyssey.className = 'internal-button-title SPA-link';
+  moveToOdyssey.href = `/odyssey`;
+  moveToOdyssey.innerHTML = 'View <span class="fancy-text">Art Odyssey</p>';
+  card.appendChild(moveToOdyssey);
+
+  return card;
 }
   
 // Component to create an error message
@@ -239,16 +314,16 @@ export function createArtistInfo(artist) {
 
   card.appendChild(infoWrapper);
 
-  const description = document.createElement('div');
-  const desc_header = document.createElement('div');
-  desc_header.className = 'card-title';
-  desc_header.textContent =`Description`;
-  description.className = 'artist-description';
-  description.innerHTML = ( artist.data.description || 'No description available.' );
-  card.appendChild(desc_header);
-  card.appendChild(description);
-
-
+  if (artist.data.description && artist.data.description !== null) {
+      const description = document.createElement('div');
+    const desc_header = document.createElement('div');
+    desc_header.className = 'card-title';
+    desc_header.textContent =`Description`;
+    description.className = 'artist-description';
+    description.innerHTML = ( artist.data.description || 'No description available.' );
+    card.appendChild(desc_header);
+    card.appendChild(description);
+  }
   return card
 }
 
@@ -295,7 +370,7 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
   var status = {};
   status.Ok = true;
   const card = document.createElement('div');
-  card.className = 'artwork-card'; // Styling will be in styles.css
+  card.className = 'artwork-latest'; // Styling will be in styles.css
   
   
   // Change the backgroud color if image colors are available
@@ -327,17 +402,15 @@ export function createNewArtwork(artwork, artwork_manifest= null) {
     status.Ok = false; 
   }
   image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
-  image.alt = '--Image Not Available--' || 'Artwork';
+  image.alt = 'Artwork';
 
   // encountered when server has an issue and cannot show the image, then replace the image with placeholder
   image.addEventListener('error', function handleError() {
     // console.log(image.parentElement);
-    image.parentElement.remove();
+    // image.parentElement.remove();
     console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
-    const defaultImage = '/media/placeholder.jpg';
-  
-      image.src = defaultImage;
-      image.alt = 'default';    
+    image.src = '/media/placeholder.jpg';
+    image.alt = 'default';    
   });
   
   // handles image redirects
@@ -494,19 +567,23 @@ export function displayArtwork(artwork, artwork_manifest= null) {
   if (artwork_manifest != null) { // If there is a manifst description use it. 
     if (typeof artwork_manifest.description[0] !== 'undefined') { 
       description.innerHTML = artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />") || ((( artwork.short_description || artwork.description )) || 'No description available.');
+      infoWrapper.appendChild(desc_header);
+      infoWrapper.appendChild(description);
     }}
     else {
-      description.innerHTML = ((( artwork.short_description || artwork.description )) || 'No description available.');
+      if (artwork.short_description || artwork.description) {
+      description.innerHTML = artwork.short_description || artwork.description; 
+      infoWrapper.appendChild(desc_header);
+      infoWrapper.appendChild(description);} 
+
     }
-  infoWrapper.appendChild(desc_header);
-  infoWrapper.appendChild(description);
 
   // Add title
   const category_wrapper = document.createElement('div');
   category_wrapper.className = 'display-categories-wrapper';  
   const category_header = document.createElement('div');
   category_header.className = 'display-header';
-  category_header.textContent =`  Categories(s): `;
+  category_header.textContent =`  Categories: `;
   category_wrapper.appendChild(category_header);
 
   // Add categories
@@ -539,7 +616,7 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
   card.style.backgroundImage = `linear-gradient(
     rgba(0, 0, 0, 0.6),
     rgba(0, 0, 0, 0.6)),
-    url(${artwork.image})`
+    url(${artwork.image})`;
 
   // // handle cors errors from the server
   

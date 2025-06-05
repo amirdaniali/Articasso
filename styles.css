@@ -1,7 +1,5 @@
 /* General Body font style */
 * {
-  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
-  /* font-family: "Proza Libre", sans-serif */
   font-family: "Karla", sans-serif;
 }
 
@@ -108,10 +106,10 @@ li.dropdown {
 
 /* Search Section Styling */
 .search-section {
-  margin: 10px 0;
+  margin: 10px 0 20px;
   display: grid;
   grid-template-columns:auto auto;
-  gap: 5px;
+  gap: 15px;
   /* justify-content: center; */
   justify-items: center;
   justify-self: center;
@@ -126,11 +124,32 @@ li.dropdown {
   box-sizing: border-box;
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  /* margin-bottom: 10px; */
+  border: 2px;
+  border-color: #004494;
+  border-radius: 25px; 
   font-size: 16px;
+  outline: none;
+  background-color: hsl(210, 100%, 90%); 
+  color: #004494;
+  transition: 0.3s ease-in-out;
+  text-align: center;
+
+  /* Adding subtle shadow */
+    box-shadow: 0px 0px 10px rgba(52, 152, 219, 0.6);
 }
+
+/* Placeholder styling */
+.search-bar::placeholder {
+  color: hsl(210, 100%, 30%);
+  font-style: italic;
+}
+
+/* Glowing effect when active */
+.search-bar:focus {
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+  color: hsl(210, 100%, 30%);
+}
+
 
 /* A generic blue themed button to go with the artic theme */
 .search-button {
@@ -144,10 +163,17 @@ li.dropdown {
   font-size: 16px;
   cursor: pointer;
   margin: 0px;
+  border-radius: 25px; /* Rounded edges for a smooth look */
 }
 
 .search-button:hover {
   background-color: #004494;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+.search-button:focus {
+  background-color: #004494;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* Artworks Grid Styling */
@@ -211,6 +237,63 @@ li.dropdown {
   font-weight: bold;
   font-family: "Delius Swash Caps", cursive;
 }
+
+ .odyssey-handler-card {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  /* margin: auto; */
+  max-height: 40vh;
+}
+
+ .odyssey-handler-card img{
+  width: 80%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-height: 30vh;
+}
+
+/* When clicking artworks these cards are shown. */
+ .feed-handler-card {
+
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 10px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  text-align: center;
+  max-height: 30vh;
+}
+
+
+/* The image for the artwork. */
+ .feed-handler-card img{
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-height: 40vh;
+}
+
+/* When clicking artworks these cards are shown. */
+.artwork-latest {
+
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 10px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  text-align: center;
+  max-height: 60vh;
+}
+
+/* The image for the artwork. */
+.artwork-latest img{
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-height: 40vh;
+}
+
 /* When clicking artworks these cards are shown. */
 .artwork-card {
 
@@ -219,6 +302,7 @@ li.dropdown {
   padding: 10px;
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   text-align: center;
+  max-height: 90vh;
 }
 
 /* The image for the artwork. */
@@ -226,6 +310,7 @@ li.dropdown {
   width: 100%;
   border-radius: 8px;
   margin-bottom: 10px;
+  max-height: 40vh;
 }
 
 .card-title {
@@ -237,9 +322,25 @@ li.dropdown {
   font-family: "Delius Swash Caps", cursive;
 }
 
+.internal-button-title {
+  font-size: 24px;
+  margin: 10px 0;
+  color:#000;
+  display: block;
+  font-weight: bold;
+}
+
+.fancy-text {
+  font-family: "Delius Swash Caps", cursive;
+  font-style: italic;
+}
+
+.fancy-text:hover {
+  color: #004494;
+}
 
 .card-id, .card-date {
-  color: #000 !important;
+  color: #000  !important;
   font-size: 16px;
   justify-content: center;
   justify-items: center;
@@ -411,6 +512,12 @@ li.dropdown {
   align-self: center;
   align-content: center;
   text-align: center;
+  font-family: "Delius Swash Caps", cursive;
+}
+
+.display-information {
+  font-size: 1rem;
+  line-height: 2rem;
 }
 
 /* main artwork grid */
@@ -430,12 +537,15 @@ li.dropdown {
 
 
 .artwork-day {
-  background-size: cover;
+  background-size:cover;
+  background-position:center;
   width: 100%;
   height: 50vh;
-  margin: 20px 10px 20px 10px;
+  margin: 20px 10px 20px 0px;
+  padding: 0px 0px;
   position: relative;
   float: left;
+  border-radius: 25px;
 }
 
 .day-title , .day-title > *{
@@ -445,8 +555,9 @@ li.dropdown {
   position: absolute;
   top: 50%;
   left: 50%;
-  font-size: 3rem;
+  font-size: 2rem;
   transform: translate(-50%, -50%);
+  font-family: "Delius Swash Caps", cursive;
 }
 
 .day-feature {
@@ -473,6 +584,33 @@ li.dropdown {
   font-family: "Delius Swash Caps", cursive;
 }
 
+@media screen and (max-width: 800px) {
+  .artwork-day {
+    height: 30vh; /* Reduce height for smaller screens */
+    background-size: cover; /* Prevent cropping */
+    
+  }
+
+  .day-title, .day-title > * {
+    font-size: 1.3rem; /* Reduce font size */
+    text-align: center;
+  }
+
+  .day-feature, .day-artist {
+    text-align: center;
+    font-size: 1rem; /* Adjust text size for better readability */
+  }
+  .card-title {
+    font-size: 1.3rem;
+  }
+  .display-img {
+    width: 100vw; 
+    max-width: 100vw; 
+    margin: 0 auto; 
+  }
+}
+
+
 /* Images shown on cards */
 .display-img {
   width: min(800px, 100%); 
@@ -483,42 +621,10 @@ li.dropdown {
   display: block; 
 }
 
-/* Responsive Fix for Small Screens */
-@media (max-width: 800px) {
-  .day-image-wrapper {
-    max-width: 100vw; 
-  }
-
-  .display-img, .day-img {
-    width: 100vw; 
-    max-width: 100vw; 
-    margin: 0 auto; 
-  }
-}
-
-
-/* Responsive Fix for Small Screens */
-@media (max-width: 500px) {
-  .day-image-wrapper {
-    max-width: 90vw; 
-  }
-
-  .display-img, .day-img {
-    width: 90vw; 
-    max-width: 90vw; 
-    margin: 0 auto; 
-  }
-}
-
-
 
 
 /* make the images scale on hover but not on mobile*/
 @media (hover: hover) and (pointer: fine) {
-  .day-img:hover {
-    transform: scale(1.1);
-    transition: transform 0.25s;
-  }
   .card-img:hover {
   transform: scale(1.2);
   transition: .25s;
@@ -532,30 +638,41 @@ li.dropdown {
   text-align: center;
   color: #000;
   display: block;
-  font-weight: bold;
-  max-width: 100%; /* Ensures it doesn't exceed its container */
-  overflow-wrap: break-word; /* Allows long words to break */
+  font-weight: bolder;
+  max-width: 100%; 
+  overflow-wrap: break-word; 
   word-wrap: break-word; /* Alternative for older browsers */
-  white-space: normal; /* Ensures text wraps */
+  white-space: normal; 
+  font-family: "Delius Swash Caps", cursive;
 }
 
 /* Responsive Fix for Small Screens */
 @media (max-width: 500px) {
   .display-title {
-    font-size: 18px; /* Reduce font size for smaller screens */
-    padding: 0 10px; /* Add padding to prevent overflow */
+    font-size: 18px; 
+    padding: 0 10px; 
+  }
+  .card-title {
+    font-size: 0.9rem;
+  }
+  .display-img {
+    width: 90vw; 
+    max-width: 90vw; 
+    margin: 0 auto; 
+  }
+  .day-title, .day-title > * {
+    font-size: 1rem; 
+  }
+
+  .day-feature, .day-artist {
+    font-size: 0.8rem; 
   }
 }
 
 .artist-arts-header {
   font-size: 22px;
   margin: 20px 0 30px;
-  /* justify-content: center; */
-  /* justify-items: center; */
-  /* justify-self: center; */
-  /* align-items: center; */
-  /* align-self: center; */
-  /* align-content: center; */
+
   text-align: center;
 
   color:#000;

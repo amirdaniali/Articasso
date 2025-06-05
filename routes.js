@@ -1,5 +1,5 @@
 import { displayArtworkPage,
-    populatePage,
+    displayRecentFeed,
     displayArtist,
     displayCategory,
     displayCuratedlist,
@@ -14,6 +14,7 @@ import { State } from './state.js'
 
 
 // These routes are the pagess the application will be able to redirect to. Otherwise 404 will kick in. 
+// The title and description fields will be updated with javascript for all SPA routes.
 const routes = {
     404: {
         template: "/routes/index.html",
@@ -27,42 +28,52 @@ const routes = {
     },
     'about': {
         template: "/routes/about.html",
-        title: "About",
+        title: "Articasso: About",
         description: "This is the about page.",
     },
     'art': {
         template: "/routes/art.html",
-        title: "View Art",
+        title: "Articasso: View Art",
         description: "This is the art page.",
+    },
+    'feed': {
+        template: "/routes/feed.html",
+        title: "Articasso: Latest Artworks",
+        description: "Enjoy These latest additions to the Artic Database.",
+    },
+    'odyssey': {
+        template: "/routes/odyssey.html",
+        title: "Articasso: Art Odyssey",
+        description: "Art Odyssey is a huge collection of the very top historic artworks everyone should experience at least once.",
     },
     'art_search': {
         template: "/routes/art_search.html",
-        title: "Search Art",
-        description: "This is the search for arts.",
+        title: "Articasso: Search Art",
+        description: "This is the search page for any artwork you can think of.",
     },
     'artist': {
         template: "/routes/artist.html",
-        title: "View Artist",
-        description: "This is the artist page.",
+        title: "Articasso: View Artist",
+        description: "This is the artist lookup page.",
     },
     'artist_search': {
         template: "/routes/artist_search.html",
-        title: "Search Artists",
-        description: "This is the page to search all artists.",
+        title: "Articasso: Search Artists",
+        description: "This is the search page for any artist you can think of.",
     },
     'category': {
         template: "/routes/category.html",
-        title: "Art Category",
+        title: "Articasso: Art Category",
         description: "This is the category page.",
     },
     'category_search': {
         template: "/routes/category_search.html",
-        title: "Search Categories",
+        title: "Articasso: Search Categories",
         description: "This is the page to search all categories.",
     }
 };
 
-
+// route function to prevent default url loading and let locationHandler kick in
 const route = (event) => {
     event = event || window.event; // get window.event if event argument not provided
     event.preventDefault();
@@ -73,7 +84,7 @@ const route = (event) => {
 
 // create document click that watches the nav links only
 document.addEventListener("click", (e) => {
-    if (e.explicitOriginalTarget.className.includes("explicit-outbound") ){
+    if (e.explicitOriginalTarget.className.includes("SPA-link") ){
         e.preventDefault();
         route();
     }
@@ -136,7 +147,7 @@ export async function locationHandler() {
     switch (currentView[0]) {
         case '':
             displayArtworkofDay();
-            populatePage();
+            displayRecentFeed();
             displayCuratedlist();
             break;
 
@@ -148,13 +159,14 @@ export async function locationHandler() {
             const artInfo = document.getElementById('art-info');
             
             
-            if (currentView[1]) { // user has clicked an explicit-outbound link, show the proper artwork
+            if (currentView[1]) { // user has clicked an SPA-link link, show the proper artwork
                 artInfo.innerHTML = '';
                 artworksSection.innerHTML = '';
                 stateManager.addRoute('art', currentView[1]);
                 searchBar.defaultValue = currentView[1];
                 try {
                     await displayArtworkPage(currentView[1]); // Display artwork card
+                    artworksSection.scrollIntoView();
                 } catch (error) {
                     const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${currentView[1]}`);
                     artworksSection.appendChild(errorMessage);
@@ -162,7 +174,7 @@ export async function locationHandler() {
             } else { 
                 lastVisited = stateManager.getLastVisitedField("art");
                 if (lastVisited) { // user hasn't clicked any artwork but has previously seen an artwork
-                    artInfo.innerHTML = `<div>Since You previously looked up: ${lastVisited}<br></div>`;
+                    // artInfo.innerHTML = `<div>Since You previously looked up: ${lastVisited}<br></div>`;
                     artworksSection.innerHTML = ``;
                     searchBar.defaultValue = lastVisited;
                     try {
@@ -173,12 +185,12 @@ export async function locationHandler() {
                         
                     }}
                     else { // This is the first time user is clicking the artwork page
-                        searchBar.placeholder = "Artwork ID";
                         artworksSection.innerHTML = '';
                         artInfo.innerHTML = ``;
                         const information = document.createElement('div');
                         information.className = 'display-information';
-                        information.innerHTML = 'Enter a unique Artwork ID in the field above to view the artwork information. <br> You can also click on an artwork in the Home page to view the details for each art.';
+                        information.innerHTML = `This is a useful page for those who might know an internal ID for an Artwork.<br>
+Otherwise you can search for any artwork by clicking Search Artwork in the Navigation Menu.<br> You can also click on an artwork in the Home page to view the details here.`;
                         artInfo.appendChild(information);
             }}
             
@@ -237,7 +249,7 @@ export async function locationHandler() {
             const ArtistSearchButton = document.getElementById('search-button');
             const artistInfo = document.getElementById('artist-info');  
             
-            if (currentView[1]) { // user has clicked an explicit-outbound link and needs to be shown the artist
+            if (currentView[1]) { // user has clicked an SPA-link link and needs to be shown the artist
                 artistInfo.innerHTML = ``;
                 artistGrid.innerHTML = '';
                 stateManager.addRoute('artist', currentView[1]);
@@ -251,7 +263,7 @@ export async function locationHandler() {
             } else {
                 lastVisited = stateManager.getLastVisitedField("artist");
                 if (lastVisited) { // user hasn't requested an artist but has previously seen one
-                    artistInfo.innerHTML = `<div>Since You previously looked up: ${lastVisited}<br></div>`;
+                    // artistInfo.innerHTML = `<div>Since You previously looked up: ${lastVisited}<br></div>`;
                     artistGrid.innerHTML = ``;
                     artistSearch.defaultValue = lastVisited;
                     try {
@@ -265,7 +277,8 @@ export async function locationHandler() {
                         artistGrid.innerHTML = ``;
                         const information = document.createElement('div');
                         information.className = 'display-information';
-                        information.innerHTML = 'Enter an Artist ID in the field above to view the artist information. <br> You can also click on an artist link in the description of a any artwork you like.  ';
+                        information.innerHTML = `This is a useful page for those who might know an internal ID for an Artist.<br>
+Otherwise you can search for any Artist by clicking Search Artist in the Navigation Menu. <br> You can also click on an artist link in the description of a any artwork you like. `;
                         artistInfo.appendChild(information);
                     }}
             
@@ -336,7 +349,7 @@ export async function locationHandler() {
             } else { // If user has visited any valid category before switching to other tabs show it instead 
                 lastVisited = stateManager.getLastVisitedField("category");
                 if (lastVisited) {
-                    categoryInfo.innerHTML = `<div>Since You previously looked up: ${lastVisited}<br></div>`;
+                    // categoryInfo.innerHTML = `<div>Since You previously looked up: ${lastVisited}<br></div>`;
                     categorySearch.defaultValue = lastVisited;
                     try {
                         await displayCategory(categorySearch.defaultValue); // Display category card shown before
@@ -345,12 +358,11 @@ export async function locationHandler() {
                         categoryInfo.appendChild(errorMessage);
                     }}
                 else { // user hasn't visited categories tabs before, show placeholder.
-                    categorySearch.placeholder = "Category ID";
                     categoryInfo.innerHTML = '';
                     categoryGrid.innerHTML = ``;
                     const information = document.createElement('div');
                     information.className = 'display-information';
-                    information.innerHTML = 'Enter a Category ID in the field above to view the category information. <br> You can also click on a category in the description of any art work that has one. ';
+                    information.innerHTML = 'This is a useful page for those who might know an internal ID for a category.<br>Otherwise you can search for any category by clicking Search Category in the Navigation Menu.<br>Did you know if you click on the category field of any artwork you can view the similar artworks within that category? ';
                     categoryInfo.appendChild(information);
             }}
             
@@ -408,7 +420,7 @@ export async function locationHandler() {
             
             lastVisited = stateManager.getLastVisitedField("art_search");
             if (lastVisited) { // user has previously searched for something
-                    artInfo.innerHTML = `<div>Since You previously searched for: ${lastVisited}<br></div>`;
+                    // artInfo.innerHTML = `<div>Since You previously searched for: ${lastVisited}<br></div>`;
                     artworksSection.innerHTML = '';
                     searchBar.defaultValue = lastVisited;
                     try {
@@ -482,7 +494,7 @@ export async function locationHandler() {
             
             lastVisited = stateManager.getLastVisitedField("artist_search");
             if (lastVisited) { // user hasn't requested an artist but has previously seen one
-                    artistInfo.innerHTML = `<div>Since You previously searched for: ${lastVisited}<br></div>`;
+                    // artistInfo.innerHTML = `<div>Since You previously searched for: ${lastVisited}<br></div>`;
                     artistSearch.defaultValue = lastVisited;
                     try {
                         await displayArtistSearch(artistSearch.defaultValue); // Display artists
@@ -543,7 +555,12 @@ export async function locationHandler() {
                 break
             }
 
-
+            case 'odyssey': {
+                break
+            }
+            case 'feed': {
+                break
+            }
             case 'category_search': {
                 // console.log('Category Search Loaded');
                 // DOM Elements
@@ -554,7 +571,7 @@ export async function locationHandler() {
                 
                 lastVisited = stateManager.getLastVisitedField("category_search");
                 if (lastVisited) {// If user has visited any valid category before switching to other tabs show it instead 
-                    categoryInfo.innerHTML = `<div>Since You previously searched for: ${lastVisited}<br></div>`;
+                    // categoryInfo.innerHTML = `<div>Since You previously searched for: ${lastVisited}<br></div>`;
                     categorySearch.defaultValue = lastVisited;
                     try {
                         await displayCategorySearch(categorySearch.defaultValue); // Display categories
