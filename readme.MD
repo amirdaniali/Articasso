@@ -2,11 +2,10 @@
 
 ![First Page](./media/HomePage.jpg "First Page of the webapp")
 
-My name is Amir Daniali and this is my Advanced Pre-Work Assignment submission for Summer 2025 Code the Dream course.
+This website was originalllh my Assignment submission for Summer 2025 Code the Dream course.
 
 You can find a link to the Assignment [here](https://codethedream.org/open-adv-pre-work/).
 
-You can view the final project hosted via github pages on my personal website [here](https://artic-arts.amirdaniali.com).
 
 ## How to Run 
 
@@ -107,7 +106,7 @@ Here is the [Website](https://www.artic.edu/) of Art Institute of Chicago.
 And Here is the link to the [API Documentation](https://api.artic.edu/docs/#introduction). 
 ![API Documentation](./media/Documentation_Screenshot.png "Art Institute of Chicago API Dcoumentation")
 
-The Project I wanted to make needed to demonstrate the data from at least two endpoints from the api, and allow the user to navigate through them. Since the data already exists I made the design choice to Keep all code in the front-end and didnt feel the need to complicate the logic via a backend. The hope for this project is one day this project can exist in a website somewhere forever without incurring needless server costs. 
+The Project I wanted to make needed to demonstrate the data from at least two endpoints from the api, and allow the user to navigate through them. Since the data already exists I made the design choice to Keep all code in the front-end and didnt feel the need to complicate the logic via a backend. This design choice turned out to be the right one as Everything I wanted to do for the project can be done without a need for a dedicated backend.
 
 ### The Architecture
 
@@ -135,7 +134,7 @@ I decide on this following architecture.
      - Utility functions like error handling or formatting.
 
 5. `components.js`:
-   - Purpose: Encapsulates reusable JavaScript components.
+   - Purpose: Encapsulates reusable components like cards, views, errors.
    - Description:
      - Contains functions to create dynamic HTML elements (like artwork cards, search bars).
      - Helps maintain modularity in code.
@@ -144,6 +143,11 @@ I decide on this following architecture.
    - Description:
      - Contains functions to analyse click events and route them to the proper destinations.
      - Calls the proper functions in `app.js` to populate pages with the correct data.
+7. `state.js`
+   - Purpose: Lets us avoid fetching content repeatedly from the api.
+   - Description:
+     - Saves the loaded content to IndexedDb so the user can comeback to their session after page close and reloads.
+     - Saves loaded state to memory cache to avoid fetching the same artworks multiple times. 
 
 
 This is a diagram I made for the way different parts of the project interact:
@@ -319,73 +323,6 @@ export async function displayArtworkPage(id) {
 
 ```
 
-```javascript
-// components.js
-
-// Module to create an artwork display
-export function displayArtwork(artwork, artwork_manifest= null) {
-  const card = document.createElement('div');
-  card.className = 'artwork-display'; // Styling will be in styles.css
-  
-  // Change the backgroud color if image colors are available
-
-  try {
-    card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
-  } catch (error) {
-    card.style.background = '#aaa';
-  }
-
-
-  // Add image
-  const imagewrapper = document.createElement('div');
-  const image = document.createElement('img');
-  imagewrapper.className = 'image-wrapper';
-
-  // handle if image data isn't available from the api
-  image.className = 'display-img ';
-  if (!artwork.image) {
-    console.log(`Image for id: ${artwork.id} not available from API. Fetching placeholder image.`);
-  }
-  image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
-  image.alt = '--Image Not Available--' || 'Artwork';
-
-  // handle cors errors from the server
-
-  image.addEventListener('error', function handleError() {
-
-    console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
-    const defaultImage = '/media/placeholder.jpg';
-  
-      image.src = defaultImage;
-      image.alt = 'default';
-      
-  });
-  
-
-  imagewrapper.appendChild(image);
-  card.appendChild(imagewrapper);
-
-  // sample logic for all elements is shown here
-  // Add artist id to the card
-
-  const id = document.createElement('a');
-  id.title = `ID: ${artwork.id}`;
-  id.className = 'display-id';
-  // id.href = `/art/${artwork.id}`;
-  id.appendChild(document.createTextNode(`ID: ${artwork.id}`));
-  card.appendChild(id);
-
-  // Add title
-  // Add Date
-  // Add artist
-  // Add Description
-  // Add title
-  // Add categories
-
-  return card;
-}
-```
-
 ### Art of the day.
 
 Something I'm very happy to get the chance to add to the project is the artwork of the day section. 
@@ -416,6 +353,10 @@ artSection.appendChild(card);
 ```
 
 
+## State Management
+
+Without a solution for state management, I could visibly see the homepage request the same featured arts and latest api artworks on every reload or SPA link change. This is obviously a needless load on the Artic servers and needs to be fixed. I didn't want to save any json files to disk and I couldn't rely on any backend to load data so I had to code the state management code myself. The code for `state.js` keeps track of the data we have fetched so far and saves it to an object that can be accessed using getters and setters. I later added the functionality to persist the data using IndexedDb functionality. Many people would say IndexedDB is overkill and hard to work with but not me. I found it simple and useful and although I prefer SQL based RDBs, I enjoyed IndexedDB for what it offered. 
+
 ## Gallery
 
 
@@ -431,6 +372,7 @@ Searching for africa in categories.
 
 ![Searching functionality for arts](./media/Van_Gogh.png "Searching for van gogh in arts.")
 Searching for van gogh in arts.
+
 
 ## Conclusion
 
