@@ -196,7 +196,7 @@ const route = (event) => {
 
 // create document click that watches the nav links only
 document.addEventListener("click", (e) => {
-    if (e.explicitOriginalTarget.className.includes("explicit-outbound") ){
+    if (e.explicitOriginalTarget.className.includes("SPA-link") ){
         e.preventDefault();
         route();
     }

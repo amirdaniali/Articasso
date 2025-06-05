@@ -30,7 +30,7 @@ export class StateOLD {
     }
 
     addRoute(field, newRoute){
-        // Once the user clicks an explicit-outbound link or requests a new page its is added here.
+        // Once the user clicks an SPA-link link or requests a new page its is added here.
         State.previousRoutes[field].push(newRoute);
     }
 
@@ -158,7 +158,7 @@ export class State {
     }
 
     addRoute(field, newRoute){
-        // Once the user clicks an explicit-outbound link or requests a new page its is added here.
+        // Once the user clicks an SPA-link link or requests a new page its is added here.
         State.previousRoutes[field].push(newRoute);
     }
 
