@@ -4,6 +4,7 @@ import {
     displayFeedPage,
     displayCategory,
     displayRecentFeed,
+    processMoreOdyssey,
     displayCuratedlist,
     displayArtworkPage,
     displayOdysseyPage,
@@ -99,6 +100,14 @@ document.addEventListener("click", (e) => {
     if (e.explicitOriginalTarget.className.includes("feed-button-image") ){ // Feed loadmore image
         e.preventDefault();
         processMoreFeed();
+    }
+    if (e.explicitOriginalTarget.className.includes("odyssey-button-title") ){ // Feed loadmore button
+        e.preventDefault();
+        processMoreOdyssey();
+    }
+    if (e.explicitOriginalTarget.className.includes("odyssey-button-image") ){ // Feed loadmore image
+        e.preventDefault();
+        processMoreOdyssey();
     }
     else {
         if (e.explicitOriginalTarget.className.includes("nav-group") ){ // Navgroup related

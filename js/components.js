@@ -1,6 +1,5 @@
 import {locationHandler} from "./routes.js";
-import {truncateString} from './helpers.js';
-import {displayFeedPage} from './app.js';
+import {truncate_string} from './helpers.js';
 
 // Component to create an artwork card
 export function createArtworkCard(artwork, artwork_manifest= null) {
@@ -157,13 +156,13 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
     if (artwork_manifest != null) { 
     if (typeof artwork_manifest.description[0] !== 'undefined') { 
       description.innerHTML = 
-        truncateString(artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />"), 300)
+        truncate_string(artwork_manifest.description[0]['value'].replace(/\n/g, "<br /><br />"), 300)
       ;
       card.appendChild(desc_header);
       card.appendChild(description);
     }}
     else { if (( artwork.short_description || artwork.description )) {
-      description.innerHTML = truncateString( artwork.short_description || artwork.description, 300 ) ;
+      description.innerHTML = truncate_string( artwork.short_description || artwork.description, 300 ) ;
       card.appendChild(desc_header);
       card.appendChild(description);
     }}
@@ -278,6 +277,37 @@ export function odysseyCard() {
   moveToOdyssey.href = `/odyssey`;
   moveToOdyssey.innerHTML = 'View <span class="fancy-text">Art Odyssey</p>';
   card.appendChild(moveToOdyssey);
+
+  return card;
+}
+
+// Component to go to feed
+export function loadMoreOdyssey() {
+  const card = document.createElement('div');
+  card.style.background = `hsl(210, 100%, 70%)`;
+  card.className = 'odyssey-handler-card'; // Styling will be in styles.css
+  card.id = 'load-more-card';
+  
+  
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.href = '';
+  imagewrapper.className = 'new-image-wrapper';
+  image.className = 'card-img odyssey-button-image';
+  image.src = '/media/plus.png';
+  image.alt = 'Load More';
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+    // Add Text
+  const loadtext = document.createElement('a');
+  loadtext.title = 'View More';
+  loadtext.href = '';
+  loadtext.className = 'odyssey-button-title';
+  loadtext.textContent = 'View More';
+  card.appendChild(loadtext);
 
   return card;
 }

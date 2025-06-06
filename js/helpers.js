@@ -8,7 +8,7 @@ export async function find_art(id, all_fields = false) {
     const addressURL = `https://api.artic.edu/api/v1/artworks/${id}${address_parameters}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -33,7 +33,7 @@ export async function find_manifest(id) {
         
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -56,7 +56,7 @@ export async function find_art_field(id, field = false) {
     const address_parameters = field ? `?fields=${field}` : ``;
     const addressURL = `https://api.artic.edu/api/v1/artworks/${id}${address_parameters}`
     const returnResponse = await fetch(addressURL,{ headers: {
-        'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+        'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
     }});
     
     const data = await returnResponse.json();
@@ -76,7 +76,7 @@ export async function find_recent_artworks(limit, page=1) {
     const addressURL = `https://api.artic.edu/api/v1/artworks?page=${page}&limit=${limit}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -96,7 +96,7 @@ export async function find_category( category_id ) {
     const addressURL = `https://api.artic.edu/api/v1/category-terms/${category_id}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -116,7 +116,7 @@ export async function find_artist(artist_id) {
     const addressURL = `https://api.artic.edu/api/v1/agents/${artist_id}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -137,7 +137,7 @@ export async function find_artist_arts(artist_title) {
     const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${artist_title}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -156,7 +156,7 @@ export async function find_category_arts(category_title) {
     const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${category_title}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -175,7 +175,7 @@ export async function search_arts(search_term) {
     const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${search_term}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -193,7 +193,7 @@ export async function search_categories(search_term) {
     const addressURL = `https://api.artic.edu/api/v1/category-terms/search?limit=100&q=${search_term}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -211,7 +211,7 @@ export async function search_artists(search_term) {
     const addressURL = `https://api.artic.edu/api/v1/agents/search?limit=100&q=${search_term}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
-            'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
         }})    
         .then(response => {
             if (!response.ok) {
@@ -224,8 +224,8 @@ export async function search_artists(search_term) {
         return returnResponse
 }
 
-
-export function truncateString(str, maxLength){
+// makes a string for a description shorter so it fits in limited space.
+export function truncate_string(str, maxLength){
   if (str.length > maxLength) {
     return str.slice(0, maxLength - 3) + '...';
   }

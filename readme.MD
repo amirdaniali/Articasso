@@ -11,7 +11,7 @@ You can find a link to the Assignment [here](https://codethedream.org/open-adv-p
 
 First download this repository with
 ```git
-git clone https://github.com/amirdaniali/Code-The-Dream.git
+git clone https://github.com/amirdaniali/Articasso.git
 ```
 
 
