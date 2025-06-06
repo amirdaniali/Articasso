@@ -920,9 +920,11 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
       }
       
     }
-    
+    if (document.querySelectorAll('.artwork-latest').length < 420) {
       loadMore = loadMoreOdyssey();
       artworksSection.appendChild(loadMore);
+    }
+
  
   }
           
