@@ -3,5 +3,3 @@ package-lock.json
 package.json
 CNAME
 **/venv
-serve-flask.py
-serve-http.py

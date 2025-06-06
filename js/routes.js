@@ -1,17 +1,18 @@
 import { 
     displayArtist,
+    processMoreFeed,
     displayFeedPage,
     displayCategory,
     displayRecentFeed,
     displayCuratedlist,
     displayArtworkPage,
     displayOdysseyPage,
+    displayErrorMessage,
     displayArtistSearch,
     displayArtworkofDay,
     displayArtworkSearch,
-    displayCategorySearch } from './app.js';
-
-import { createErrorMessage } from './components.js';
+    displayCategorySearch,
+} from './app.js';
 
 import { State } from './state.js'
 
@@ -87,12 +88,20 @@ const route = (event) => {
 
 // create document click that watches the nav links only
 document.addEventListener("click", (e) => {
-    if (e.explicitOriginalTarget.className.includes("SPA-link") ){
+    if (e.explicitOriginalTarget.className.includes("SPA-link") ){ // Internal Links to SPA pages
         e.preventDefault();
         route();
     }
+    if (e.explicitOriginalTarget.className.includes("feed-button-title") ){ // Feed loadmore button
+        e.preventDefault();
+        processMoreFeed();
+    }
+    if (e.explicitOriginalTarget.className.includes("feed-button-image") ){ // Feed loadmore image
+        e.preventDefault();
+        processMoreFeed();
+    }
     else {
-        if (e.explicitOriginalTarget.className.includes("nav-group") ){
+        if (e.explicitOriginalTarget.className.includes("nav-group") ){ // Navgroup related
             e.preventDefault();
         }
     }
@@ -171,7 +180,7 @@ export async function locationHandler() {
                     await displayArtworkPage(currentView[1]); // Display artwork card
                     artworksSection.scrollIntoView();
                 } catch (error) {
-                    const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${currentView[1]}`);
+                    const errorMessage = displayErrorMessage(`Invalid ID. The Artic Database has no art with id: ${currentView[1]}`);
                     artworksSection.appendChild(errorMessage);
                 }
             } else { 
@@ -183,7 +192,7 @@ export async function locationHandler() {
                     try {
                         await displayArtworkPage(searchBar.defaultValue); // Display artwork card
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${lastVisited}`);
+                        const errorMessage = displayErrorMessage(`Invalid ID. The Artic Database has no art with id: ${lastVisited}`);
                         artworksSection.appendChild(errorMessage);
                         
                     }}
@@ -204,7 +213,7 @@ Otherwise you can search for any artwork by clicking Search Artwork in the Navig
                 artInfo.innerHTML = ``;
                 const searchValue = searchBar.value.trim();
                 if (searchValue === '') {
-                    const errorMessage = createErrorMessage('Please enter an ID to search.');
+                    const errorMessage = displayErrorMessage('Please enter an ID to search.');
                     artworksSection.appendChild(errorMessage);
                     return;
                 }
@@ -213,7 +222,7 @@ Otherwise you can search for any artwork by clicking Search Artwork in the Navig
                 const id = parseInt(searchValue, 10);
             
                 if (isNaN(id)) {
-                    const errorMessage = createErrorMessage('Invalid ID. Please enter a numeric value.');
+                    const errorMessage = displayErrorMessage('Invalid ID. Please enter a numeric value.');
                     artworksSection.appendChild(errorMessage);
                 } else {
                 
@@ -221,7 +230,7 @@ Otherwise you can search for any artwork by clicking Search Artwork in the Navig
                     await displayArtworkPage(id); // Display artwork card
                     stateManager.addRoute('art', id);
                 } catch (error) {
-                    const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
+                    const errorMessage = displayErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
                     artworksSection.appendChild(errorMessage);
                     return 
                 }
@@ -260,7 +269,7 @@ Otherwise you can search for any artwork by clicking Search Artwork in the Navig
                 try {
                     await displayArtist(currentView[1]); // Display artist card
                 } catch (error) {
-                    const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${currentView[1]}`);
+                    const errorMessage = displayErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${currentView[1]}`);
                     artistInfo.appendChild(errorMessage);
                 }
             } else {
@@ -272,7 +281,7 @@ Otherwise you can search for any artwork by clicking Search Artwork in the Navig
                     try {
                         await displayArtist(artistSearch.defaultValue); // Display artist card previously shown
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${lastVisited}`);
+                        const errorMessage = displayErrorMessage(`Invalid ID. The Artic Database has no art with id: ${lastVisited}`);
                         artistInfo.appendChild(errorMessage);
                     }}
                     else {  // user hasn't been to this page before. show the welcome information.
@@ -294,7 +303,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
             
                 const searchValue = artistSearch.value.trim();
                 if (searchValue === '') {
-                    const errorMessage = createErrorMessage('Please enter an ID to search.');
+                    const errorMessage = displayErrorMessage('Please enter an ID to search.');
                     artistInfo.appendChild(errorMessage);
                     return;
                 }
@@ -306,7 +315,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                     stateManager.addRoute('artist', id);
 
                 } catch (error) {
-                    const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${id}`);
+                    const errorMessage = displayErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${id}`);
                     artistInfo.appendChild(errorMessage);
                 }
                 window.history.replaceState = `/artist/${id}`;
@@ -346,7 +355,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                 try {
                     await displayCategory(currentView[1]); // Display category card
                 } catch (error) {
-                    const errorMessage = createErrorMessage(`Invalid Category ID. The Artic Database has no category with id: ${currentView[1]}`);
+                    const errorMessage = displayErrorMessage(`Invalid Category ID. The Artic Database has no category with id: ${currentView[1]}`);
                     categoryInfo.appendChild(errorMessage);
                 }
             } else { // If user has visited any valid category before switching to other tabs show it instead 
@@ -357,7 +366,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                     try {
                         await displayCategory(categorySearch.defaultValue); // Display category card shown before
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no category with id: ${lastVisited}`);
+                        const errorMessage = displayErrorMessage(`Invalid ID. The Artic Database has no category with id: ${lastVisited}`);
                         categoryInfo.appendChild(errorMessage);
                     }}
                 else { // user hasn't visited categories tabs before, show placeholder.
@@ -378,7 +387,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
 
                 const searchValue = categorySearch.value.trim();
                 if (searchValue === '') {
-                const errorMessage = createErrorMessage('Please enter an ID to search.');
+                const errorMessage = displayErrorMessage('Please enter an ID to search.');
                 categoryInfo.appendChild(errorMessage);
                 return;
                 }
@@ -391,7 +400,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                     stateManager.addRoute('category', id);
 
                 } catch (error) {
-                    const errorMessage = createErrorMessage(`Invalid category ID. The Artic Database has no artist with id: ${id}`);
+                    const errorMessage = displayErrorMessage(`Invalid category ID. The Artic Database has no artist with id: ${id}`);
                     categoryInfo.appendChild(errorMessage);
 
                 }
@@ -429,7 +438,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                     try {
                         await displayArtworkSearch(lastVisited); // Display artwork card
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${lastVisited}`);
+                        const errorMessage = displayErrorMessage(`Invalid ID. The Artic Database has no art with id: ${lastVisited}`);
                         artworksSection.appendChild(errorMessage);
                         
                     }}
@@ -439,7 +448,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                 artInfo.innerHTML = '';
                 const information = document.createElement('div');
                 information.className = 'display-information';
-                information.innerHTML = 'Search for art in field above to view the artwork information.';
+                information.innerHTML = `<div class='big-header'>Search for art in field above to view the artwork information.</div>`;
                 artInfo.appendChild(information);
             }
             
@@ -454,7 +463,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
             
                 const searchValue = searchBar.value.trim();
                 if (searchValue === '') {
-                const errorMessage = createErrorMessage('Please enter something to search.');
+                const errorMessage = displayErrorMessage('Please enter something to search.');
                 artworksSection.appendChild(errorMessage);
                 return;
                 }
@@ -466,7 +475,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                     await displayArtworkSearch(searchValue); // Display search value
                     
                 } catch (error) {
-                    const errorMessage = createErrorMessage(`There is a problem with your search term.`);
+                    const errorMessage = displayErrorMessage(`There is a problem with your search term.`);
                     artworksSection.appendChild(errorMessage);
                     return 
                 }
@@ -502,7 +511,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                     try {
                         await displayArtistSearch(artistSearch.defaultValue); // Display artists
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${lastVisited}`);
+                        const errorMessage = displayErrorMessage(`Invalid ID. The Artic Database has no art with id: ${lastVisited}`);
                         artistInfo.appendChild(errorMessage);
                     }}
             else {  // user hasn't been to this page before. show the welcome information.
@@ -510,7 +519,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                         artistGrid.innerHTML = '';
                         const information = document.createElement('div');
                         information.className = 'display-information';
-                        information.innerHTML = 'Enter your search term in the field above to view the artist information. ';
+                        information.innerHTML = `<div class='big-header'><h2>Enter your search term in the field above to view the artist information.</h2></div> `;
                         artistInfo.appendChild(information);
                     }
 
@@ -525,7 +534,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
             
                 const searchValue = artistSearch.value.trim();
                 if (searchValue === '') {
-                    const errorMessage = createErrorMessage('Please enter something to search.');
+                    const errorMessage = displayErrorMessage('Please enter something to search.');
                     artistInfo.appendChild(errorMessage);
                     return;
                 }
@@ -536,7 +545,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                     await displayArtistSearch(searchValue); // Display artwork card
 
                 } catch (error) {
-                    const errorMessage = createErrorMessage(`There is a problem with your search term.`);
+                    const errorMessage = displayErrorMessage(`There is a problem with your search term.`);
                     artistInfo.appendChild(errorMessage);
                 }
                 
@@ -581,14 +590,14 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                     try {
                         await displayCategorySearch(categorySearch.defaultValue); // Display categories
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no category with id: ${lastVisited}`);
+                        const errorMessage = displayErrorMessage(`Invalid ID. The Artic Database has no category with id: ${lastVisited}`);
                         categoryInfo.appendChild(errorMessage);
                     }}
                 else { // user hasn't visited categories tabs before, show placeholder.
                     categoryInfo.innerHTML = '';
                 const information = document.createElement('div');
                 information.className = 'display-information';
-                information.innerHTML = 'Enter your search term in the field above to view the category information. ';
+                information.innerHTML = `<div class='big-header'>Enter your search term in the field above to view the category information.</div> `;
                 categoryInfo.appendChild(information);
             }                             
     
@@ -600,7 +609,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
     
                     const searchValue = categorySearch.value.trim();
                     if (searchValue === '') {
-                    const errorMessage = createErrorMessage('Please enter something to search.');
+                    const errorMessage = displayErrorMessage('Please enter something to search.');
                     categoryInfo.appendChild(errorMessage);
                     return;
                     }
@@ -614,7 +623,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
     
     
                     } catch (error) {
-                        const errorMessage = createErrorMessage(`Something went wrong when searching.`);
+                        const errorMessage = displayErrorMessage(`Something went wrong when searching.`);
                         categoryInfo.appendChild(errorMessage);
     
                     }

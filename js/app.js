@@ -2,6 +2,8 @@ import {
   feedCard,
   odysseyCard,
   createLoader,
+  loadMoreFeed,
+
   displayArtwork,
   createNewArtwork,
   createArtistInfo,
@@ -762,18 +764,20 @@ export async function displayCategorySearch(search_term) {
   }
 }
 
-
-
-// todo
 // Function to display the feed page
 export async function displayFeedPage(pageNumber = 0, itemsPerPage = 25) {
   const newArtsSection = document.getElementById('new-arts');
+  let loadMore;
+  if (pageNumber > 0){
+    loadMore = document.getElementById('load-more-card');
+    loadMore.remove();
+  }
   
   try {
-    const newArtworks = await find_recent_artworks(limit);
+    const newArtworks = await find_recent_artworks(itemsPerPage, pageNumber);
     let state = new State();
 
-    for (let index = 0; index < limit; index++) {
+    for (let index = 0; index < itemsPerPage; index++) {
       const element = newArtworks.data[index];
       const loader = createLoader();
       newArtsSection.appendChild(loader);
@@ -792,6 +796,7 @@ export async function displayFeedPage(pageNumber = 0, itemsPerPage = 25) {
         art_image = olddata['image'];
       }
       else { // Fetch artwork data
+
         if (element.image_id) {
           art_image = await find_art_image(element.image_id);
           art_manifest = await find_manifest(element.id);
@@ -833,13 +838,19 @@ export async function displayFeedPage(pageNumber = 0, itemsPerPage = 25) {
         // I chose this behavior because most of the latest fetched arts don't have an image attached and they will be attached later on. 
         // but if I show all of them the users will think its an error of the website and not a characteristic of the API
         newArtsSection.appendChild(card);
+        // if (pageNumber = 0) {
+        //   newArtsSection.appendChild(card);
+        // }
+        // else {
+        //   newArtsSection.insertBefore(card, document.getElementById('load-more-card'));
+        // }
       }
       
     }
     
-
-
-  
+      loadMore = loadMoreFeed();
+      newArtsSection.appendChild(loadMore);
+ 
   }
           
     catch (error) {
@@ -850,8 +861,17 @@ export async function displayFeedPage(pageNumber = 0, itemsPerPage = 25) {
     }
 }
 
+// Logic for loading more feed data
+export function processMoreFeed() {
+    let nextPage = Math.ceil(document.querySelectorAll('.artwork-latest').length / 25) + 1
+    displayFeedPage(nextPage, 25); // Load next batch of 25 cards
+}
+
 // Function to display category Search Results
 export async function displayOdysseyPage() {
 
 }
 
+export function displayErrorMessage(message){
+  createErrorMessage(message);
+}

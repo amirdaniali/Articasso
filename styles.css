@@ -321,6 +321,13 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   font-weight: bold;
   font-family: "Delius Swash Caps", cursive;
 }
+.feed-button-title {
+  font-size: 24px;
+  margin: 10px 0;
+  color:#000;
+  display: block;
+  font-weight: bold;
+}
 
 .internal-button-title {
   font-size: 24px;
@@ -501,9 +508,24 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* Introdcutory texts on the homepage */
-.home-introduction > h2 {
+.home-introduction{
   color: #004494;
   font-size: 32px;
+  width: 100%;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  text-align: center;
+  font-family: "Delius Swash Caps", cursive;
+}
+
+/* header texts on other pages */
+.big-header *, .big-header{
+  color: #004494;
+  font-size: 25px;
   width: 100%;
   justify-content: center;
   justify-items: center;

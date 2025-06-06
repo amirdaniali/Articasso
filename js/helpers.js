@@ -71,9 +71,9 @@ export async function find_art_image(id = '2d83fb4d-1851-ad82-46c6-1c737976e3fd'
 }
 
 
-export async function find_recent_artworks(limit) {
+export async function find_recent_artworks(limit, page=1) {
     // This function returns the first {limit} number of arts from the api
-    const addressURL = `https://api.artic.edu/api/v1/artworks?limit=${limit}`
+    const addressURL = `https://api.artic.edu/api/v1/artworks?page=${page}&limit=${limit}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'artic-arts.amirdaniali.com' // Documentation Requires custom AIC-User-Agent
@@ -91,7 +91,7 @@ export async function find_recent_artworks(limit) {
 }
 
 
-export async function find_category( category_id) {
+export async function find_category( category_id ) {
     // This function returns the category data json object from the api
     const addressURL = `https://api.artic.edu/api/v1/category-terms/${category_id}`
     const returnResponse = await fetch(addressURL, 
@@ -225,9 +225,10 @@ export async function search_artists(search_term) {
 }
 
 
-export const truncateString = (str, maxLength) => {
+export function truncateString(str, maxLength){
   if (str.length > maxLength) {
     return str.slice(0, maxLength - 3) + '...';
   }
   return str;
 };
+
