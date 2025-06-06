@@ -575,6 +575,7 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   color: white;
   margin: 0;
   position: absolute;
+  text-align: center;
   top: 50%;
   left: 50%;
   font-size: 2rem;

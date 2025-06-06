@@ -678,7 +678,7 @@ export function displayDayArtwork(artwork, artwork_manifest= null) {
     // Add artist
   const artist = document.createElement('p');
   artist.className = 'day-artist';
-  artist.textContent = `by: ${artwork.artists[0]}`;
+  artist.textContent = `by: ${artwork.artists[0] || 'Unknown Artist'}`;
   infoWrapper.appendChild(artist);
 
   card.appendChild(infoWrapper);
