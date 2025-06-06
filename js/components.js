@@ -70,21 +70,6 @@ export function createArtworkCard(artwork, artwork_manifest= null) {
   const infoWrapper = document.createElement('div');
   infoWrapper.className = 'card-info';
   
-  // Add id
-
-  // const id = document.createElement('a');
-  // id.title = `ID: ${artwork.id}`;
-  // id.className = 'card-id SPA-link'; // all links with SPA-link class will be handled by routes.js file
-  // id.href = `/art/${artwork.id}`;
-  // id.appendChild(document.createTextNode(`ID: ${artwork.id}`));
-  // infoWrapper.appendChild(id);
-
-
-  // Add Date
-  // const date_display = document.createElement('p');
-  // date_display.className = 'card-date';
-  // date_display.textContent = 'Date Displayed: ' + (artwork.date || 'No Date Known');
-  // infoWrapper.appendChild(date_display);
 
   card.appendChild(infoWrapper);
 
@@ -225,7 +210,7 @@ export function loadMoreFeed() {
   
   const imagewrapper = document.createElement('a');
   const image = document.createElement('img');
-  imagewrapper.href = '';
+  imagewrapper.href = '#';
   imagewrapper.className = 'new-image-wrapper';
   image.className = 'card-img feed-button-image';
   image.src = '/media/plus.png';
@@ -238,7 +223,7 @@ export function loadMoreFeed() {
     // Add Text
   const loadtext = document.createElement('a');
   loadtext.title = 'View More';
-  loadtext.href = '';
+  loadtext.href = '#';
   loadtext.className = 'feed-button-title';
   loadtext.textContent = 'View More';
   card.appendChild(loadtext);
@@ -291,7 +276,7 @@ export function loadMoreOdyssey() {
   
   const imagewrapper = document.createElement('a');
   const image = document.createElement('img');
-  imagewrapper.href = '';
+  imagewrapper.href = '#';
   imagewrapper.className = 'new-image-wrapper';
   image.className = 'card-img odyssey-button-image';
   image.src = '/media/plus.png';
@@ -304,7 +289,7 @@ export function loadMoreOdyssey() {
     // Add Text
   const loadtext = document.createElement('a');
   loadtext.title = 'View More';
-  loadtext.href = '';
+  loadtext.href = '#';
   loadtext.className = 'odyssey-button-title';
   loadtext.textContent = 'View More';
   card.appendChild(loadtext);
