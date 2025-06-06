@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favico//favicon-16x16.png">
+  <link rel="manifest" href="favico/site.webmanifest">
+  <meta name="description" content="Welcome to Articasso where you can view millions of artworks made by over 16000 artists.">
+  
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+<!-- Title -->
+  <title>Artic Artworks</title>
+  <!-- Link to Custom Styles -->
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="body-style">
+  <!-- Header Section -->
+  <header class="header-style">
+    <h1>Articasso :: Art is worth enjoying before the robots take over.</h1>
+    <ul class="navigation">
+      <li><a href="/" class="SPA-link">Home</a></li>
+      
+      <li class="dropdown">
+        <a href="" class="nav-group dropbtn">Artworks</a>
+        <div class="dropdown-content">
+          <a class="SPA-link" href="/feed">Art Feed</a>
+          <a class="SPA-link" href="/odyssey">Art Odyssey</a>
+          <a class="SPA-link" href="/art_search">Search Artworks</a>
+          <a class="SPA-link" href="/art">Artwork ID Lookup</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="" class="nav-group dropbtn">Artists</a>
+        <div class="dropdown-content">
+          <a class="SPA-link" href="/artist_search">Search Artists</a>
+          <a class="SPA-link" href="/artist">Artist ID Lookup</a>
+        </div>
+      </li>
+      <li class="dropdown">
+        <a href="" class="nav-group dropbtn">Categories</a>
+        <div class="dropdown-content">
+          <a class="SPA-link" href="/category_search">Search Categories</a>
+          <a class="SPA-link" href="/category">Categories ID Lookup</a>
+        </div>
+      </li>
+      <li><a href="/about" class="SPA-link">About</a></li>
+    </ul>
+
+  </header>
+
+  <!-- Main Container -->
+  <section id="page-container" class="page-container"></section>
+  <section id="main-container" class="main-container" ></section>
+
+  <footer class="footer-style">
+    <p>Created with ❤️ 
+    <a href="https://github.com/amirdaniali/Articasso" target="_blank" style="text-decoration: none; padding: 5px; background-color: #ddd; color: #0056b3; border-radius: 5px; font-family: Arial, sans-serif;">View Source Code on GitHub</a>
+  </b></p>
+  </footer>
+
+  <!-- JavaScript File -->
+  <script type="module" src="/js/routes.js"></script>
+  
+</body>
+</html>
