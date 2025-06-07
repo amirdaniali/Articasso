@@ -210,7 +210,7 @@ export function loadMoreFeed() {
   
   const imagewrapper = document.createElement('a');
   const image = document.createElement('img');
-  imagewrapper.href = '#';
+  // imagewrapper.href = '#';
   imagewrapper.className = 'new-image-wrapper';
   image.className = 'card-img feed-button-image';
   image.src = '/media/plus.png';
@@ -223,7 +223,7 @@ export function loadMoreFeed() {
     // Add Text
   const loadtext = document.createElement('a');
   loadtext.title = 'View More';
-  loadtext.href = '#';
+  // loadtext.href = '#';
   loadtext.className = 'feed-button-title';
   loadtext.textContent = 'View More';
   card.appendChild(loadtext);
@@ -276,7 +276,7 @@ export function loadMoreOdyssey() {
   
   const imagewrapper = document.createElement('a');
   const image = document.createElement('img');
-  imagewrapper.href = '#';
+  // imagewrapper.href = '#';
   imagewrapper.className = 'new-image-wrapper';
   image.className = 'card-img odyssey-button-image';
   image.src = '/media/plus.png';
@@ -289,7 +289,7 @@ export function loadMoreOdyssey() {
     // Add Text
   const loadtext = document.createElement('a');
   loadtext.title = 'View More';
-  loadtext.href = '#';
+  // loadtext.href = '#';
   loadtext.className = 'odyssey-button-title';
   loadtext.textContent = 'View More';
   card.appendChild(loadtext);
