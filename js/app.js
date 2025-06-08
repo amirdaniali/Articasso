@@ -884,13 +884,11 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
         artwork = olddata['art'];
         art_manifest = olddata['manifest'];
         art_image = olddata['image'];
-        data = artwork;
       }
       else { // Fetch artwork data
         artwork = await find_art(id,false);
-        data = artwork.data;
 
-        if (data.image_id) {
+        if (artwork.data.image_id) {
           art_image = await find_art_image(data.image_id);
           art_manifest = await find_manifest(id);
         } else {
@@ -898,7 +896,7 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
           art_manifest = null;
         }
         let newData = {
-          'art' : data,
+          'art' : artwork,
           'manifest': art_manifest,
           'image': art_image
         };
@@ -906,10 +904,10 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
       } 
 
       const [card, status] = createNewArtwork({
-        title: data.title,
+        title: artwork.data.title,
         image: art_image,
         id: id,
-        color: data.color,
+        color: artwork.data.color,
       }, art_manifest
     );
     
