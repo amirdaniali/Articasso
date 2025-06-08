@@ -80,6 +80,7 @@ const routes = {
 
 // route function to prevent default url loading and let locationHandler kick in
 const route = (event) => {
+    event = event || window.event;
     event.preventDefault();
 
     window.history.pushState({}, "", event.target.href);
