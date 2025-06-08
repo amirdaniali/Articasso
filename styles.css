@@ -321,7 +321,7 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   font-weight: bold;
   font-family: "Delius Swash Caps", cursive;
 }
-.feed-button-title {
+.feed-button-title, .odyssey-button-title {
   font-size: 24px;
   margin: 10px 0;
   color:#000;
