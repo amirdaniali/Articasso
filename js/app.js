@@ -936,7 +936,7 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
 
 // Logic for loading more feed data via a load more button
 export function processMoreOdyssey() {
-    let nextPage = Math.ceil(document.querySelectorAll('.artworks-grid').length / 25) + 1;
+    let nextPage = Math.ceil(document.querySelectorAll('.artwork-latest').length / 25) + 1;
     console.log(nextPage);
     displayOdysseyPage(nextPage, 25); // Load next batch of 25 cards
 }

@@ -32,8 +32,8 @@ export class State {
         return dayArtworks[day]['ID'];
     }
 
-    getArtOdysseyList(pageNumber,itemsPerPage){
-        return State.ArtOdysseyIDs.slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage );
+    getArtOdysseyList(pageNumber, itemsPerPage){
+        return State.ArtOdysseyIDs.slice((pageNumber-1) * itemsPerPage, (pageNumber ) * itemsPerPage );
     }
 
     getPreviousRoutes(){
