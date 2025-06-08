@@ -898,7 +898,7 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
           art_manifest = null;
         }
         let newData = {
-          'art' : artwork,
+          'art' : data,
           'manifest': art_manifest,
           'image': art_image
         };
