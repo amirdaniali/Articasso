@@ -875,7 +875,7 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
       let art_manifest;
       let olddata;
       let art_image;
-      let data;
+
 
       let artExists = await state.hasItem("artworksStore", id);
 
@@ -889,7 +889,7 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
         artwork = await find_art(id,false);
 
         if (artwork.data.image_id) {
-          art_image = await find_art_image(data.image_id);
+          art_image = await find_art_image(artwork.data.image_id);
           art_manifest = await find_manifest(id);
         } else {
           art_image = null;
