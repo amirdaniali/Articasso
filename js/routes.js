@@ -89,28 +89,28 @@ const route = (event) => {
 
 // create document click that watches the nav links only
 document.addEventListener("click", (e) => {
-    if (e.explicitOriginalTarget.className.includes("SPA-link") ){ // Internal Links to SPA pages
+    if (e.target.className.includes("SPA-link") ){ // Internal Links to SPA pages
         e.preventDefault();
         route();
     }
-    if (e.explicitOriginalTarget.className.includes("feed-button-title") ){ // Feed loadmore button
+    if (e.target.className.includes("feed-button-title") ){ // Feed loadmore button
         e.preventDefault();
         processMoreFeed();
     }
-    if (e.explicitOriginalTarget.className.includes("feed-button-image") ){ // Feed loadmore image
+    if (e.target.className.includes("feed-button-image") ){ // Feed loadmore image
         e.preventDefault();
         processMoreFeed();
     }
-    if (e.explicitOriginalTarget.className.includes("odyssey-button-title") ){ // Feed loadmore button
+    if (e.target.className.includes("odyssey-button-title") ){ // Feed loadmore button
         e.preventDefault();
         processMoreOdyssey();
     }
-    if (e.explicitOriginalTarget.className.includes("odyssey-button-image") ){ // Feed loadmore image
+    if (e.target.className.includes("odyssey-button-image") ){ // Feed loadmore image
         e.preventDefault();
         processMoreOdyssey();
     }
     else {
-        if (e.explicitOriginalTarget.className.includes("nav-group") ){ // Navgroup related
+        if (e.target.className.includes("nav-group") ){ // Navgroup related
             e.preventDefault();
         }
     }
