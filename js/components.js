@@ -176,7 +176,7 @@ export function feedCard() {
   imagewrapper.className = 'new-image-wrapper';
   imagewrapper.href = `/feed`;
   image.className = 'card-img SPA-link';
-  image.src = '/media/redirect.svg';
+  image.src = '/media/redirect.png';
   image.alt = 'Go to Feed';
   image.addEventListener('click', function routeURL() {
     window.history.pushState({}, "", `/feed`);
@@ -243,7 +243,7 @@ export function odysseyCard() {
   imagewrapper.className = 'odyssey-image-wrapper';
   imagewrapper.href = `/odyssey`;
   image.className = 'card-img SPA-link';
-  image.src = '/media/redirect.svg';
+  image.src = '/media/redirect.png';
   image.alt = 'Go to Art Odyssey';
   image.addEventListener('click', function routeURL() {
     window.history.pushState({}, "", `/odyssey`);
