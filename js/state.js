@@ -24,16 +24,67 @@ export class State {
         this.storeNames = ["artworksStore", "artistsStore", "categoriesStore"];
         this.cache = { artworksStore: {}, artistsStore: {}, categoriesStore: {} }; // Local cache of Fetched API resources
         this.initDB();
+        
+        this.countriesStore ;
     }
 
     getDayArtWorkID(day){
+        // returns the art id of the day
         let dayArtworks = [{"ID":14591},{"ID":14592},{"ID":14593},{"ID":14594},{"ID":14598},{"ID":14601},{"ID":14603},{"ID":14605},{"ID":14619},{"ID":14620},{"ID":14624},{"ID":14626},{"ID":14630},{"ID":14633},{"ID":14634},{"ID":14643},{"ID":14644},{"ID":14647},{"ID":14648},{"ID":14649},{"ID":14650},{"ID":14655},{"ID":14664},{"ID":14665},{"ID":14667},{"ID":14668},{"ID":14669},{"ID":14670},{"ID":14672},{"ID":14674},{"ID":14675},{"ID":14676},{"ID":14677},{"ID":14678},{"ID":14679},{"ID":14681},{"ID":14683},{"ID":14684},{"ID":14686},{"ID":14687},{"ID":14688},{"ID":14689},{"ID":14690},{"ID":14691},{"ID":14692},{"ID":14693},{"ID":14694},{"ID":14695},{"ID":14696},{"ID":14697},{"ID":14698},{"ID":14699},{"ID":14700},{"ID":14701},{"ID":14702},{"ID":14703},{"ID":14704},{"ID":14705},{"ID":14707},{"ID":14708},{"ID":14709},{"ID":14710},{"ID":14711},{"ID":14713},{"ID":14714},{"ID":14715},{"ID":14720},{"ID":14721},{"ID":14727},{"ID":14729},{"ID":14730},{"ID":14731},{"ID":14732},{"ID":14733},{"ID":14734},{"ID":14736},{"ID":14737},{"ID":14739},{"ID":14740},{"ID":14743},{"ID":14745},{"ID":14746},{"ID":14748},{"ID":14749},{"ID":14752},{"ID":14753},{"ID":14755},{"ID":14757},{"ID":14758},{"ID":14761},{"ID":14762},{"ID":14763},{"ID":14764},{"ID":14765},{"ID":14766},{"ID":14767},{"ID":14768},{"ID":14770},{"ID":14771},{"ID":14772},{"ID":14773},{"ID":14774},{"ID":14775},{"ID":14780},{"ID":14781},{"ID":14782},{"ID":14783},{"ID":14786},{"ID":14787},{"ID":14788},{"ID":14789},{"ID":14790},{"ID":14792},{"ID":14794},{"ID":14795},{"ID":14796},{"ID":14797},{"ID":14798},{"ID":14799},{"ID":14803},{"ID":14804},{"ID":14805},{"ID":14806},{"ID":14808},{"ID":14809},{"ID":14810},{"ID":14811},{"ID":14812},{"ID":14813},{"ID":14814},{"ID":14815},{"ID":14816},{"ID":14817},{"ID":14818},{"ID":14819},{"ID":14820},{"ID":14821},{"ID":14822},{"ID":14825},{"ID":14827},{"ID":14831},{"ID":14833},{"ID":14834},{"ID":14835},{"ID":14837},{"ID":14838},{"ID":14839},{"ID":14840},{"ID":14842},{"ID":80062},{"ID":14845},{"ID":14846},{"ID":14847},{"ID":14848},{"ID":14849},{"ID":14850},{"ID":120662},{"ID":14852},{"ID":14853},{"ID":14854},{"ID":14855},{"ID":14856},{"ID":14857},{"ID":14858},{"ID":14859},{"ID":14860},{"ID":14861},{"ID":14862},{"ID":14863},{"ID":14864},{"ID":14865},{"ID":14866},{"ID":14867},{"ID":14869},{"ID":14871},{"ID":14873},{"ID":14874},{"ID":14877},{"ID":14878},{"ID":14880},{"ID":14882},{"ID":14884},{"ID":14889},{"ID":14890},{"ID":14891},{"ID":14892},{"ID":14893},{"ID":14894},{"ID":14895},{"ID":14896},{"ID":14898},{"ID":14900},{"ID":14901},{"ID":14904},{"ID":14906},{"ID":14908},{"ID":14910},{"ID":14912},{"ID":14916},{"ID":14917},{"ID":14919},{"ID":14925},{"ID":14927},{"ID":14929},{"ID":14930},{"ID":14931},{"ID":14932},{"ID":14933},{"ID":14934},{"ID":14935},{"ID":14936},{"ID":14937},{"ID":14938},{"ID":14940},{"ID":14941},{"ID":14943},{"ID":14946},{"ID":14948},{"ID":14959},{"ID":14966},{"ID":14968},{"ID":14970},{"ID":14973},{"ID":14975},{"ID":14977},{"ID":14983},{"ID":14987},{"ID":14992},{"ID":14993},{"ID":14995},{"ID":15010},{"ID":15012},{"ID":15014},{"ID":15017},{"ID":15019},{"ID":15021},{"ID":15024},{"ID":15026},{"ID":15028},{"ID":15030},{"ID":15033},{"ID":15035},{"ID":15041},{"ID":15043},{"ID":15045},{"ID":15047},{"ID":15048},{"ID":15050},{"ID":15051},{"ID":15057},{"ID":15060},{"ID":15063},{"ID":15065},{"ID":15066},{"ID":15068},{"ID":15069},{"ID":15071},{"ID":15073},{"ID":15074},{"ID":15075},{"ID":15077},{"ID":15079},{"ID":15085},{"ID":15086},{"ID":15087},{"ID":15089},{"ID":15091},{"ID":15092},{"ID":15095},{"ID":15098},{"ID":15099},{"ID":15100},{"ID":15101},{"ID":15102},{"ID":15103},{"ID":15104},{"ID":15105},{"ID":15106},{"ID":15107},{"ID":15108},{"ID":15110},{"ID":15111},{"ID":15113},{"ID":15114},{"ID":15118},{"ID":15120},{"ID":15121},{"ID":15123},{"ID":15124},{"ID":15126},{"ID":15127},{"ID":15130},{"ID":15132},{"ID":15135},{"ID":15136},{"ID":15140},{"ID":15142},{"ID":15143},{"ID":15144},{"ID":15146},{"ID":15147},{"ID":15149},{"ID":15152},{"ID":15154},{"ID":15155},{"ID":15156},{"ID":15157},{"ID":15158},{"ID":15160},{"ID":15161},{"ID":15162},{"ID":15163},{"ID":15164},{"ID":15165},{"ID":15166},{"ID":15167},{"ID":15168},{"ID":15169},{"ID":15170},{"ID":15172},{"ID":15173},{"ID":15177},{"ID":15179},{"ID":15181},{"ID":15182},{"ID":15184},{"ID":15188},{"ID":15189},{"ID":15190},{"ID":15191},{"ID":15192},{"ID":15193},{"ID":15194},{"ID":15195},{"ID":15197},{"ID":15199},{"ID":15201},{"ID":15204},{"ID":15206},{"ID":15207},{"ID":15210},{"ID":15211},{"ID":15214},{"ID":15215},{"ID":15217},{"ID":15218},{"ID":15219},{"ID":15221},{"ID":15222},{"ID":15223},{"ID":15225},{"ID":15230},{"ID":15233},{"ID":15239},{"ID":15243},{"ID":15251},{"ID":15254},{"ID":15257},{"ID":15260},{"ID":15276},{"ID":15279},{"ID":15287},{"ID":15291},{"ID":15297},{"ID":15300},{"ID":15302},{"ID":15303},{"ID":15304},{"ID":15305}]
 
         return dayArtworks[day]['ID'];
     }
 
     getArtOdysseyList(pageNumber, itemsPerPage){
+        // return the ids of arts for the page requested
         return State.ArtOdysseyIDs.slice((pageNumber-1) * itemsPerPage, (pageNumber ) * itemsPerPage );
+    }
+
+    async getCountriesData(){
+        // returns the data for the countries
+        if (this.countriesStore && Object.keys(this.countriesStore).length > 0) {
+            console.log(this.countriesStore);
+            return this.countriesStore; // Return existing data if available
+        }
+        else {
+            try {
+                // const response = await fetch('https://articasso.org/data/countries.json');
+                const response = await fetch('../data/countries.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const jsonData = await response.json();
+
+                // Convert JSON array to a dictionary (object) using country id as the key
+                this.countriesStore = {};
+                let i = 0;
+                jsonData.forEach(country => {
+                    this.countriesStore[i] = country;
+                    i++
+                });
+                return this.countriesStore;
+            } catch (error) {
+                console.error("Error loading JSON file:", error);
+                return {};
+            }
+        }
+    }
+
+    async getCountriesPage(pageNumber, itemsPerPage){
+        // returns the data for the countries
+        if (this.countriesStore && Object.keys(this.countriesStore).length > 0) {
+            return Object.values(this.countriesStore).slice((pageNumber-1)*itemsPerPage, pageNumber*itemsPerPage); // Return existing data if available
+        }
+        else {
+            try {
+                let countriesData = await this.getCountriesData();
+                return Object.values(countriesData).slice((pageNumber-1)*itemsPerPage, pageNumber*itemsPerPage);
+
+            } catch (error) {
+                console.error(error);
+                return {}
+            }
+        }
     }
 
     getPreviousRoutes(){

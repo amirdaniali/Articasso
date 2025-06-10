@@ -198,21 +198,113 @@ export function feedCard() {
 
   return card;
 }
-
-
 // Component to go to feed
-export function loadMoreFeed() {
+export function loadMoreCategoryArts() {
   const card = document.createElement('div');
   card.style.background = `hsl(210, 100%, 70%)`;
-  card.className = 'feed-handler-card'; // Styling will be in styles.css
+  card.className = 'small-card-loader'; // Styling will be in styles.css
   card.id = 'load-more-card';
   
   
   const imagewrapper = document.createElement('a');
   const image = document.createElement('img');
-  // imagewrapper.href = '#';
+  imagewrapper.href = '';
   imagewrapper.className = 'new-image-wrapper';
-  image.className = 'card-img feed-button-image';
+  image.className = 'card-img loader-image category-button-image';
+  image.src = '/media/plus.png';
+  image.alt = 'Load More';
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+    // Add Text
+  const loadtext = document.createElement('a');
+  loadtext.title = 'View More';
+  loadtext.href = '';
+  loadtext.className = 'loader-title category-button-title';
+  loadtext.textContent = 'View More';
+  card.appendChild(loadtext);
+
+  return card;
+}
+
+// Component to go to feed
+export function loadMoreArtistArts() {
+  const card = document.createElement('div');
+  card.style.background = `hsl(210, 100%, 70%)`;
+  card.className = 'small-card-loader'; // Styling will be in styles.css
+  card.id = 'load-more-card';
+  
+  
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.href = '';
+  imagewrapper.className = 'new-image-wrapper';
+  image.className = 'card-img loader-image artist-button-image';
+  image.src = '/media/plus.png';
+  image.alt = 'Load More';
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+    // Add Text
+  const loadtext = document.createElement('a');
+  loadtext.title = 'View More';
+  loadtext.href = '';
+  loadtext.className = 'loader-title artist-button-title';
+  loadtext.textContent = 'View More';
+  card.appendChild(loadtext);
+
+  return card;
+}
+
+
+// Component to go to feed
+export function loadMoreSearch() {
+  const card = document.createElement('div');
+  card.style.background = `hsl(210, 100%, 70%)`;
+  card.className = 'small-card-loader'; // Styling will be in styles.css
+  card.id = 'load-more-card';
+  
+  
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.href = '';
+  imagewrapper.className = 'new-image-wrapper';
+  image.className = 'card-img loader-image search-button-image';
+  image.src = '/media/plus.png';
+  image.alt = 'Load More';
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+    // Add Text
+  const loadtext = document.createElement('a');
+  loadtext.title = 'View More';
+  loadtext.href = '';
+  loadtext.className = 'loader-title search-button-title';
+  loadtext.textContent = 'View More';
+  card.appendChild(loadtext);
+
+  return card;
+}
+
+// Component to load more countries
+export function loadMoreCountries() {
+  const card = document.createElement('div');
+  card.style.background = `hsl(210, 100%, 70%)`;
+  card.className = 'small-card-loader'; // Styling will be in styles.css
+  card.id = 'load-more-card';
+  
+  
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.href = '';
+  imagewrapper.className = 'new-image-wrapper';
+  image.className = 'card-img loader-image countries-button-image';
   image.src = '/media/plus.png';
   image.alt = 'Go to Feed';
 
@@ -223,8 +315,39 @@ export function loadMoreFeed() {
     // Add Text
   const loadtext = document.createElement('a');
   loadtext.title = 'View More';
-  // loadtext.href = '#';
-  loadtext.className = 'feed-button-title';
+  loadtext.href = '';
+  loadtext.className = 'loader-title countries-button-title';
+  loadtext.textContent = 'View More';
+  card.appendChild(loadtext);
+
+  return card;
+}
+
+// Component to go to feed
+export function loadMoreFeed() {
+  const card = document.createElement('div');
+  card.style.background = `hsl(210, 100%, 70%)`;
+  card.className = 'small-card-loader'; // Styling will be in styles.css
+  card.id = 'load-more-card';
+  
+  
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.href = '';
+  imagewrapper.className = 'new-image-wrapper';
+  image.className = 'card-img loader-image feed-button-image';
+  image.src = '/media/plus.png';
+  image.alt = 'Go to Feed';
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+    // Add Text
+  const loadtext = document.createElement('a');
+  loadtext.title = 'View More';
+  loadtext.href = '';
+  loadtext.className = 'loader-title feed-button-title';
   loadtext.textContent = 'View More';
   card.appendChild(loadtext);
 
@@ -270,15 +393,15 @@ export function odysseyCard() {
 export function loadMoreOdyssey() {
   const card = document.createElement('div');
   card.style.background = `hsl(210, 100%, 70%)`;
-  card.className = 'odyssey-handler-card'; // Styling will be in styles.css
+  card.className = 'small-card-loader'; // Styling will be in styles.css
   card.id = 'load-more-card';
   
   
   const imagewrapper = document.createElement('a');
   const image = document.createElement('img');
-  // imagewrapper.href = '#';
+  imagewrapper.href = '';
   imagewrapper.className = 'new-image-wrapper';
-  image.className = 'card-img odyssey-button-image';
+  image.className = 'card-img loader-image odyssey-button-image';
   image.src = '/media/plus.png';
   image.alt = 'Load More';
 
@@ -289,8 +412,8 @@ export function loadMoreOdyssey() {
     // Add Text
   const loadtext = document.createElement('a');
   loadtext.title = 'View More';
-  // loadtext.href = '#';
-  loadtext.className = 'odyssey-button-title';
+  loadtext.href = '';
+  loadtext.className = 'loader-title odyssey-button-title';
   loadtext.textContent = 'View More';
   card.appendChild(loadtext);
 
@@ -729,4 +852,78 @@ export function createCategoryResult(data=null) {
   categoryContainer.appendChild(aLink);
 
   return categoryContainer;
+}
+
+
+
+
+// Component to show country card
+export function createSmallCard(data) {
+  var status = {};
+  status.Ok = true;
+  const card = document.createElement('div');
+  card.className = 'small-card'; // Styling will be in styles.css
+  
+  
+  // Change the backgroud color if image colors are available
+
+  try {
+    if (data.color.l > 40){
+      card.style.background = `hsl(${data.color.h},${data.color.s}%,${data.color.l}%)`;
+    }
+    else {
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
+    }
+    
+  } catch (error) {
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
+  }
+
+
+  // Add image
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.className = 'small-image-wrapper';
+  imagewrapper.href = `/${data.href}`;
+  image.className = 'card-img SPA-link'; // all links with SPA-link class will be handled by routes.js file
+  
+  
+  if (!data.image) { // If the latest API data doesnt have an image set the OK status to false
+    status.Ok = false; 
+  }
+  image.src = data.image || '/media/placeholder.jpg'; // Fallback image
+  image.alt = 'Artwork';
+
+  // encountered when server has an issue and cannot show the image, then replace the image with placeholder
+  image.addEventListener('error', function handleError() {
+    // console.log(image.parentElement);
+    // image.parentElement.remove();
+    console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
+    image.src = '/media/placeholder.jpg';
+    image.alt = 'default';    
+  });
+  
+  // handles image redirects
+  image.addEventListener('click', function routeURL() {
+    window.history.pushState({}, "", `/${data.href}`);
+    locationHandler();
+      
+  });
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+  // Add title
+  const title = document.createElement('a');
+  title.title = data.title;
+  title.className = 'card-title SPA-link';
+  title.href = `//${data.href}`;
+  title.appendChild(document.createTextNode(data.title));
+  title.textContent = data.title || 'Untitled';
+  card.appendChild(title);
+  
+  return [card, status];
 }

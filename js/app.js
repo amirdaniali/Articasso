@@ -1,17 +1,28 @@
 import {
-  feedCard,
-  odysseyCard,
   createLoader,
-  loadMoreFeed,
-  displayArtwork,
-  loadMoreOdyssey,
-  createNewArtwork,
-  createArtistInfo,
-  createArtworkCard,
-  displayDayArtwork,
   createErrorMessage,
-  createCategoryInfo,
+  createSmallCard,
+
+  feedCard,
+  loadMoreFeed,
+  
+  odysseyCard,
+  loadMoreOdyssey,
+
+  displayArtwork,
+  loadMoreSearch,
+  createNewArtwork,
+  displayDayArtwork,
+  createArtworkCard,
+
+  createArtistInfo,
+  loadMoreArtistArts,
   createArtistResult,
+  
+  loadMoreCountries,
+  
+  createCategoryInfo,
+  loadMoreCategoryArts,
   createCategoryResult,
 } from './components.js';
 
@@ -25,6 +36,7 @@ import {
   find_art_image,
   search_artists,
   find_artist_arts,
+  find_artist_id_arts,
   search_categories,
   find_category_arts,
   find_recent_artworks,
@@ -63,7 +75,7 @@ export async function displayRecentFeed(limit=24) {
       }
       else { // Fetch artwork data
         if (element.image_id) {
-          art_image = await find_art_image(element.image_id);
+          art_image = find_art_image(element.image_id);
           art_manifest = await find_manifest(element.id);
         } else {
           art_image = null;
@@ -121,35 +133,39 @@ export async function displayRecentFeed(limit=24) {
 }
 
 
-export async function displayArtist (id) {
+export async function displayArtist (id, pageNumber=1, itemsPerPage=50) {
 
+  const artistGrid = document.getElementById('artist-grid');    
+  const artistInfo = document.getElementById('artist-info');   
+
+  let loadMore; // load more is a button at the end of the div that loads more elements. we delete it to avoid dups 
+  if (pageNumber > 1){
+    loadMore = document.getElementById('load-more-card');
+    loadMore.remove();
+  }
   try {
     // if one day i add the arts made by an artist they will be added to the artist grid
-    const artistGrid = document.getElementById('artist-grid');    
-    const artistInfo = document.getElementById('artist-info');    
 
     // Create a loader while fetching data
-    const loader = createLoader();
-    artistInfo.appendChild(loader);
     const artist = await find_artist(id);
-
-    artistInfo.removeChild(loader);
+    // const artist_artworks = await find_artist_id_arts(artist.data.id,pageNumber,itemsPerPage);
+    const artist_artworks = await find_artist_arts(artist.data.title,pageNumber,itemsPerPage);
+    const loader = createLoader();
+    if (pageNumber == 1){
 
 
     const card = createArtistInfo(artist);
     artistInfo.appendChild(card);
 
-
-    const artist_artworks = await find_artist_arts(artist.data.title);
-
     document.title = artist.data.title || 'View Artist';
 
+    // load art made by artist section. 
     if (artist_artworks.data.length) {
       const artist_arts_header = document.createElement('h2');
       artist_arts_header.className = 'artist-arts-header';
       artist_arts_header.textContent =`Here are the arts created by this artist:`;
       artistInfo.appendChild(artist_arts_header);
-    }
+    }}
 
     let state = new State();
       
@@ -172,10 +188,10 @@ export async function displayArtist (id) {
         art_image = olddata['image'];
       }
       else { // Fetch artwork data
-        art_data = await find_art(art_id);
+        art_data = await find_art(art_id, false);
         
         if (art_data.data.image_id) {
-          art_image = await find_art_image(art_data.data.image_id);
+          art_image = find_art_image(art_data.data.image_id);
           art_manifest = await find_manifest(art_id);
         } else {
           art_image = null;
@@ -208,47 +224,49 @@ export async function displayArtist (id) {
       
       if (status.Ok == true) { 
         artistGrid.appendChild(card);
-      }
-        
-      }
+      }}
+      loadMore = loadMoreArtistArts();
+      artistGrid.appendChild(loadMore);
   }
   catch (error) {
-      // Remove the loader
-      // artistInfo.removeChild(loader);
       console.log('Error:', error);
       const errorMessage = createErrorMessage(`Invalid Artist ID. The Artic Database has no artist with id: ${id}`);
       artistInfo.appendChild(errorMessage);
 }}
 
+// Logic for loading more artists art data via a load more button
+export function processMoreArtist() {
+    let search_term = document.getElementById('search-bar').value.trim();
+    let nextPage = Math.ceil(document.querySelectorAll('.artwork-latest').length / 50) + 1;
+    displayArtist(search_term, nextPage, 50); // Load next batch of 50 cards
+}
 
+export async function displayCategory (id, pageNumber=1, itemsPerPage=50) {
 
-export async function displayCategory (id) {
+  const categoryGrid = document.getElementById('category-grid');    
+  const categoryInfo = document.getElementById('category-info');    
 
+  let loadMore; // load more is a button at the end of the div that loads more elements. we delete it to avoid dups 
+  if (pageNumber > 1){
+    loadMore = document.getElementById('load-more-card');
+    loadMore.remove();
+  }
   try {
-    const categoryGrid = document.getElementById('category-grid');    
-    const categoryInfo = document.getElementById('category-info');    
-
-    // Create a loader while fetching data
-    let loader = createLoader();
-    categoryInfo.appendChild(loader);
     const category = await find_category(id);
-          
-    categoryInfo.removeChild(loader);
+    const category_artworks = await find_category_arts(category.data.title, pageNumber, itemsPerPage);
+    let loader = createLoader();
+    if (pageNumber == 1){
+      const card = createCategoryInfo(category);
+      categoryInfo.appendChild(card);
+      document.title = category.data.title || 'View Category';
 
-
-    const card = createCategoryInfo(category);
-    categoryInfo.appendChild(card);
-
-    const category_artworks = await find_category_arts(category.data.title);
-
-    document.title = category.data.title || 'View Category';
-
-    if (category_artworks.data.length) {
-      const category_arts_header = document.createElement('h2');
-      category_arts_header.className = 'category-arts-header';
-      category_arts_header.textContent =`Here are the arts with this category:`;
-      categoryInfo.appendChild(category_arts_header);
-    }
+      // load art in the category
+      if (category_artworks.data.length) {
+        const category_arts_header = document.createElement('h2');
+        category_arts_header.className = 'category-arts-header';
+        category_arts_header.textContent =`Here are the arts with this category:`;
+        categoryInfo.appendChild(category_arts_header);
+      }}
       
     let state = new State();
 
@@ -274,7 +292,7 @@ export async function displayCategory (id) {
         art_data = await find_art(art_id);
         
         if (art_data.data.image_id) {
-          art_image = await find_art_image(art_data.data.image_id);
+          art_image = find_art_image(art_data.data.image_id);
           art_manifest = await find_manifest(art_id);
         } else {
           art_image = null;
@@ -288,27 +306,26 @@ export async function displayCategory (id) {
         state.addItem("artworksStore", String(artwork.id), newData);
       }
 
-        let [card, status] = createNewArtwork({
+        let [card, status] = createSmallCard({
           title: art_data.data.title,
-          artists: art_data.data.artist_titles,
-          arists_links: art_data.data.artist_ids,
           image: art_image,
           id: art_data.data.id,
-          date: art_data.data.date_display,
-          short_description: art_data.data.short_description,
-          description: art_data.data.description,
-          history: art_data.data.exhibition_history,
+          href:`art/${art_data.data.id}`,
           color: art_data.data.color,
-          categories: art_data.data.category_titles,
-          category_links: art_data.data.category_ids,
-        }, art_manifest
+
+        }
       );
 
       categoryGrid.removeChild(loader);
       
       if (status.Ok == true) { 
         categoryGrid.appendChild(card);
-      }}}
+      }
+    }
+
+    loadMore = loadMoreCategoryArts();
+    categoryGrid.appendChild(loadMore);
+  }
 
   catch (error) {
     console.log('Error:', error);
@@ -316,7 +333,12 @@ export async function displayCategory (id) {
     categoryInfo.appendChild(errorMessage);
 }}
     
-
+// Logic for loading more artists art data via a load more button
+export function processMoreCategory() {
+    let search_term = document.getElementById('search-bar').value.trim();
+    let nextPage = Math.ceil(document.querySelectorAll('.small-card').length / 50) + 1;
+    displayCategory(search_term, nextPage, 50); // Load next batch of 50 cards
+}
 
 
 export async function displayCuratedlist() {
@@ -373,7 +395,7 @@ export async function displayCuratedlist() {
         artwork =  await find_art(art_id,false);
         
         if (artwork.data.image_id) {
-          art_image = await find_art_image(artwork.data.image_id);
+          art_image = find_art_image(artwork.data.image_id);
           art_manifest= await find_manifest(art_id);
         } else {
           art_image = null;
@@ -419,77 +441,67 @@ export async function displayCuratedlist() {
 
 
 
-// Function to display artwork cards
+// Function to display artwork pages
 export async function displayArtworkPage(id) {
+  const artworksSection = document.getElementById('artworks');
+  const artInfo = document.getElementById('art-info');
+  // Create a loader while fetching data
+  const loader = createLoader();
+  artworksSection.appendChild(loader);
   try {
-    const artworksSection = document.getElementById('artworks');
-    const artInfo = document.getElementById('art-info');
-    // Create a loader while fetching data
-    const loader = createLoader();
-    artworksSection.appendChild(loader);
-    try {
-      let state = new State();
-      let artwork;
-      let art_manifest;
-      let olddata;
-      let art_image;
+    let state = new State();
+    let artwork;
+    let art_manifest;
+    let olddata;
+    let art_image;
 
-      let artExists = await state.hasItem("artworksStore", String(id));
-      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = await state.getState("artworksStore", String(id));
-        artwork = olddata['art'];
-        art_manifest = olddata['manifest'];
-        art_image = olddata['image'];
-      }
-      else { // Fetch artwork data
-        artwork = await find_art(id, false);
-        art_manifest = await find_manifest(id);
-        if (artwork.data.image_id) {
-          art_image = await find_art_image(artwork.data.image_id)
-        } else {
-          art_image = null;
-        }
-        let newData = {
-          'art' : artwork,
-          'manifest': art_manifest,
-          'image': art_image
-        };
-        state.addItem("artworksStore", String(id), newData);
-      } 
-
-    // Remove the loader
-    document.title = artwork.data.title || 'View Art';
-    artworksSection.removeChild(loader);
-
-        // Create an artwork card and add it to the DOM
-    const card = displayArtwork({
-      title: artwork.data.title,
-      artists: artwork.data.artist_titles,
-      arists_links: artwork.data.artist_ids,
-      image: art_image,
-      id:artwork.data.id,
-      date:artwork.data.date_display,
-      description:artwork.data.short_description,
-      history: artwork.data.exhibition_history,
-      color: artwork.data.color,
-      categories: artwork.data.category_titles,
-      category_links: artwork.data.category_ids,
-    }, art_manifest);
-    artworksSection.appendChild(card);
-
-
-    } catch (error) {
-      console.log('Error:', error);
-      const errorMessage = createErrorMessage(`Cannot find the id in the Artic Database.`);
-      artworksSection.appendChild(errorMessage);
+    let artExists = await state.hasItem("artworksStore", String(id));
+    if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+      olddata = await state.getState("artworksStore", String(id));
+      artwork = olddata['art'];
+      art_manifest = olddata['manifest'];
+      art_image = olddata['image'];
     }
+    else { // Fetch artwork data
+      artwork = await find_art(id, false);
+      art_manifest = await find_manifest(id);
+      if (artwork.data.image_id) {
+        art_image = find_art_image(artwork.data.image_id)
+      } else {
+        art_image = null;
+      }
+      let newData = {
+        'art' : artwork,
+        'manifest': art_manifest,
+        'image': art_image
+      };
+      state.addItem("artworksStore", String(id), newData); // add the data to the state 
+    } 
 
-    
-  } catch ( error) {
-    // Handle errors and show a message
-    
-    console.error(error);
-    const errorMessage = createErrorMessage('Failed to load artwork. Please try again.');
+  // Remove the loader
+  document.title = artwork.data.title || 'View Art';
+  artworksSection.removeChild(loader);
+
+      // Create an artwork card and add it to the DOM
+  const card = displayArtwork({
+    title: artwork.data.title,
+    artists: artwork.data.artist_titles,
+    arists_links: artwork.data.artist_ids,
+    image: art_image,
+    id:artwork.data.id,
+    date:artwork.data.date_display,
+    description:artwork.data.short_description,
+    history: artwork.data.exhibition_history,
+    color: artwork.data.color,
+    categories: artwork.data.category_titles,
+    category_links: artwork.data.category_ids,
+  }, art_manifest);
+  artworksSection.appendChild(card);
+
+
+  } catch (error) {
+    console.log('Error:', error);
+    const errorMessage = createErrorMessage(`Cannot find the id in the Artic Database.`);
     artworksSection.appendChild(errorMessage);
   }
 }
@@ -533,101 +545,99 @@ export async function test_ids() {
 
 // Function to display artwork of day cards 
 export async function displayArtworkofDay() {
+  const artSection = document.getElementById('art-of-the-day');
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+  const oneDay = 1000 * 60 * 60 * 24;
+  const day = Math.floor(diff / oneDay);
+
+  let state = new State();
+  const id = state.getDayArtWorkID(day);
+  // Create a loader while fetching data
+  const loader = createLoader();
+  artSection.appendChild(loader);
+
+
   try {
-    const artSection = document.getElementById('art-of-the-day');
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 0);
-    const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-    const oneDay = 1000 * 60 * 60 * 24;
-    const day = Math.floor(diff / oneDay);
 
-    let state = new State();
-    const id = state.getDayArtWorkID(day);
-    // Create a loader while fetching data
-    const loader = createLoader();
-    artSection.appendChild(loader);
+    let artwork;
+    let art_manifest;
+    let olddata;
+    let art_image;
 
-
-    try {
-
-      let artwork;
-      let art_manifest;
-      let olddata;
-      let art_image;
-
-      let artExists = await state.hasItem("artworksStore", String(id));
-      if (artExists) { // We have loaded the artwork before, no need to make a fetch request
-        olddata = await state.getState("artworksStore", String(id));
-        artwork = olddata['art'];
-        art_manifest = olddata['manifest'];
-        art_image = olddata['image'];
+    let artExists = await state.hasItem("artworksStore", String(id));
+    if (artExists) { // We have loaded the artwork before, no need to make a fetch request
+      olddata = await state.getState("artworksStore", String(id));
+      artwork = olddata['art'];
+      art_manifest = olddata['manifest'];
+      art_image = olddata['image'];
+    }
+    else { // Fetch artwork data
+      artwork = await find_art(id, false);
+      art_manifest = await find_manifest(id);
+      if (artwork.data.image_id) {
+        art_image = find_art_image(artwork.data.image_id)
+      } else {
+        art_image = null;
       }
-      else { // Fetch artwork data
-        artwork = await find_art(id, false);
-        art_manifest = await find_manifest(id);
-        if (artwork.data.image_id) {
-          art_image = await find_art_image(artwork.data.image_id)
-        } else {
-          art_image = null;
-        }
-        let newData = {
-          'art' : artwork,
-          'manifest': art_manifest,
-          'image': art_image
-        };
-        state.addItem("artworksStore", String(id), newData);
-      } 
+      let newData = {
+        'art' : artwork,
+        'manifest': art_manifest,
+        'image': art_image
+      };
+      state.addItem("artworksStore", String(id), newData);
+    } 
 
-    
+  
+  // Remove the loader
+  artSection.removeChild(loader);
+
+  // Create an artwork card and add it to the DOM
+  const card = displayDayArtwork({
+    title: artwork.data.title,
+    artists: artwork.data.artist_titles,
+    arists_links: artwork.data.artist_ids,
+    image: art_image,
+    id:artwork.data.id,
+    date:artwork.data.date_display,
+    description:artwork.data.short_description,
+    history: artwork.data.exhibition_history,
+    color: artwork.data.color,
+    categories: artwork.data.category_titles,
+    category_links: artwork.data.category_ids,
+  }, art_manifest);
+  artSection.appendChild(card);
+
+
+  } catch (error) {
     // Remove the loader
     artSection.removeChild(loader);
-
-    // Create an artwork card and add it to the DOM
-    const card = displayDayArtwork({
-      title: artwork.data.title,
-      artists: artwork.data.artist_titles,
-      arists_links: artwork.data.artist_ids,
-      image: art_image,
-      id:artwork.data.id,
-      date:artwork.data.date_display,
-      description:artwork.data.short_description,
-      history: artwork.data.exhibition_history,
-      color: artwork.data.color,
-      categories: artwork.data.category_titles,
-      category_links: artwork.data.category_ids,
-    }, art_manifest);
-    artSection.appendChild(card);
-
-
-    } catch (error) {
-      // Remove the loader
-      artSection.removeChild(loader);
-      console.log('Error:', error);
-      const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
-      artSection.appendChild(errorMessage);
-    }
-
-    
-  } catch ( error) {
-    // Handle errors and show a message
-    
-    console.error(error);
-    const errorMessage = createErrorMessage('Failed to load artwork. Please try again.');
+    console.log('Error:', error);
+    const errorMessage = createErrorMessage(`Invalid ID. The Artic Database has no art with id: ${id}`);
     artSection.appendChild(errorMessage);
   }
+
 }
 
 
+
 // Function to display artwork Search Results
-export async function displayArtworkSearch(search_term) {
+export async function displayArtworkSearch(search_term, pageNumber=1, itemsPerPage=50) {
+  const artworksSection = document.getElementById('artworks');
+  let loadMore; // load more is a button at the end of the div that loads more elements. we delete it to avoid dups 
+  if (pageNumber > 1){
+    loadMore = document.getElementById('load-more-card');
+    loadMore.remove();
+  }
+
   try {
-    const artworksSection = document.getElementById('artworks');
     let state = new State();
     let loader = createLoader();
 
     // Capitalize each word
     document.title = ('Search Art: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Art';
-    const searchresults = await search_arts(search_term);
+    const searchresults = await search_arts(search_term,pageNumber, itemsPerPage);
       
     for (let index = 0; index < searchresults.data.length; index++) {
       artworksSection.appendChild(loader);
@@ -651,7 +661,7 @@ export async function displayArtworkSearch(search_term) {
         art_data = await find_art(art_id);
         
         if (art_data.data.image_id) {
-          art_image = await find_art_image(art_data.data.image_id);
+          art_image = find_art_image(art_data.data.image_id);
           art_manifest = await find_manifest(art_id);
         } else {
           art_image = null;
@@ -664,27 +674,25 @@ export async function displayArtworkSearch(search_term) {
         })
       }
 
-      let [card, status] = createNewArtwork({
+      let [card, status] = createSmallCard({
         title: art_data.data.title,
-        artists: art_data.data.artist_titles,
-        arists_links: art_data.data.artist_ids,
         image: art_image,
         id: art_data.data.id,
-        date: art_data.data.date_display,
-        short_description: art_data.data.short_description,
-        description: art_data.data.description,
-        history: art_data.data.exhibition_history,
+        href: `art/${art_data.data.id}`,
         color: art_data.data.color,
-        categories: art_data.data.category_titles,
-        category_links: art_data.data.category_ids,
-      }, art_manifest
+      }
       );
 
       artworksSection.removeChild(loader);
       
       if (status.Ok == true) { 
         artworksSection.appendChild(card);
-      }}}
+      }}
+    
+      loadMore = loadMoreSearch();
+      artworksSection.appendChild(loadMore);
+
+    }
     catch (error) {
     // Handle errors and show a message
     
@@ -694,11 +702,17 @@ export async function displayArtworkSearch(search_term) {
   }
 }
 
+// Logic for loading more search results via a load more button
+export function processMoreSearch() {
+    let search_term = document.getElementById('search-bar').value.trim();
+    let nextPage = Math.ceil(document.querySelectorAll('.small-card').length / 50) + 1;
+    displayArtworkSearch(search_term,nextPage, 50); // Load next batch of 50 cards
+}
 
 // Function to display artist Search Results
 export async function displayArtistSearch(search_term) {
+  const artistsSection = document.getElementById('artist-grid');
   try {
-    const artistsSection = document.getElementById('artist-grid');
     let loader = createLoader();
 
     // Capitalize each word
@@ -730,8 +744,8 @@ export async function displayArtistSearch(search_term) {
 export async function displayCategorySearch(search_term) {
 
   let loader = createLoader();
+  const categorySection = document.getElementById('category-grid');
   try {
-    const categorySection = document.getElementById('category-grid');
 
     // Capitalize each word
     document.title = ('Search Category: '+search_term.replace(/\b\w/g, (c) => c.toUpperCase())) || 'Search Category'; 
@@ -760,7 +774,7 @@ export async function displayCategorySearch(search_term) {
 // Function to display the feed page and it works by adding buttons that load more data. 
 export async function displayFeedPage(pageNumber = 1, itemsPerPage = 25) {
   const newArtsSection = document.getElementById('new-arts');
-  let loadMore;
+  let loadMore; // load more is a button at the end of the div that loads more elements. we delete it to avoid dups 
   if (pageNumber > 1){
     loadMore = document.getElementById('load-more-card');
     loadMore.remove();
@@ -791,7 +805,7 @@ export async function displayFeedPage(pageNumber = 1, itemsPerPage = 25) {
       else { // Fetch artwork data
 
         if (element.image_id) {
-          art_image = await find_art_image(element.image_id);
+          art_image = find_art_image(element.image_id);
           art_manifest = await find_manifest(element.id);
         } else {
           art_image = null;
@@ -808,20 +822,13 @@ export async function displayFeedPage(pageNumber = 1, itemsPerPage = 25) {
 
 
       
-      const [card, status] = createNewArtwork({
-        title: element.title,
-        artists: element.artist_titles,
-        arists_links: element.artist_ids,
-        image: art_image,
-        id: element.id,
-        date: element.date_display,
-        short_description: element.short_description,
-        description: element.description,
-        history: element.exhibition_history,
-        color: element.color,
-        categories: element.category_titles,
-        category_links: element.category_ids,
-      }, art_manifest
+    let [card, status] = createNewArtwork({
+      title: element.title,
+      image: art_image,
+      id: element.id,
+      short_description: element.short_description,
+      color: element.color,
+    }, art_manifest
     );
     
     newArtsSection.removeChild(loader);
@@ -848,7 +855,7 @@ export async function displayFeedPage(pageNumber = 1, itemsPerPage = 25) {
 // Logic for loading more feed data via a load more button
 export function processMoreFeed() {
     let nextPage = Math.ceil(document.querySelectorAll('.artwork-latest').length / 25) + 1;
-    console.log(nextPage);
+    // console.log(nextPage);
     displayFeedPage(nextPage, 25); // Load next batch of 25 cards
 }
 
@@ -889,7 +896,7 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
         artwork = await find_art(id,false);
 
         if (artwork.data.image_id) {
-          art_image = await find_art_image(artwork.data.image_id);
+          art_image = find_art_image(artwork.data.image_id);
           art_manifest = await find_manifest(id);
         } else {
           art_image = null;
@@ -903,12 +910,13 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
         state.addItem("artworksStore", id, newData);
       } 
 
-      const [card, status] = createNewArtwork({
+      const [card, status] = createSmallCard({
         title: artwork.data.title,
         image: art_image,
         id: id,
+        href: `art/${id}`,
         color: artwork.data.color,
-      }, art_manifest
+      }
     );
     
     artworksSection.removeChild(loader);
@@ -918,7 +926,7 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
       }
       
     }
-    if (document.querySelectorAll('.artwork-latest').length < 420) {
+    if (document.querySelectorAll('.small-card').length < 420) {
       loadMore = loadMoreOdyssey();
       artworksSection.appendChild(loadMore);
     }
@@ -936,10 +944,72 @@ export async function displayOdysseyPage(pageNumber=1, itemsPerPage=25) {
 
 // Logic for loading more feed data via a load more button
 export function processMoreOdyssey() {
-    let nextPage = Math.ceil(document.querySelectorAll('.artwork-latest').length / 25) + 1;
-    console.log(nextPage);
+    let nextPage = Math.ceil(document.querySelectorAll('.small-card').length / 25) + 1;
+    // console.log(nextPage);
     displayOdysseyPage(nextPage, 25); // Load next batch of 25 cards
 }
+
+
+// Function to display category Search Results
+export async function displayCountriesPage(pageNumber=1, itemsPerPage=25) {
+  let state = new State();
+
+  const countriesSection = document.getElementById('countries');
+  let loadMore;
+  if (pageNumber > 1){
+    loadMore = document.getElementById('load-more-card');
+    loadMore.remove();
+  }
+  
+  try {
+    const pageData =  await state.getCountriesPage(pageNumber,itemsPerPage);
+    console.log(pageData);
+
+  const loader = createLoader();
+
+  for (let index = 0; index < itemsPerPage; index++) {
+      const country = pageData[index];
+      countriesSection.appendChild(loader);
+
+      let country_name = country['name'];
+      let art_image = find_art_image(country['artic_image']);
+
+      const [card, status] = createSmallCard({
+        title: country_name,
+        image: art_image,
+        href: `category/${country['artic_id']}`
+      }
+    );
+    
+    countriesSection.removeChild(loader);
+      
+      if (status.Ok == true) { 
+        countriesSection.appendChild(card);
+      }
+      
+    }
+    if (document.querySelectorAll('.small-card').length < 85) {
+      loadMore = loadMoreCountries();
+      countriesSection.appendChild(loadMore);
+    }
+
+ 
+  }
+          
+    catch (error) {
+      console.log('Error:', error);
+      const errorMessage = createErrorMessage(`Problem Fetching New Arts.`);
+      countriesSection.appendChild(errorMessage);
+    }
+}
+
+// Logic for loading more countries via a load more button
+export function processMoreCountries() {
+    let nextPage = Math.ceil(document.querySelectorAll('.small-card').length / 25) + 1;
+    // console.log(nextPage);
+    displayCountriesPage(nextPage, 25); // Load next batch of 25 cards
+}
+
 
 export function displayErrorMessage(message){
   createErrorMessage(message);

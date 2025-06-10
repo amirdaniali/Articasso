@@ -133,6 +133,7 @@ li.dropdown {
   color: #004494;
   transition: 0.3s ease-in-out;
   text-align: center;
+  min-width: 300px;
 
   /* Adding subtle shadow */
     box-shadow: 0px 0px 10px rgba(52, 152, 219, 0.6);
@@ -163,6 +164,7 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   font-size: 16px;
   cursor: pointer;
   margin: 0px;
+  min-width: 150px;
   border-radius: 25px; /* Rounded edges for a smooth look */
 }
 
@@ -177,20 +179,18 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* Artworks Grid Styling */
-.artworks-grid,.category-grid, .curated-arts {
+.artworks-grid, .category-grid, .curated-arts, .country-grid, .countries {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
 /* These arts are the latest fetched by the api so they are smaller*/
-  .new-arts {
+.new-arts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
 }
-
-
 
 /* Footer Styling */
 .footer-style {
@@ -238,26 +238,26 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   font-family: "Delius Swash Caps", cursive;
 }
 
- .odyssey-handler-card {
+.small-card-loader{
+
   border: 1px solid;
   border-radius: 8px;
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   text-align: center;
-  /* margin: auto; */
-  max-height: 40vh;
-}
-
- .odyssey-handler-card img{
-  width: 80%;
-  border-radius: 8px;
-  margin-bottom: 10px;
   max-height: 30vh;
 }
 
-/* When clicking artworks these cards are shown. */
- .feed-handler-card {
+.odyssey-handler-card {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  max-height: 40vh;
+}
 
+.feed-handler-card {
   border: 1px solid;
   border-radius: 8px;
   padding: 10px;
@@ -268,7 +268,28 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 
 
 /* The image for the artwork. */
- .feed-handler-card img{
+.small-card-loader img{
+  margin-top: 15px;
+  max-width: 60%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-height: 25vh;
+}
+
+
+/* When clicking artworks these cards are shown. */
+.small-card {
+
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 10px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  text-align: center;
+  max-height: 60vh;
+}
+
+/* The image for the artwork. */
+.small-card img{
   width: 100%;
   border-radius: 8px;
   margin-bottom: 10px;
@@ -321,12 +342,17 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   font-weight: bold;
   font-family: "Delius Swash Caps", cursive;
 }
-.feed-button-title, .odyssey-button-title {
+.feed-button-title, .loader-title {
   font-size: 24px;
   margin: 10px 0;
   color:#000;
   display: block;
   font-weight: bold;
+}
+
+.feed-handler-card img, .odyssey-handler-card img {
+  max-width: 90%;
+  max-height: 30vh;
 }
 
 .internal-button-title {
@@ -634,13 +660,10 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   .card-description {
     font-size: 16px;
   }
-  .feed-button-title {
+  .loader-title {
     font-size: 1.2rem;
   }
-  .odyssey-button-title {
-    font-size: 1.2rem;
-  }
-  .feed-handler-card img {
+  .feed-handler-card img,  .small-card-loader img, .loader-image {
     max-width: 50%;
     max-height: 20vh;
   }
@@ -703,10 +726,10 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   .day-feature, .day-artist {
     font-size: 0.8rem; 
   }
-  .feed-button-image, .odyssey-button-title {
+  .feed-button-image, .loader-image {
     max-height: 20%;
   }
-  .feed-handler-card img {
+  .feed-handler-card img,   .small-card-loader img {
     max-width: 50%;
     max-height: 20vh ;
   }

@@ -64,7 +64,7 @@ export async function find_art_field(id, field = false) {
 }
 
 
-export async function find_art_image(id = '2d83fb4d-1851-ad82-46c6-1c737976e3fd') {
+export function find_art_image(id = '2d83fb4d-1851-ad82-46c6-1c737976e3fd') {
     // This function returns the art image link hosted by ARTIC 
     const addressURL = `https://www.artic.edu/iiif/2/${id}/full/843,/0/default.jpg`
     return addressURL
@@ -132,9 +132,47 @@ export async function find_artist(artist_id) {
         return returnResponse
 }
 
-export async function find_artist_arts(artist_title) {
+export async function find_artist_arts(artist_title, page=1, limit=50) {
     // // This function tries to search for all art made by a certain artist
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${artist_title}`
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?from=${limit*(page-1)}&size=${limit}&q=${artist_title}`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
+        }})    
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+        return returnResponse
+}
+
+export async function find_artist_id_arts(artist_id, page=1, limit=50) {
+    // // This function tries to search for all art made by a certain artist
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?from=${limit*(page-1)}&size=${limit}?query[term][artist_id]=${encodeURIComponent(artist_id)}`
+    const returnResponse = await fetch(addressURL, 
+        { headers: {
+            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
+        }})    
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+        return returnResponse
+}
+
+export async function find_category_arts(category_title, page=1, limit=50) {
+    // // This function tries to load art in a certain category
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?from=${limit*(page-1)}&size=${limit}&q=${category_title}`
+    // const addressURL = `https://api.artic.edu/api/v1/artworks/search?from=${limit*(page-1)}&size=${limit}&query[match][category_titles]=${category_title}`
+
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
@@ -151,28 +189,9 @@ export async function find_artist_arts(artist_title) {
 }
 
 
-export async function find_category_arts(category_title) {
-    // // This function tries to search for all art in a certain category
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${category_title}`
-    const returnResponse = await fetch(addressURL, 
-        { headers: {
-            'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent
-        }})    
-        .then(response => {
-            if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        }).catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        })
-        return returnResponse
-}
-
-
-export async function search_arts(search_term) {
+export async function search_arts(search_term, page=1, limit=50) {
     // // This function tries to search for all art with search_term in their metadata
-    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=50&q=${search_term}`
+    const addressURL = `https://api.artic.edu/api/v1/artworks/search?limit=${limit}&page=${page}&q=${search_term}`
     const returnResponse = await fetch(addressURL, 
         { headers: {
             'AIC-User-Agent': 'Articasso.org' // Documentation Requires custom AIC-User-Agent

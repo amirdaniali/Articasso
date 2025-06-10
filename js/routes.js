@@ -1,18 +1,29 @@
 import { 
-    displayArtist,
-    processMoreFeed,
     displayFeedPage,
-    displayCategory,
+    processMoreFeed,
     displayRecentFeed,
-    processMoreOdyssey,
-    displayCuratedlist,
-    displayArtworkPage,
-    displayOdysseyPage,
-    displayErrorMessage,
-    displayArtistSearch,
     displayArtworkofDay,
-    displayArtworkSearch,
+    
+    displayArtist,
+    processMoreArtist,
+    displayArtistSearch,
+    
+    displayCategory,
+    processMoreCategory,
     displayCategorySearch,
+    
+    displayCuratedlist,
+    processMoreOdyssey,
+    displayOdysseyPage,
+    
+    processMoreSearch,
+    displayArtworkPage,
+    displayArtworkSearch,
+
+    displayCountriesPage,
+    
+    displayErrorMessage,
+    processMoreCountries,
 } from './app.js';
 
 import { State } from './state.js'
@@ -45,6 +56,11 @@ const routes = {
         template: "/routes/feed.html",
         title: "Articasso: Latest Artworks",
         description: "Enjoy These latest additions to the Artic Database.",
+    },
+    'countries': {
+        template: "/routes/countries.html",
+        title: "Articasso: Arts of Countries",
+        description: "Enjoy art based on country of origin.",
     },
     'odyssey': {
         template: "/routes/odyssey.html",
@@ -91,7 +107,7 @@ const route = (event) => {
 document.addEventListener("click", (e) => {
     if (e.target.className.includes("SPA-link") ){ // Internal Links to SPA pages
         e.preventDefault();
-        route();
+        route(e);
     }
     if (e.target.className.includes("feed-button-title") ){ // Feed loadmore button
         e.preventDefault();
@@ -101,20 +117,49 @@ document.addEventListener("click", (e) => {
         e.preventDefault();
         processMoreFeed();
     }
-    if (e.target.className.includes("odyssey-button-title") ){ // Feed loadmore button
+    if (e.target.className.includes("odyssey-button-title") ){ // odyssey loadmore button
         e.preventDefault();
         processMoreOdyssey();
     }
-    if (e.target.className.includes("odyssey-button-image") ){ // Feed loadmore image
+    if (e.target.className.includes("odyssey-button-image") ){ // odyssey loadmore image
         e.preventDefault();
         processMoreOdyssey();
     }
-    else {
-        if (e.target.className.includes("nav-group") ){ // Navgroup related
+        if (e.target.className.includes("category-button-title") ){ // category loadmore button
+        e.preventDefault();
+        processMoreCategory();
+    }
+    if (e.target.className.includes("category-button-image") ){ // category loadmore image
+        e.preventDefault();
+        processMoreCategory();
+    }
+        if (e.target.className.includes("artist-button-title") ){ // artist loadmore button
+        e.preventDefault();
+        processMoreArtist();
+    }
+    if (e.target.className.includes("artist-button-image") ){ // artist loadmore image
+        e.preventDefault();
+        processMoreArtist();
+    }
+        if (e.target.className.includes("search-button-title") ){ // art search loadmore button
+        e.preventDefault();
+        processMoreSearch();
+    }
+    if (e.target.className.includes("search-button-image") ){ // art search loadmore image
+        e.preventDefault();
+        processMoreSearch();
+    }
+    if (e.target.className.includes("countries-button-image") ){ // countries loadmore button
+        e.preventDefault();
+        processMoreCountries();
+    }
+    if (e.target.className.includes("countries-button-title") ){ // countries loadmore image
+        e.preventDefault();
+        processMoreCountries();
+    }
+    if (e.target.className.includes("nav-group") ){ // Navgroup click shouldn't refresh pages
             e.preventDefault();
-        }
     }
-
     
 });
 
@@ -364,6 +409,7 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                 try {
                     await displayCategory(currentView[1]); // Display category card
                 } catch (error) {
+                    console.log(error);
                     const errorMessage = displayErrorMessage(`Invalid Category ID. The Artic Database has no category with id: ${currentView[1]}`);
                     categoryInfo.appendChild(errorMessage);
                 }
@@ -584,6 +630,10 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
                 displayFeedPage();
                 break
             }
+            case 'countries': {
+                displayCountriesPage();
+                break
+            }
             case 'category_search': {
                 // console.log('Category Search Loaded');
                 // DOM Elements
@@ -660,8 +710,6 @@ Otherwise you can search for any Artist by clicking Search Artist in the Navigat
 };
 
 document.addEventListener("touchstart", function() {}, true);
-
-// Initialize the State management
 
 // call the urlLocationHandler to load the page
 locationHandler();
