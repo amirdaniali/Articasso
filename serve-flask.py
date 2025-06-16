@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-BASE_DIR = "M:/make/CTD"
+BASE_DIR = "path/to/the/project"
 
 @app.route('/')
 def serve_index():
