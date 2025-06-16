@@ -2,7 +2,7 @@
 
 ![First Page](./media/HomePage.jpg "First Page of the webapp")
 
-This website was originalllh my Assignment submission for Summer 2025 Code the Dream course.
+This website was my Assignment submission for Summer 2025 Code the Dream course.
 
 You can find a link to the Assignment [here](https://codethedream.org/open-adv-pre-work/).
 
@@ -110,7 +110,7 @@ The Project I wanted to make needed to demonstrate the data from at least two en
 
 ### The Architecture
 
-I decide on this following architecture.
+The initial architechture of the project can be seen here. Since then I have moved all the functions in each of the js files below to their own files. But the overall process is the same. 
 
 1. `index.html`:
    - Purpose: The main HTML file for the application. Contains the structure and links to JavaScript and  CSS files.
@@ -190,30 +190,7 @@ All routing logic is implemented in `routes.js` file and allows for multiple pag
 
 Whenever a new link to a page is clicked, the `routes.js` file checks to see if the element has the class-name: `explicit-outband`. If so it ignores the default behavior of the browser and loads the contexts of the local page into the `main-container` section tag in the main `index.html` file. If it cannot find the classname it treats it as a normal `<a>` tag and allows the link to redirect to another url. 
 
-```javascript
-const route = (event) => {
-    event = event || window.event; // get window.event if event argument not provided
-    event.preventDefault();
-    window.history.pushState({}, "", event.target.href);
-    locationHandler();
-};
-
-// create document click that watches the nav links only
-document.addEventListener("click", (e) => {
-    if (e.explicitOriginalTarget.className.includes("SPA-link") ){
-        e.preventDefault();
-        route();
-    }
-    // console.log('target not a link');
-    
-});
-
-locationHandler();
-window.onpopstate = locationHandler;
-window.route = route;
-```
-
-And here is how the locationHandler function is set up. I ommitted some of the longer logic blocs in the switch case for brevity. 
+Here is how the locationHandler function is set up. I ommitted some of the longer logic blocs in the switch case for brevity. 
 
 
 ```javascript
@@ -243,29 +220,22 @@ export async function locationHandler() {
     document.getElementById("main-container").innerHTML = '';
     document.getElementById("main-container").innerHTML = html; 
 
-      // Furthur down:
-    
-    switch (currentView[0]) {
-        case '':
-            console.log('Home Loaded.')
-            populatePage();
-            displayArtworkofDay();
-            displayCuratedlist();
-            break;
-         case 'art':
-            // displayArt(); // Also do alot more stuff
-            break;
-         case 'artist':
-            // displayArtist();
-            break;
-         case 'about':
-            // displayAbout();
-            break;
-        case 'category':
-            // displayCategory();
-            break;
+   if (currentView[0]=='') controller.routeHome();
+    else if (currentView[0]=='art')  controller.routeArt(currentView[1]);
+    else if (currentView[0]=='artist')  controller.routeArtist(currentView[1]);
+    else if (currentView[0]=='category')  controller.routeCategory(currentView[1]);
+    else if (currentView[0]=='feed')  controller.routeFeed();
+    else if (currentView[0]=='odyssey')  controller.routeOdyssey();
+    else if (currentView[0]=='countries')  controller.routeCountries();
+    else if (currentView[0]=='art_search')  controller.routeArtSearch();
+    else if (currentView[0]=='artist_search')  controller.routeArtistSearch();
+    else if (currentView[0]=='category_search')  controller.routeCategorySearch();
+    else if (currentView[0]=='about')  {}
+    else {
+        window.location.pathname = '/';
+    }
          
-}}
+}
 
 ```
 
@@ -383,6 +353,6 @@ This project helped me greatly to think outside the box to recreate the typical 
 I thank Code the Dream team to inspire me to create this project celebrating the beautiful art collection of the Art Institute of Chicago.
 
 
-Reminder: You can view the website and the project on my personal website [here](https://artic-arts.amirdaniali.com).
+Reminder: You can view the website and the project on my personal website [here](https://Articasso.org).
 
 
