@@ -10,7 +10,7 @@ export async function processArtPage(id) {
   const loader = components.loader();
   artworksSection.appendChild(loader);
   try {
-    let stateManager = new state.State();
+    let stateManager = new state.persistentState();
     let artwork;
     let art_manifest;
     let olddata;

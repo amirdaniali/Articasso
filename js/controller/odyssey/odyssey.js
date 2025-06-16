@@ -4,7 +4,7 @@ import * as api from '../../api/index.js';
 
 // Function to display odyssey page
 export async function routeOdyssey(pageNumber = 1, itemsPerPage = 25) {
-  let stateManager = new state.State();
+  let stateManager = new state.persistentState();
   const artworksSection = document.getElementById('artworks');
   let loadMore;
   if (pageNumber > 1) {

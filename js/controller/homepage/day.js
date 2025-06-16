@@ -11,7 +11,7 @@ export async function processDaySection() {
   const oneDay = 1000 * 60 * 60 * 24;
   const today = Math.floor(diff / oneDay);
 
-  let stateManager = new state.State();
+  let stateManager = new state.persistentState();
   const id = stateManager.getDayArtWorkID(today);
   // Create a loader while fetching data
   const loader = components.loader();

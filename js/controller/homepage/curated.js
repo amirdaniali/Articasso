@@ -30,7 +30,7 @@ export async function processCuratedSection() {
   ];
 
   let loader = components.loader();
-  let stateManager = new state.State();
+  let stateManager = new state.persistentState();
 
   // Display an artwork for each id
   try {

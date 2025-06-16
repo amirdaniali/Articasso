@@ -11,7 +11,7 @@ export async function routeArtist(url_id){
     const artistInfo = document.getElementById('artist-info');  
 
     // State
-    let stateManager = new state.State();
+    let stateManager = new state.sessionState();
     
     if (url_id) { // user has clicked an SPA-link link and needs to be shown the artist
         artistInfo.innerHTML = ``;

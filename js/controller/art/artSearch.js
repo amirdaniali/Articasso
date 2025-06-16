@@ -12,7 +12,7 @@ export async function processArtSearch(search_term, pageNumber = 1, itemsPerPage
   }
 
   try {
-    let stateManager = new state.State();
+    let stateManager = new state.persistentState();
     let loader = components.loader();
 
     // Capitalize each word

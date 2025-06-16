@@ -4,7 +4,7 @@ import * as api from '../../api/index.js';
 
 // Function to display countries page
 export async function routeCountries(pageNumber=1, itemsPerPage=25) {
-  let stateManager = new state.State();
+  let stateManager = new state.persistentState();
 
   const countriesSection = document.getElementById('countries');
   let loadMore;

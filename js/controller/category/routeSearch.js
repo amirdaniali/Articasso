@@ -10,7 +10,7 @@ export async function routeCategorySearch() {
     const categorySearchButton = document.getElementById('search-button');
 
     // State
-    let stateManager = new state.State();
+    let stateManager = new state.sessionState();
     let lastVisited = stateManager.getLastVisitedField("category_search");
 
     if (lastVisited) {// If user has visited any valid category before switching to other tabs show it instead 

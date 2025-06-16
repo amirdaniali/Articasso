@@ -10,7 +10,7 @@ export async function processRecentsSection(limit=24) {
   
   try {
     const newArtworks = await api.fetchRecentArts(limit);
-    let stateManager = new state.State();
+    let stateManager = new state.persistentState();
 
     for (let index = 0; index < limit; index++) {
       const element = newArtworks.data[index];

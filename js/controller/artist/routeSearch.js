@@ -11,7 +11,7 @@ export async function routeArtistSearch() {
     const artistInfo = document.getElementById('artist-info');
 
     // State
-    let stateManager = new state.State();
+    let stateManager = new state.sessionState();
     let lastVisited = stateManager.getLastVisitedField("artist_search");
     if (lastVisited) { // user hasn't requested an artist but has previously seen one
         // artistInfo.innerHTML = `<div>Since You previously searched for: ${lastVisited}<br></div>`;

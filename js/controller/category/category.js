@@ -30,7 +30,7 @@ export async function processCategoryPage(id, pageNumber = 1, itemsPerPage = 50)
       }
     }
 
-    let stateManager = new state.State();
+    let stateManager = new state.persistentState();
 
     for (let index = 0; index < category_artworks.data.length; index++) {
 

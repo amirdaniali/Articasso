@@ -36,7 +36,7 @@ export async function processArtistPage(id, pageNumber = 1, itemsPerPage = 50) {
       }
     }
 
-    let stateManager = new state.State();
+    let stateManager = new state.persistentState();
 
     for (let index = 0; index < artist_artworks.data.length; index++) {
 

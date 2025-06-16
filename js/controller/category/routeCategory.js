@@ -10,7 +10,7 @@ export async function routeCategory(url_id = null) {
     const categorySearchButton = document.getElementById('search-button');
 
     // State
-    let stateManager = new state.State();
+    let stateManager = new state.sessionState();
 
     if (url_id) { // try to show category id if user clicked on a link
         categoryInfo.innerHTML = '';

@@ -10,7 +10,7 @@ export async function routeArt(url_id) {
     const artInfo = document.getElementById('art-info');
 
     // State
-    const stateManager = new state.State()
+    const stateManager = new state.sessionState()
     let lastVisited;
 
     if (url_id) { // user has clicked an SPA-link link, show the proper artwork

@@ -13,7 +13,7 @@ export async function routeFeed(pageNumber = 1, itemsPerPage = 25) {
   
   try {
     const newArtworks = await api.fetchRecentArts(itemsPerPage, pageNumber);
-    let stateManager = new state.State();
+    let stateManager = new state.persistentState();
 
     for (let index = 0; index < itemsPerPage; index++) {
       const element = newArtworks.data[index];

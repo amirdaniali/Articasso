@@ -10,7 +10,7 @@ export async function routeArtSearch(){
     const artInfo = document.getElementById('art-info');
 
     // State
-    const stateManager = new state.State()    
+    const stateManager = new state.sessionState()    
     let lastVisited = stateManager.getLastVisitedField("art_search");
 
     if (lastVisited) { // user has previously searched for something
