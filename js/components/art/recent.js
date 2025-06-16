@@ -1,0 +1,72 @@
+import {locationHandler} from "../../controller/routes/locationHandler.js";
+
+// Component to show a new artwork just fetched from the api
+export function recentCard(artwork, artwork_manifest= null) {
+  var status = {};
+  status.Ok = true;
+  const card = document.createElement('div');
+  card.className = 'artwork-latest'; // Styling will be in styles.css
+  
+  
+  // Change the backgroud color if image colors are available
+
+  try {
+    if (artwork.color.l > 40){
+      card.style.background = `hsl(${artwork.color.h},${artwork.color.s}%,${artwork.color.l}%)`;
+    }
+    else {
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
+    }
+    
+  } catch (error) {
+      card.style.background = `#a4a2a5`;
+      // card.style.background = `hsl(${10 + Math.floor(Math.random() * 345)}, 100%, 65%)`;
+  }
+
+
+  // Add image
+  const imagewrapper = document.createElement('a');
+  const image = document.createElement('img');
+  imagewrapper.className = 'new-image-wrapper';
+  imagewrapper.href = `/art/${artwork.id}`;
+  image.className = 'card-img SPA-link'; // all links with SPA-link class will be handled by routes.js file
+  
+  
+  if (!artwork.image) { // If the latest API data doesnt have an image set the OK status to false
+    status.Ok = false; 
+  }
+  image.src = artwork.image || '/media/placeholder.jpg'; // Fallback image
+  image.alt = 'Artwork';
+
+  // encountered when server has an issue and cannot show the image, then replace the image with placeholder
+  image.addEventListener('error', function handleError() {
+    // console.log(image.parentElement);
+    // image.parentElement.remove();
+    console.log(image.src, 'not available from the ARTIC server. Fetching placeholder image.');
+    image.src = '/media/placeholder.jpg';
+    image.alt = 'default';    
+  });
+  
+  // handles image redirects
+  image.addEventListener('click', function routeURL() {
+    window.history.pushState({}, "", `/art/${artwork.id}`);
+    locationHandler();
+      
+  });
+
+  imagewrapper.appendChild(image);
+  card.appendChild(imagewrapper);
+
+
+  // Add title
+  const title = document.createElement('a');
+  title.title = artwork.title;
+  title.className = 'card-title SPA-link';
+  title.href = `/art/${artwork.id}`;
+  title.appendChild(document.createTextNode(artwork.title));
+  title.textContent = artwork.title || 'Untitled';
+  card.appendChild(title);
+  
+  return [card, status];
+}
