@@ -109,7 +109,7 @@ li.dropdown {
 .search-section {
   margin: 10px 0 20px;
   display: grid;
-  grid-template-columns:auto auto;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 15px;
   /* justify-content: center; */
   justify-items: center;
@@ -573,7 +573,6 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 .artwork-display {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   overflow: hidden;
   border-radius: 20px;
 }
@@ -747,6 +746,9 @@ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   .feed-handler-card img,   .small-card-loader img {
     max-width: 50%;
     max-height: 20vh ;
+  }
+  .artwork-card {
+    max-height: 100dvh;
   }
 }
 
