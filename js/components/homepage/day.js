@@ -26,10 +26,12 @@ export function dayHeader(artwork, artwork_manifest= null) {
   infoWrapper.appendChild(title);
 
     // Add artist
+  if (typeof artwork.artists !== 'undefined' && artwork.artists[0] !== 'Unknown Artist') {
   const artist = document.createElement('p');
   artist.className = 'day-artist';
   artist.textContent = `by: ${artwork.artists[0] || 'Unknown Artist'}`;
   infoWrapper.appendChild(artist);
+  }
 
   card.appendChild(infoWrapper);
 
