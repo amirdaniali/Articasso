@@ -64,7 +64,7 @@ export class persistentState {
         }
         else {
             try {
-                let countriesData = await persistentState.getCountriesData();
+                let countriesData = await this.getCountriesData();
                 return Object.values(countriesData).slice((pageNumber-1)*itemsPerPage, pageNumber*itemsPerPage);
 
             } catch (error) {
