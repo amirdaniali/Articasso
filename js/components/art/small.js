@@ -1,5 +1,5 @@
 import {locationHandler} from "../../controller/routes/locationHandler.js";
-
+import { truncate_string } from "../../utilities/truncate.js";
 
 // Component to show small cards with minimum details
 export function smallCard(data) {
@@ -62,11 +62,11 @@ export function smallCard(data) {
 
   // Add title
   const title = document.createElement('a');
-  title.title = data.title;
+  title.title = truncate_string( data.title, 30 );
   title.className = 'card-title SPA-link';
   title.href = `//${data.href}`;
-  title.appendChild(document.createTextNode(data.title));
-  title.textContent = data.title || 'Untitled';
+  title.appendChild(document.createTextNode(truncate_string( data.title, 30 )));
+  title.textContent = truncate_string( data.title, 30 ) || 'Untitled';
   card.appendChild(title);
   
   return [card, status];

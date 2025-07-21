@@ -1,5 +1,5 @@
 import {locationHandler} from "../../controller/routes/locationHandler.js";
-
+import { truncate_string } from "../../utilities/truncate.js";
 // Component to show a new artwork just fetched from the api
 export function recentCard(artwork, artwork_manifest= null) {
   var status = {};
@@ -61,11 +61,11 @@ export function recentCard(artwork, artwork_manifest= null) {
 
   // Add title
   const title = document.createElement('a');
-  title.title = artwork.title;
+  title.title = truncate_string(artwork.title, 30);
   title.className = 'card-title SPA-link';
   title.href = `/art/${artwork.id}`;
-  title.appendChild(document.createTextNode(artwork.title));
-  title.textContent = artwork.title || 'Untitled';
+  title.appendChild(document.createTextNode(truncate_string(artwork.title, 30)));
+  title.textContent = truncate_string(artwork.title, 30)|| 'Untitled';
   card.appendChild(title);
   
   return [card, status];
