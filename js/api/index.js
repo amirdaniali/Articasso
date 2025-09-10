@@ -2,6 +2,7 @@ export * from './items/art.js';
 export * from './items/artist.js';
 export * from './items/category.js';
 export * from './items/image.js';
+export * from './items/bigImage.js';
 export * from './items/manifest.js';
 export * from './recent/recent.js';
 export * from './relations/artistArts.js';

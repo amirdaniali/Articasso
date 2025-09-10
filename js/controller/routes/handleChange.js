@@ -1,12 +1,12 @@
 import { URLroutes } from "./urlRoutes.js";
 
 export function handleRouteChange(){
-    const location = window.location.pathname; // get the url path    
+    let location = window.location.pathname; // get the url path
     // curent view will have this format ['art', {art_id}] where the first index is which page has to be rendered
     // index 1 is filled if the user demanded an specific id. 
     
     let currentView = ['/', ''] 
-    const route = URLroutes[currentView[0]] || URLroutes["404"];
+    let route = URLroutes[currentView[0]] || URLroutes["404"];
     
     // if the path length is 0, set it to primary page route
     if (location.length == 0) {

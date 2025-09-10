@@ -4,7 +4,7 @@ import { URLroutes } from "./urlRoutes.js";
 export async function locationHandler() {
 
     controller.handleRouteChange();
-    const location = window.location.pathname; // get the url path
+    let location = window.location.pathname; // get the url path
     
     // curent view will have this format ['art', {art_id}] where the first index is which page has to be rendered and index 1 is filled if the user demanded an specific id. 
     let currentView = ['/',''] 
